@@ -1,0 +1,15 @@
+{
+  "lockfileVersion": 1,
+  "workspaces": {
+    "": {
+      "dependencies": {
+        "ccxt": "^4.4.90",
+      },
+    },
+  },
+  "packages": {
+    "ccxt": ["ccxt@4.4.90", "", { "dependencies": { "ws": "^8.8.1" } }, "sha512-/bxLPZJuokf9Wx1i2Sh5tg0ZhheE0TSf7UrtCaBYT68a4MOqhJkZyKg91GocvMYImQ06iwnWjdwTdSk5Ew6ODA=="],
+
+    "ws": ["ws@8.18.2", "", { "peerDependencies": { "bufferutil": "^4.0.1", "utf-8-validate": ">=5.0.2" }, "optionalPeers": ["bufferutil", "utf-8-validate"] }, "sha512-DMricUmwGZUVr++AEAe2uiVM7UoO9MAVZMDu05UQOaUII0lp+zOzLLU4Xqh/JvTqklB1T4uELaaPBKyjE1r4fQ=="],
+  }
+}
