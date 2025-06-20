@@ -12,6 +12,7 @@ pub mod fund_manager {
         fund_account.admin = admin;
         fund_account.total_funds = 0;
         fund_account.bump = ctx.bumps.fund_account;
+        fund_account.whitelist_count = 0;
         Ok(())
     }
 
@@ -34,8 +35,9 @@ pub mod fund_manager {
         Ok(())
     }
 
-    pub fn allocate_funds(ctx: Context<AllocateFunds>, amount: u64, _recipient: Pubkey) -> Result<()> {
+    pub fn allocate_funds(ctx: Context<AllocateFunds>, amount: u64) -> Result<()> {
         let fund_account = &mut ctx.accounts.fund_account;
+        let whitelist_entry = &ctx.accounts.whitelist_entry;
         
         require!(
             ctx.accounts.admin.key() == fund_account.admin,
@@ -45,6 +47,16 @@ pub mod fund_manager {
         require!(
             fund_account.total_funds >= amount,
             FundError::InsufficientFunds
+        );
+        
+        require!(
+            whitelist_entry.is_active,
+            FundError::RecipientNotWhitelisted
+        );
+        
+        require!(
+            whitelist_entry.address == ctx.accounts.to_token_account.owner,
+            FundError::WhitelistAddressMismatch
         );
 
         let seeds = &[
@@ -79,6 +91,64 @@ pub mod fund_manager {
         );
 
         fund_account.admin = new_admin;
+        Ok(())
+    }
+
+    pub fn add_whitelist(ctx: Context<AddWhitelist>, address: Pubkey, label: String) -> Result<()> {
+        let fund_account = &mut ctx.accounts.fund_account;
+        let whitelist_entry = &mut ctx.accounts.whitelist_entry;
+        
+        require!(
+            ctx.accounts.admin.key() == fund_account.admin,
+            FundError::UnauthorizedAdmin
+        );
+        
+        require!(
+            label.len() <= 64,
+            FundError::LabelTooLong
+        );
+        
+        whitelist_entry.address = address;
+        whitelist_entry.label = label;
+        whitelist_entry.is_active = true;
+        whitelist_entry.added_by = ctx.accounts.admin.key();
+        whitelist_entry.added_at = Clock::get()?.unix_timestamp;
+        
+        fund_account.whitelist_count = fund_account.whitelist_count.checked_add(1).unwrap();
+        
+        Ok(())
+    }
+    
+    pub fn remove_whitelist(ctx: Context<RemoveWhitelist>) -> Result<()> {
+        let fund_account = &mut ctx.accounts.fund_account;
+        let whitelist_entry = &mut ctx.accounts.whitelist_entry;
+        
+        require!(
+            ctx.accounts.admin.key() == fund_account.admin,
+            FundError::UnauthorizedAdmin
+        );
+        
+        require!(
+            whitelist_entry.is_active,
+            FundError::WhitelistEntryNotActive
+        );
+        
+        whitelist_entry.is_active = false;
+        
+        Ok(())
+    }
+    
+    pub fn toggle_whitelist(ctx: Context<ToggleWhitelist>, is_active: bool) -> Result<()> {
+        let fund_account = &ctx.accounts.fund_account;
+        let whitelist_entry = &mut ctx.accounts.whitelist_entry;
+        
+        require!(
+            ctx.accounts.admin.key() == fund_account.admin,
+            FundError::UnauthorizedAdmin
+        );
+        
+        whitelist_entry.is_active = is_active;
+        
         Ok(())
     }
 }
@@ -126,6 +196,12 @@ pub struct AllocateFunds<'info> {
     #[account(mut)]
     pub to_token_account: Account<'info, TokenAccount>,
     
+    #[account(
+        seeds = [b"whitelist", to_token_account.owner.as_ref()],
+        bump
+    )]
+    pub whitelist_entry: Account<'info, WhitelistEntry>,
+    
     pub admin: Signer<'info>,
     pub token_program: Program<'info, Token>,
 }
@@ -138,12 +214,66 @@ pub struct SetAdmin<'info> {
     pub current_admin: Signer<'info>,
 }
 
+#[derive(Accounts)]
+#[instruction(address: Pubkey)]
+pub struct AddWhitelist<'info> {
+    #[account(mut)]
+    pub fund_account: Account<'info, FundAccount>,
+    
+    #[account(
+        init,
+        payer = admin,
+        space = 8 + WhitelistEntry::INIT_SPACE,
+        seeds = [b"whitelist", address.as_ref()],
+        bump
+    )]
+    pub whitelist_entry: Account<'info, WhitelistEntry>,
+    
+    #[account(mut)]
+    pub admin: Signer<'info>,
+    
+    pub system_program: Program<'info, System>,
+}
+
+#[derive(Accounts)]
+pub struct RemoveWhitelist<'info> {
+    #[account(mut)]
+    pub fund_account: Account<'info, FundAccount>,
+    
+    #[account(mut)]
+    pub whitelist_entry: Account<'info, WhitelistEntry>,
+    
+    pub admin: Signer<'info>,
+}
+
+#[derive(Accounts)]
+pub struct ToggleWhitelist<'info> {
+    pub fund_account: Account<'info, FundAccount>,
+    
+    #[account(mut)]
+    pub whitelist_entry: Account<'info, WhitelistEntry>,
+    
+    pub admin: Signer<'info>,
+}
+
 #[account]
 #[derive(InitSpace)]
 pub struct FundAccount {
     pub admin: Pubkey,
     pub total_funds: u64,
     pub bump: u8,
+    pub whitelist_count: u16,
+}
+
+#[account]
+#[derive(InitSpace)]
+pub struct WhitelistEntry {
+    pub address: Pubkey,
+    #[max_len(64)]
+    pub label: String,
+    pub is_active: bool,
+    pub added_by: Pubkey,
+    pub added_at: i64,
 }
 
 #[error_code]
@@ -152,4 +282,12 @@ pub enum FundError {
     UnauthorizedAdmin,
     #[msg("Insufficient funds for allocation")]
     InsufficientFunds,
+    #[msg("Recipient address is not whitelisted")]
+    RecipientNotWhitelisted,
+    #[msg("Whitelist address does not match token account owner")]
+    WhitelistAddressMismatch,
+    #[msg("Whitelist entry is not active")]
+    WhitelistEntryNotActive,
+    #[msg("Label exceeds maximum length of 64 characters")]
+    LabelTooLong,
 }
