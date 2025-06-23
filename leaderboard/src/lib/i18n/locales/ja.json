@@ -1,0 +1,134 @@
+{
+  "common": {
+    "language": "言語",
+    "loading": "読み込み中...",
+    "error": "エラー",
+    "success": "成功",
+    "cancel": "キャンセル",
+    "confirm": "確認",
+    "save": "保存",
+    "delete": "削除",
+    "edit": "編集",
+    "back": "戻る",
+    "next": "次へ",
+    "previous": "前へ",
+    "search": "検索",
+    "filter": "フィルター",
+    "sort": "並び替え",
+    "refresh": "更新"
+  },
+  "leaderboard": {
+    "title": "インスタンスリーダーボード",
+    "description": "すべての実行中のインスタンスを閲覧・比較",
+    "columns": {
+      "rank": "ランク",
+      "instance": "インスタンス",
+      "rating": "評価",
+      "volume": "取引量 (24時間)",
+      "uptime": "稼働時間",
+      "strategies": "戦略",
+      "performance": "パフォーマンス",
+      "fees": "手数料",
+      "status": "ステータス"
+    },
+    "status": {
+      "active": "アクティブ",
+      "inactive": "非アクティブ",
+      "maintenance": "メンテナンス中"
+    },
+    "filters": {
+      "all": "すべてのインスタンス",
+      "active": "アクティブのみ",
+      "highVolume": "高取引量",
+      "topRated": "高評価"
+    },
+    "details": {
+      "viewDetails": "詳細を見る",
+      "connect": "接続",
+      "statistics": "統計",
+      "about": "概要"
+    }
+  },
+  "onboarding": {
+    "welcome": {
+      "title": "MrMarket V3へようこそ",
+      "subtitle": "マーケットメイキングインスタンスをセットアップしましょう",
+      "start": "始める"
+    },
+    "deployment": {
+      "title": "デプロイ方法を選択",
+      "subtitle": "インスタンスをデプロイする方法を選択してください",
+      "serverless": {
+        "title": "サーバーレスデプロイ",
+        "description": "VercelやNetlifyなどのクラウドプラットフォームにデプロイ"
+      },
+      "docker": {
+        "title": "Dockerコンテナ",
+        "description": "コンテナ化された環境で実行"
+      },
+      "script": {
+        "title": "インストールスクリプト",
+        "description": "インストールスクリプトで素早くセットアップ"
+      }
+    },
+    "mixin": {
+      "title": "Mixin統合",
+      "subtitle": "Mixinネットワークと統合しますか？",
+      "yes": "はい、Mixinを統合します",
+      "no": "いいえ、Mixinなしで続行します",
+      "benefits": {
+        "title": "Mixin統合のメリット",
+        "instant": "即時決済",
+        "low_fees": "低い取引手数料",
+        "multi_chain": "マルチチェーン対応"
+      }
+    },
+    "privateKey": {
+      "title": "秘密鍵の設定",
+      "subtitle": "秘密鍵の処理方法を選択してください",
+      "generate": "新しい鍵を生成",
+      "import": "既存の鍵をインポート",
+      "warning": "秘密鍵を安全に保管し、決して他人と共有しないでください"
+    },
+    "addresses": {
+      "title": "あなたのアドレス",
+      "subtitle": "これらのアドレスは秘密鍵から派生しています",
+      "copy": "コピー",
+      "copied": "コピーしました！"
+    },
+    "blockchains": {
+      "title": "ブロックチェーンを選択",
+      "subtitle": "サポートするブロックチェーンを選択してください",
+      "selected": "{count}個選択中"
+    },
+    "exchanges": {
+      "title": "取引所の設定",
+      "subtitle": "取引所のAPI認証情報を追加してください",
+      "addExchange": "取引所を追加",
+      "apiKey": "APIキー",
+      "apiSecret": "APIシークレット",
+      "testConnection": "接続テスト"
+    },
+    "complete": {
+      "title": "セットアップ完了！",
+      "subtitle": "インスタンスのデプロイ準備ができました",
+      "summary": "セットアップの概要",
+      "deploy": "インスタンスをデプロイ",
+      "configure": "追加設定"
+    }
+  },
+  "navigation": {
+    "home": "ホーム",
+    "leaderboard": "リーダーボード",
+    "instances": "マイインスタンス",
+    "settings": "設定",
+    "docs": "ドキュメント",
+    "support": "サポート"
+  },
+  "footer": {
+    "copyright": "© 2024 MrMarket V3. All rights reserved.",
+    "privacy": "プライバシーポリシー",
+    "terms": "利用規約",
+    "github": "GitHub"
+  }
+}

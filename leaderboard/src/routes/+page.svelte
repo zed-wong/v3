@@ -4,6 +4,8 @@
 	import { Card } from '$lib/components/ui/card';
 	import { Button } from '$lib/components/ui/button';
 	import { Label } from '$lib/components/ui/label';
+	import { _ } from 'svelte-i18n';
+	import LanguageSwitcher from '$lib/components/language-switcher.svelte';
 
 	let deploymentMethod = '';
 
@@ -15,8 +17,13 @@
 </script>
 
 <div class="container mx-auto max-w-2xl p-6">
-	<h1 class="text-3xl font-bold mb-2">Instance Deployer Setup</h1>
-	<p class="text-muted-foreground mb-8">Choose your deployment method to get started</p>
+	<div class="flex justify-between items-start mb-8">
+		<div>
+			<h1 class="text-3xl font-bold mb-2">{$_('onboarding.deployment.title')}</h1>
+			<p class="text-muted-foreground">{$_('onboarding.deployment.subtitle')}</p>
+		</div>
+		<LanguageSwitcher />
+	</div>
 
 	<div class="space-y-4">
 		<RadioGroup bind:value={deploymentMethod}>
@@ -24,9 +31,9 @@
 				<Label class="flex items-start space-x-3 cursor-pointer">
 					<input type="radio" bind:group={deploymentMethod} value="serverless" class="mt-1" />
 					<div class="space-y-1">
-						<div class="font-semibold">Use serverless</div>
+						<div class="font-semibold">{$_('onboarding.deployment.serverless.title')}</div>
 						<div class="text-sm text-muted-foreground">
-							Click to deploy with serverless infrastructure
+							{$_('onboarding.deployment.serverless.description')}
 						</div>
 					</div>
 				</Label>
@@ -36,9 +43,9 @@
 				<Label class="flex items-start space-x-3 cursor-pointer">
 					<input type="radio" bind:group={deploymentMethod} value="docker" class="mt-1" />
 					<div class="space-y-1">
-						<div class="font-semibold">Use docker</div>
+						<div class="font-semibold">{$_('onboarding.deployment.docker.title')}</div>
 						<div class="text-sm text-muted-foreground">
-							Deploy using Docker containers
+							{$_('onboarding.deployment.docker.description')}
 						</div>
 					</div>
 				</Label>
@@ -48,9 +55,9 @@
 				<Label class="flex items-start space-x-3 cursor-pointer">
 					<input type="radio" bind:group={deploymentMethod} value="script" class="mt-1" />
 					<div class="space-y-1">
-						<div class="font-semibold">Use deployment script</div>
+						<div class="font-semibold">{$_('onboarding.deployment.script.title')}</div>
 						<div class="text-sm text-muted-foreground">
-							Run custom deployment scripts
+							{$_('onboarding.deployment.script.description')}
 						</div>
 					</div>
 				</Label>
@@ -59,7 +66,7 @@
 
 		<div class="flex justify-end pt-6">
 			<Button on:click={handleNext} disabled={!deploymentMethod}>
-				Continue
+				{$_('common.next')}
 			</Button>
 		</div>
 	</div>

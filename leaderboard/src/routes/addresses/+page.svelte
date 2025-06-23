@@ -6,7 +6,8 @@
 	import { Separator } from '$lib/components/ui/separator';
 	
 	$: deploymentMethod = $page.url.searchParams.get('method');
-	$: useMixin = $page.url.searchParams.get('mixin') === 'true';
+	$: keyMethod = $page.url.searchParams.get('keyMethod');
+	$: privateKey = $page.url.searchParams.get('privateKey');
 	
 	// Mock addresses - in real implementation these would be derived from the private key
 	const addresses = [
@@ -16,10 +17,16 @@
 		{ chain: 'Polygon', address: '0x4A35582a710E1F4b2030A3F826DA20BfB6703C09' }
 	];
 	
+	function getKeySource() {
+		if (keyMethod === 'mixin') return 'Mixin spend key';
+		if (keyMethod === 'existing') return 'imported private key';
+		return 'generated private key';
+	}
+	
 	function handleNext() {
 		const params = new URLSearchParams({
 			method: deploymentMethod || '',
-			mixin: useMixin.toString()
+			keyMethod: keyMethod || ''
 		});
 		goto(`/blockchains?${params}`);
 	}
@@ -27,13 +34,13 @@
 	function handleBack() {
 		const params = new URLSearchParams({
 			method: deploymentMethod || '',
-			mixin: useMixin.toString()
+			keyMethod: keyMethod || ''
 		});
 		
-		if (useMixin) {
-			goto(`/onboard?${params}`);
-		} else {
+		if (keyMethod === 'generate') {
 			goto(`/private-key?${params}`);
+		} else {
+			goto(`/onboard?${params}`);
 		}
 	}
 </script>
@@ -41,7 +48,7 @@
 <div class="container mx-auto max-w-2xl p-6">
 	<h1 class="text-3xl font-bold mb-2">Derived Addresses</h1>
 	<p class="text-muted-foreground mb-8">
-		Addresses derived from your {useMixin ? 'Mixin spend key' : 'private key'}
+		Addresses derived from your {getKeySource()}
 	</p>
 
 	<Card class="p-6">

@@ -1,0 +1,136 @@
+{
+  "common": {
+    "language": "Language",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "refresh": "Refresh",
+    "recommended": "Recommended"
+  },
+  "leaderboard": {
+    "title": "Instance Leaderboard",
+    "description": "Browse and compare all running instances",
+    "columns": {
+      "rank": "Rank",
+      "instance": "Instance",
+      "rating": "Rating",
+      "volume": "Volume (24h)",
+      "uptime": "Uptime",
+      "strategies": "Strategies",
+      "performance": "Performance",
+      "fees": "Fees",
+      "status": "Status"
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive",
+      "maintenance": "Maintenance"
+    },
+    "filters": {
+      "all": "All Instances",
+      "active": "Active Only",
+      "highVolume": "High Volume",
+      "topRated": "Top Rated"
+    },
+    "details": {
+      "viewDetails": "View Details",
+      "connect": "Connect",
+      "statistics": "Statistics",
+      "about": "About"
+    }
+  },
+  "onboarding": {
+    "welcome": {
+      "title": "Welcome to MrMarket V3",
+      "subtitle": "Let's set up your market making instance",
+      "start": "Get Started"
+    },
+    "deployment": {
+      "title": "Choose Your Deployment Method",
+      "subtitle": "Select how you want to deploy your instance",
+      "serverless": {
+        "title": "Serverless Deployment",
+        "description": "Deploy to cloud platforms like Vercel or Netlify"
+      },
+      "docker": {
+        "title": "Docker Container",
+        "description": "Run in a containerized environment"
+      },
+      "script": {
+        "title": "Install Script",
+        "description": "Quick setup with our installation script"
+      }
+    },
+    "mixin": {
+      "title": "Mixin Integration",
+      "subtitle": "Do you want to integrate with Mixin Network?",
+      "yes": "Yes, integrate Mixin",
+      "no": "No, continue without Mixin",
+      "fee": "Requires $100 one-time Mixin bot creation fee",
+      "benefits": {
+        "title": "Benefits of Mixin Integration",
+        "instant": "Instant settlements",
+        "low_fees": "Low transaction fees",
+        "multi_chain": "Multi-chain support"
+      }
+    },
+    "privateKey": {
+      "title": "Private Key Setup",
+      "subtitle": "Choose how to handle your private key",
+      "generate": "Generate New Key",
+      "import": "Import Existing Key",
+      "warning": "Keep your private key secure and never share it"
+    },
+    "addresses": {
+      "title": "Your Addresses",
+      "subtitle": "These addresses are derived from your private key",
+      "copy": "Copy",
+      "copied": "Copied!"
+    },
+    "blockchains": {
+      "title": "Select Blockchains",
+      "subtitle": "Choose which blockchains to support",
+      "selected": "{count} selected"
+    },
+    "exchanges": {
+      "title": "Configure Exchanges",
+      "subtitle": "Add your exchange API credentials",
+      "addExchange": "Add Exchange",
+      "apiKey": "API Key",
+      "apiSecret": "API Secret",
+      "testConnection": "Test Connection"
+    },
+    "complete": {
+      "title": "Setup Complete!",
+      "subtitle": "Your instance is ready to deploy",
+      "summary": "Setup Summary",
+      "deploy": "Deploy Instance",
+      "configure": "Additional Configuration"
+    }
+  },
+  "navigation": {
+    "home": "Home",
+    "leaderboard": "Leaderboard",
+    "instances": "My Instances",
+    "settings": "Settings",
+    "docs": "Documentation",
+    "support": "Support"
+  },
+  "footer": {
+    "copyright": "© 2024 MrMarket V3. All rights reserved.",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "github": "GitHub"
+  }
+}

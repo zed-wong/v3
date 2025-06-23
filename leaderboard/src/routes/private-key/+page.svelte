@@ -8,10 +8,12 @@
 	let keyGenerated = false;
 	
 	$: deploymentMethod = $page.url.searchParams.get('method');
+	$: keyMethod = $page.url.searchParams.get('keyMethod');
 	
 	function generatePrivateKey() {
-		// Mock private key generation - in real implementation this would use proper crypto
-		privateKey = '0x' + Array.from({length: 64}, () => Math.floor(Math.random() * 16).toString(16)).join('');
+		// Mock Ed25519 private key generation - 32 bytes = 64 hex characters
+		// In real implementation this would use proper crypto for Ed25519
+		privateKey = Array.from({length: 64}, () => Math.floor(Math.random() * 16).toString(16)).join('');
 		keyGenerated = true;
 	}
 	
@@ -19,7 +21,7 @@
 		if (keyGenerated) {
 			const params = new URLSearchParams({
 				method: deploymentMethod || '',
-				mixin: 'false'
+				keyMethod: 'generate'
 			});
 			goto(`/addresses?${params}`);
 		}
@@ -27,7 +29,8 @@
 	
 	function handleBack() {
 		const params = new URLSearchParams({
-			method: deploymentMethod || ''
+			method: deploymentMethod || '',
+			keyMethod: keyMethod || ''
 		});
 		goto(`/onboard?${params}`);
 	}
@@ -35,7 +38,7 @@
 
 <div class="container mx-auto max-w-2xl p-6">
 	<h1 class="text-3xl font-bold mb-2">Generate Private Key</h1>
-	<p class="text-muted-foreground mb-8">Generate a free private key for your instance</p>
+	<p class="text-muted-foreground mb-8">Generate a free Ed25519 private key for your instance</p>
 
 	<Card class="p-6">
 		<div class="space-y-6">
@@ -51,10 +54,11 @@
 			{:else}
 				<div class="space-y-4">
 					<div>
-						<h3 class="font-semibold mb-2">Your Private Key</h3>
+						<h3 class="font-semibold mb-2">Your Ed25519 Private Key</h3>
 						<div class="p-4 bg-muted rounded-lg font-mono text-sm break-all">
 							{privateKey}
 						</div>
+						<p class="text-xs text-muted-foreground mt-2">32 bytes (64 hex characters)</p>
 					</div>
 					
 					<div class="p-4 bg-amber-50 dark:bg-amber-950 rounded-lg">
