@@ -16,7 +16,8 @@
     "filter": "Filter",
     "sort": "Sort",
     "refresh": "Refresh",
-    "recommended": "Recommended"
+    "recommended": "Recommended",
+    "continue": "Continue"
   },
   "leaderboard": {
     "title": "Instance Leaderboard",
@@ -83,6 +84,23 @@
         "instant": "Instant settlements",
         "low_fees": "Low transaction fees",
         "multi_chain": "Multi-chain support"
+      },
+      "setup": {
+        "title": "Mixin Bot Setup",
+        "subtitle": "Configure your Mixin bot credentials",
+        "botCredentials": "Bot Credentials",
+        "enterInfo": "Enter your Mixin bot information below",
+        "botId": "Bot ID",
+        "botIdPlaceholder": "Enter your Mixin bot ID",
+        "sessionId": "Session ID",
+        "sessionIdPlaceholder": "Enter your session ID",
+        "spendKey": "Spend Key",
+        "spendKeyPlaceholder": "Enter your spend key",
+        "spendKeyHelp": "Your spend key is required for transaction signing",
+        "howToGet": "How to get these credentials:",
+        "step1": "1. Visit developers.mixin.one/dashboard",
+        "step2": "2. Create a new bot or select existing one",
+        "step3": "3. Copy the Bot ID, Session ID, and Spend Key"
       }
     },
     "privateKey": {

@@ -93,7 +93,7 @@
 						<div class="space-y-1">
 							<p class="text-sm font-medium text-blue-800 dark:text-blue-200">{$_('onboarding.mixin.setup.howToGet')}</p>
 							<ol class="text-sm text-blue-700 dark:text-blue-300 space-y-1">
-								<li>{$_('onboarding.mixin.setup.step1')}</li>
+								<li>1. Visit <a href="https://developers.mixin.one/dashboard" target="_blank" rel="noopener noreferrer" class="underline hover:text-blue-800 dark:hover:text-blue-200">developers.mixin.one/dashboard</a></li>
 								<li>{$_('onboarding.mixin.setup.step2')}</li>
 								<li>{$_('onboarding.mixin.setup.step3')}</li>
 							</ol>
