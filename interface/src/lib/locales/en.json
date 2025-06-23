@@ -58,6 +58,12 @@
         "spendKey": "Spend Key",
         "spendKeyPlaceholder": "Enter your spend key",
         "spendKeyHelp": "Your spend key will be used to derive addresses and will be encrypted",
+        "serverPublicKey": "Server Public Key",
+        "serverPublicKeyPlaceholder": "Enter your server public key",
+        "sessionPrivateKey": "Session Private Key",
+        "sessionPrivateKeyPlaceholder": "Enter your session private key",
+        "oauthSecret": "OAuth Secret",
+        "oauthSecretPlaceholder": "Enter your OAuth secret",
         "howToGet": "How to get these credentials",
         "step1": "1. Visit developers.mixin.one",
         "step2": "2. Create a new bot (costs $100 USD)",
@@ -114,15 +120,6 @@
         "securityBullet2": "• Make sure you have a backup before proceeding",
         "securityBullet3": "• Your key will be encrypted before storage"
       }
-    },
-    "addresses": {
-      "title": "Derived Addresses",
-      "subtitlePrefix": "Addresses derived from your",
-      "mixinSpendKey": "Mixin spend key",
-      "importedPrivateKey": "imported private key",
-      "generatedPrivateKey": "generated private key",
-      "description": "These addresses will be used for your trading operations across different blockchains.",
-      "infoText": "💡 These addresses are deterministically derived and will always be the same for your private key."
     },
     "blockchain": {
       "title": "Set up supported blockchains",

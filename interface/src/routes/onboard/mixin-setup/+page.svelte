@@ -11,6 +11,9 @@
 	let botId = '';
 	let sessionId = '';
 	let spendKey = '';
+	let serverPublicKey = '';
+	let sessionPrivateKey = '';
+	let oauthSecret = '';
 	
 	$: nextParams = new URLSearchParams({
 		method: deploymentMethod || '',
@@ -23,7 +26,7 @@
 		method: deploymentMethod || ''
 	});
 	
-	$: canContinue = botId && sessionId && spendKey;
+	$: canContinue = botId && sessionId && spendKey && serverPublicKey && sessionPrivateKey && oauthSecret;
 </script>
 
 <div class="min-h-screen bg-gradient-to-b from-background to-muted/20">
@@ -69,6 +72,39 @@
 							type="text" 
 							placeholder={$_('onboarding.mixin.setup.sessionIdPlaceholder')}
 							bind:value={sessionId}
+						/>
+					</div>
+
+					<div class="space-y-2">
+						<Label for="server-public-key">{$_('onboarding.mixin.setup.serverPublicKey')}</Label>
+						<Input 
+							id="server-public-key"
+							type="text" 
+							placeholder={$_('onboarding.mixin.setup.serverPublicKeyPlaceholder')}
+							bind:value={serverPublicKey}
+							class="font-mono"
+						/>
+					</div>
+
+					<div class="space-y-2">
+						<Label for="session-private-key">{$_('onboarding.mixin.setup.sessionPrivateKey')}</Label>
+						<Input 
+							id="session-private-key"
+							type="password" 
+							placeholder={$_('onboarding.mixin.setup.sessionPrivateKeyPlaceholder')}
+							bind:value={sessionPrivateKey}
+							class="font-mono"
+						/>
+					</div>
+
+					<div class="space-y-2">
+						<Label for="oauth-secret">{$_('onboarding.mixin.setup.oauthSecret')}</Label>
+						<Input 
+							id="oauth-secret"
+							type="password" 
+							placeholder={$_('onboarding.mixin.setup.oauthSecretPlaceholder')}
+							bind:value={oauthSecret}
+							class="font-mono"
 						/>
 					</div>
 

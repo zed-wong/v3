@@ -58,6 +58,12 @@
         "spendKey": "支付密钥",
         "spendKeyPlaceholder": "输入您的支付密钥",
         "spendKeyHelp": "您的支付密钥将用于派生地址并将被加密",
+        "serverPublicKey": "服务器公钥",
+        "serverPublicKeyPlaceholder": "输入您的服务器公钥",
+        "sessionPrivateKey": "会话私钥",
+        "sessionPrivateKeyPlaceholder": "输入您的会话私钥",
+        "oauthSecret": "OAuth 密钥",
+        "oauthSecretPlaceholder": "输入您的 OAuth 密钥",
         "howToGet": "如何获取这些凭证",
         "step1": "1. 访问 developers.mixin.one",
         "step2": "2. 创建新机器人（需要 $100 美元）",
@@ -114,15 +120,6 @@
         "securityBullet2": "• 继续之前请确保您有备份",
         "securityBullet3": "• 您的密钥将在存储前被加密"
       }
-    },
-    "addresses": {
-      "title": "派生地址",
-      "subtitlePrefix": "地址派生自您的",
-      "mixinSpendKey": "Mixin 支付密钥",
-      "importedPrivateKey": "导入的私钥",
-      "generatedPrivateKey": "生成的私钥",
-      "description": "这些地址将用于您在不同区块链上的交易操作。",
-      "infoText": "💡 这些地址是确定性派生的，对于您的私钥将始终相同。"
     },
     "blockchain": {
       "title": "设置支持的区块链",

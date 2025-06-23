@@ -24,7 +24,7 @@
 				method: deploymentMethod || '',
 				keyMethod: 'generate'
 			});
-			goto(`/addresses?${params}`);
+			goto(`/blockchains?${params}`);
 		}
 	}
 	

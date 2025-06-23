@@ -92,12 +92,6 @@
       "import": "导入现有密钥",
       "warning": "请保管好您的私钥，切勿与他人分享"
     },
-    "addresses": {
-      "title": "您的地址",
-      "subtitle": "这些地址是从您的私钥派生的",
-      "copy": "复制",
-      "copied": "已复制！"
-    },
     "blockchains": {
       "title": "选择区块链",
       "subtitle": "选择要支持的区块链",

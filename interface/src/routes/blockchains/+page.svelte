@@ -9,6 +9,7 @@
 	
 	$: deploymentMethod = $page.url.searchParams.get('method');
 	$: useMixin = $page.url.searchParams.get('mixin') === 'true';
+	$: keyMethod = $page.url.searchParams.get('keyMethod');
 	
 	let selectedBlockchains: string[] = [];
 	
@@ -45,7 +46,17 @@
 			method: deploymentMethod || '',
 			mixin: useMixin.toString()
 		});
-		goto(`/addresses?${params}`);
+		
+		// Navigate back based on the key method
+		if (keyMethod === 'generate') {
+			goto(`/onboard/private-key?${params}`);
+		} else if (keyMethod === 'existing') {
+			goto(`/onboard/import-key?${params}`);
+		} else if (useMixin) {
+			goto(`/onboard/mixin-setup?${params}`);
+		} else {
+			goto(`/onboard?${params}`);
+		}
 	}
 </script>
 

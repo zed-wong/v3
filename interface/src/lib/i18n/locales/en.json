@@ -110,12 +110,6 @@
       "import": "Import Existing Key",
       "warning": "Keep your private key secure and never share it"
     },
-    "addresses": {
-      "title": "Your Addresses",
-      "subtitle": "These addresses are derived from your private key",
-      "copy": "Copy",
-      "copied": "Copied!"
-    },
     "blockchains": {
       "title": "Select Blockchains",
       "subtitle": "Choose which blockchains to support",

@@ -19,7 +19,7 @@
 				keyMethod: 'existing'
 			});
 			// In real implementation, privateKey would be encrypted before navigation
-			goto(`/addresses?${params}`);
+			goto(`/blockchains?${params}`);
 		}
 	}
 	
