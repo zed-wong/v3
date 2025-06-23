@@ -21,7 +21,7 @@
 			method: deploymentMethod || '',
 			mixin: useMixin.toString()
 		});
-		goto(`/setup/blockchains?${params}`);
+		goto(`/blockchains?${params}`);
 	}
 	
 	function handleBack() {
@@ -31,9 +31,9 @@
 		});
 		
 		if (useMixin) {
-			goto(`/setup/onboard?${params}`);
+			goto(`/onboard?${params}`);
 		} else {
-			goto(`/setup/private-key?${params}`);
+			goto(`/private-key?${params}`);
 		}
 	}
 </script>
@@ -79,4 +79,3 @@
 		</div>
 	</Card>
 </div>
-</script>

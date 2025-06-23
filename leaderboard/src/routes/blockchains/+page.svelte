@@ -35,7 +35,7 @@
 				mixin: useMixin.toString(),
 				blockchains: selectedBlockchains.join(',')
 			});
-			goto(`/setup/exchanges?${params}`);
+			goto(`/exchanges?${params}`);
 		}
 	}
 	
@@ -44,7 +44,7 @@
 			method: deploymentMethod || '',
 			mixin: useMixin.toString()
 		});
-		goto(`/setup/addresses?${params}`);
+		goto(`/addresses?${params}`);
 	}
 </script>
 
@@ -85,4 +85,3 @@
 		</div>
 	</Card>
 </div>
-</script>

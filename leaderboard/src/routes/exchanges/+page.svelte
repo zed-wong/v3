@@ -34,7 +34,7 @@
 	function handleNext() {
 		if (hasConfiguredExchange) {
 			// This would be the final step
-			goto('/setup/complete');
+			goto('/complete');
 		}
 	}
 	
@@ -43,7 +43,7 @@
 			method: deploymentMethod || '',
 			mixin: useMixin.toString()
 		});
-		goto(`/setup/blockchains?${params}`);
+		goto(`/blockchains?${params}`);
 	}
 </script>
 
@@ -122,4 +122,3 @@
 		</div>
 	</Card>
 </div>
-</script>

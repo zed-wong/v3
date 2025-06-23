@@ -21,7 +21,7 @@
 				method: deploymentMethod || '',
 				mixin: 'false'
 			});
-			goto(`/setup/addresses?${params}`);
+			goto(`/addresses?${params}`);
 		}
 	}
 	
@@ -29,7 +29,7 @@
 		const params = new URLSearchParams({
 			method: deploymentMethod || ''
 		});
-		goto(`/setup/onboard?${params}`);
+		goto(`/onboard?${params}`);
 	}
 </script>
 
@@ -80,4 +80,3 @@
 		</div>
 	</Card>
 </div>
-</script>

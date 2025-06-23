@@ -30,10 +30,9 @@
 			<Button variant="outline" on:click={() => goto('/')}>
 				Go to Dashboard
 			</Button>
-			<Button on:click={() => goto('/setup')}>
+			<Button on:click={() => goto('/')}>
 				Deploy Another Instance
 			</Button>
 		</div>
 	</div>
 </div>
-</script>
