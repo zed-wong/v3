@@ -30,8 +30,8 @@
 	<div class="container mx-auto max-w-4xl px-4 py-16">
 		<!-- Header -->
 		<div class="text-center mb-12">
-			<h1 class="text-5xl font-bold mb-4">Welcome to Your Instance Setup</h1>
-			<p class="text-xl text-muted-foreground font-light">Let's configure your deployment in just a few steps</p>
+			<h1 class="text-5xl font-bold mb-4">{$_('onboarding.welcome.title')}</h1>
+			<p class="text-xl text-muted-foreground font-light">{$_('onboarding.welcome.subtitle')}</p>
 		</div>
 
 		<!-- Progress Indicator -->
@@ -47,7 +47,7 @@
 
 		<!-- Main Content -->
 		<Card class="max-w-3xl mx-auto p-8">
-				<h2 class="text-2xl font-semibold mb-6">Choose Your Key Method</h2>
+				<h2 class="text-2xl font-semibold mb-6">{$_('onboarding.welcome.keyMethod')}</h2>
 				
 				<RadioGroup bind:value={keyMethod} class="space-y-4">
 					<!-- Mixin Option -->
@@ -58,14 +58,14 @@
 						<RadioGroupItem value="mixin" id="r-mixin" class="mt-1" />
 						<div class="flex-1">
 							<div class="flex items-center space-x-2">
-								<span class="font-semibold text-lg">Enable Mixin Integration</span>
-								<span class="px-2 py-0.5 text-xs font-medium bg-primary/10 text-primary rounded-full">Recommended</span>
+								<span class="font-semibold text-lg">{$_('onboarding.mixin.enable.title')}</span>
+								<span class="px-2 py-0.5 text-xs font-medium bg-primary/10 text-primary rounded-full">{$_('common.recommended')}</span>
 							</div>
 							<p class="text-sm text-muted-foreground mt-1">
-								Unlock professional features with Mixin's secure infrastructure
+								{$_('onboarding.mixin.enable.description')}
 							</p>
 							<p class="text-xs text-muted-foreground mt-1">
-								Requires $100 one-time Mixin bot creation fee
+								{$_('onboarding.mixin.enable.note')}
 							</p>
 						</div>
 					</label>
@@ -77,9 +77,9 @@
 					>
 						<RadioGroupItem value="privatekey" id="r-privatekey" class="mt-1" />
 						<div class="flex-1">
-							<div class="font-semibold text-lg">Use Private Key</div>
+							<div class="font-semibold text-lg">{$_('onboarding.mixin.disable.title')}</div>
 							<p class="text-sm text-muted-foreground mt-1">
-								Generate a new Ed25519 private key or import an existing one
+								{$_('onboarding.mixin.disable.description')}
 							</p>
 						</div>
 					</label>

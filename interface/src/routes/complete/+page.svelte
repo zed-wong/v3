@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { _ } from 'svelte-i18n';
 	import { goto } from '$app/navigation';
 	import { Card } from '$lib/components/ui/card';
 	import { Button } from '$lib/components/ui/button';
@@ -12,26 +13,26 @@
 			</svg>
 		</div>
 		
-		<h1 class="text-3xl font-bold">Setup Complete!</h1>
+		<h1 class="text-3xl font-bold">{$_('onboarding.complete.title')}</h1>
 		<p class="text-muted-foreground max-w-md mx-auto">
-			Your instance has been successfully configured. Data has been encrypted and stored in your local database.
+			{$_('onboarding.complete.description')}
 		</p>
 		
 		<Card class="p-6 max-w-md mx-auto">
-			<h3 class="font-semibold mb-3">Next Steps</h3>
+			<h3 class="font-semibold mb-3">{$_('onboarding.complete.nextSteps')}</h3>
 			<ul class="text-sm text-left space-y-2 text-muted-foreground">
-				<li>• Deploy your instance using the selected method</li>
-				<li>• Monitor your instance from the dashboard</li>
-				<li>• Configure additional strategies as needed</li>
+				<li>{$_('onboarding.complete.step1')}</li>
+				<li>{$_('onboarding.complete.step2')}</li>
+				<li>{$_('onboarding.complete.step3')}</li>
 			</ul>
 		</Card>
 		
 		<div class="flex gap-4 justify-center pt-4">
 			<Button variant="outline" onclick={() => goto('/')}>
-				Go to Dashboard
+				{$_('onboarding.complete.toDashboard')}
 			</Button>
 			<Button onclick={() => goto('/')}>
-				Deploy Another Instance
+				{$_('onboarding.complete.deployAnother')}
 			</Button>
 		</div>
 	</div>

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { _ } from 'svelte-i18n';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import { Card } from '$lib/components/ui/card';
@@ -18,9 +19,9 @@
 	];
 	
 	function getKeySource() {
-		if (keyMethod === 'mixin') return 'Mixin spend key';
-		if (keyMethod === 'existing') return 'imported private key';
-		return 'generated private key';
+		if (keyMethod === 'mixin') return $_('onboarding.addresses.mixinSpendKey');
+		if (keyMethod === 'existing') return $_('onboarding.addresses.importedPrivateKey');
+		return $_('onboarding.addresses.generatedPrivateKey');
 	}
 	
 	function handleNext() {
@@ -46,15 +47,15 @@
 </script>
 
 <div class="container mx-auto max-w-2xl p-6">
-	<h1 class="text-3xl font-bold mb-2">Derived Addresses</h1>
+	<h1 class="text-3xl font-bold mb-2">{$_('onboarding.addresses.title')}</h1>
 	<p class="text-muted-foreground mb-8">
-		Addresses derived from your {getKeySource()}
+		{$_('onboarding.addresses.subtitlePrefix')} {getKeySource()}
 	</p>
 
 	<Card class="p-6">
 		<div class="space-y-4">
 			<div class="text-sm text-muted-foreground mb-4">
-				These addresses will be used for your trading operations across different blockchains.
+				{$_('onboarding.addresses.description')}
 			</div>
 			
 			{#each addresses as { chain, address }, i}
@@ -71,17 +72,17 @@
 			
 			<div class="mt-6 p-4 bg-blue-50 dark:bg-blue-950 rounded-lg">
 				<p class="text-sm text-blue-800 dark:text-blue-200">
-					💡 These addresses are deterministically derived and will always be the same for your private key.
+					{$_('onboarding.addresses.infoText')}
 				</p>
 			</div>
 		</div>
 
 		<div class="flex justify-between pt-6">
 			<Button variant="outline" onclick={handleBack}>
-				Back
+				{$_('common.back')}
 			</Button>
 			<Button onclick={handleNext}>
-				Continue
+				{$_('common.next')}
 			</Button>
 		</div>
 	</Card>

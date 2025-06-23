@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { _ } from 'svelte-i18n';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import { Card } from '$lib/components/ui/card';
@@ -38,8 +39,8 @@
 	<div class="container mx-auto max-w-2xl px-4 py-16">
 		<!-- Header -->
 		<div class="text-center mb-12">
-			<h1 class="text-4xl font-bold mb-4">Import Private Key</h1>
-			<p class="text-xl text-muted-foreground font-light">Use your existing Ed25519 private key</p>
+			<h1 class="text-4xl font-bold mb-4">{$_('onboarding.privateKey.import.title')}</h1>
+			<p class="text-xl text-muted-foreground font-light">{$_('onboarding.privateKey.import.subtitle')}</p>
 		</div>
 
 		<!-- Progress Indicator -->
@@ -55,45 +56,45 @@
 		<Card class="p-8">
 			<div class="space-y-6">
 				<div>
-					<h2 class="text-2xl font-semibold mb-2">Enter Your Private Key</h2>
-					<p class="text-muted-foreground">Your key will be encrypted and stored securely</p>
+					<h2 class="text-2xl font-semibold mb-2">{$_('onboarding.privateKey.import.enterKey')}</h2>
+					<p class="text-muted-foreground">{$_('onboarding.privateKey.import.description')}</p>
 				</div>
 
 				<div class="space-y-4">
 					<div class="space-y-2">
-						<Label for="private-key">Ed25519 Private Key</Label>
+						<Label for="private-key">{$_('onboarding.privateKey.import.label')}</Label>
 						<Input 
 							id="private-key"
 							type="password" 
-							placeholder="Enter your 64-character hex private key"
+							placeholder={$_('onboarding.privateKey.import.placeholder')}
 							bind:value={privateKey}
 							class="font-mono"
 							maxlength="64"
 							pattern="[a-fA-F0-9]{64}"
 						/>
 						{#if privateKey && !isValidKey}
-							<p class="text-sm text-destructive">Invalid key format. Must be 64 hex characters</p>
+							<p class="text-sm text-destructive">{$_('onboarding.privateKey.import.invalidFormat')}</p>
 						{:else if isValidKey}
-							<p class="text-sm text-green-600 dark:text-green-400">✓ Valid Ed25519 key format</p>
+							<p class="text-sm text-green-600 dark:text-green-400">{$_('onboarding.privateKey.import.validFormat')}</p>
 						{:else}
-							<p class="text-xs text-muted-foreground">32 bytes (64 hex characters)</p>
+							<p class="text-xs text-muted-foreground">{$_('onboarding.privateKey.import.helpText')}</p>
 						{/if}
 					</div>
 
 					<div class="space-y-2">
-						<Label for="confirm-key">Confirm Private Key</Label>
+						<Label for="confirm-key">{$_('onboarding.privateKey.import.confirmLabel')}</Label>
 						<Input 
 							id="confirm-key"
 							type="password" 
-							placeholder="Re-enter your private key"
+							placeholder={$_('onboarding.privateKey.import.confirmPlaceholder')}
 							bind:value={confirmKey}
 							class="font-mono"
 							maxlength="64"
 						/>
 						{#if confirmKey && !keysMatch}
-							<p class="text-sm text-destructive">Keys do not match</p>
+							<p class="text-sm text-destructive">{$_('onboarding.privateKey.import.keysMismatch')}</p>
 						{:else if keysMatch}
-							<p class="text-sm text-green-600 dark:text-green-400">✓ Keys match</p>
+							<p class="text-sm text-green-600 dark:text-green-400">{$_('onboarding.privateKey.import.keysMatch')}</p>
 						{/if}
 					</div>
 				</div>
@@ -104,11 +105,11 @@
 							<path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
 						</svg>
 						<div class="space-y-1">
-							<p class="text-sm font-medium text-amber-800 dark:text-amber-200">Security Notice</p>
+							<p class="text-sm font-medium text-amber-800 dark:text-amber-200">{$_('onboarding.privateKey.import.securityTitle')}</p>
 							<ul class="text-sm text-amber-700 dark:text-amber-300 space-y-1">
-								<li>• Never share your private key with anyone</li>
-								<li>• Make sure you have a backup before proceeding</li>
-								<li>• Your key will be encrypted before storage</li>
+								<li>{$_('onboarding.privateKey.import.securityBullet1')}</li>
+								<li>{$_('onboarding.privateKey.import.securityBullet2')}</li>
+								<li>{$_('onboarding.privateKey.import.securityBullet3')}</li>
 							</ul>
 						</div>
 					</div>
@@ -121,14 +122,14 @@
 					<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
 					</svg>
-					Back
+					{$_('common.back')}
 				</Button>
 				<Button 
 					size="lg"
 					onclick={handleNext} 
 					disabled={!canContinue}
 				>
-					Continue
+					{$_('common.next')}
 					<svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
 					</svg>

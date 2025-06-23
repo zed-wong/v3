@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { _ } from 'svelte-i18n';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import { Card } from '$lib/components/ui/card';
@@ -48,8 +49,8 @@
 </script>
 
 <div class="container mx-auto max-w-2xl p-6">
-	<h1 class="text-3xl font-bold mb-2">Set up exchanges and API Keys</h1>
-	<p class="text-muted-foreground mb-8">Configure exchange API credentials for trading</p>
+	<h1 class="text-3xl font-bold mb-2">{$_('onboarding.exchanges.title')}</h1>
+	<p class="text-muted-foreground mb-8">{$_('onboarding.exchanges.subtitle')}</p>
 
 	<Card class="p-6">
 		<div class="space-y-6">
@@ -66,28 +67,28 @@
 							size="sm"
 							onclick={() => toggleExchange(index)}
 						>
-							{exchange.enabled ? 'Enabled' : 'Enable'}
+							{exchange.enabled ? $_('common.enabled') : $_('common.enable')}
 						</Button>
 					</div>
 					
 					{#if exchange.enabled}
 						<div class="space-y-3 pl-4">
 							<div class="space-y-2">
-								<Label for="{exchange.name}-key">API Key</Label>
+								<Label for="{exchange.name}-key">{$_('onboarding.exchanges.apiKey')}</Label>
 								<Input 
 									id="{exchange.name}-key"
 									type="text" 
-									placeholder="Enter API key"
+									placeholder={$_('onboarding.exchanges.apiKeyPlaceholder')}
 									bind:value={exchange.apiKey}
 								/>
 							</div>
 							
 							<div class="space-y-2">
-								<Label for="{exchange.name}-secret">API Secret</Label>
+								<Label for="{exchange.name}-secret">{$_('onboarding.exchanges.apiSecret')}</Label>
 								<Input 
 									id="{exchange.name}-secret"
 									type="password" 
-									placeholder="Enter API secret"
+									placeholder={$_('onboarding.exchanges.apiSecretPlaceholder')}
 									bind:value={exchange.apiSecret}
 								/>
 							</div>
@@ -98,26 +99,26 @@
 			
 			<div class="mt-6 p-4 bg-amber-50 dark:bg-amber-950 rounded-lg">
 				<p class="text-sm text-amber-800 dark:text-amber-200 font-medium mb-1">
-					⚠️ Security Notice
+					{$_('onboarding.exchanges.securityTitle')}
 				</p>
 				<p class="text-sm text-amber-700 dark:text-amber-300">
-					API keys will be encrypted and stored in your local database. Never share these credentials.
+					{$_('onboarding.exchanges.securityText')}
 				</p>
 			</div>
 			
 			{#if !hasConfiguredExchange}
 				<div class="text-sm text-muted-foreground text-center">
-					Please configure at least one exchange to continue
+					{$_('onboarding.exchanges.validation')}
 				</div>
 			{/if}
 		</div>
 
 		<div class="flex justify-between pt-6">
 			<Button variant="outline" onclick={handleBack}>
-				Back
+				{$_('common.back')}
 			</Button>
 			<Button onclick={handleNext} disabled={!hasConfiguredExchange}>
-				Complete Setup
+				{$_('onboarding.exchanges.completeSetup')}
 			</Button>
 		</div>
 	</Card>

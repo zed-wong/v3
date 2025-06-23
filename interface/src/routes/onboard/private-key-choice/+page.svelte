@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { _ } from 'svelte-i18n';
 	import { page } from '$app/stores';
 	import { Card } from '$lib/components/ui/card';
 	import { Button } from '$lib/components/ui/button';
@@ -19,8 +20,8 @@
 	<div class="container mx-auto max-w-2xl px-4 py-16">
 		<!-- Header -->
 		<div class="text-center mb-12">
-			<h1 class="text-4xl font-bold mb-4">Private Key Setup</h1>
-			<p class="text-xl text-muted-foreground font-light">Choose how you want to set up your private key</p>
+			<h1 class="text-4xl font-bold mb-4">{$_('onboarding.privateKey.choice.title')}</h1>
+			<p class="text-xl text-muted-foreground font-light">{$_('onboarding.privateKey.choice.subtitle')}</p>
 		</div>
 
 		<!-- Progress Indicator -->
@@ -44,13 +45,13 @@
 						</svg>
 					</div>
 					<div class="flex-1">
-						<h3 class="text-lg font-semibold mb-1">Generate New Private Key</h3>
+						<h3 class="text-lg font-semibold mb-1">{$_('onboarding.privateKey.choice.generate.title')}</h3>
 						<p class="text-sm text-muted-foreground">
-							Create a fresh Ed25519 private key. Recommended for new users.
+							{$_('onboarding.privateKey.choice.generate.description')}
 						</p>
 						<div class="mt-3">
 							<Button variant="outline" size="sm" href="/private-key?{keyParams}">
-								Generate Key
+								{$_('onboarding.privateKey.choice.generate.button')}
 								<svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
 								</svg>
@@ -70,13 +71,13 @@
 						</svg>
 					</div>
 					<div class="flex-1">
-						<h3 class="text-lg font-semibold mb-1">Import Existing Private Key</h3>
+						<h3 class="text-lg font-semibold mb-1">{$_('onboarding.privateKey.choice.import.title')}</h3>
 						<p class="text-sm text-muted-foreground">
-							Already have an Ed25519 private key? Import it securely.
+							{$_('onboarding.privateKey.choice.import.description')}
 						</p>
 						<div class="mt-3">
 							<Button variant="outline" size="sm" href="/onboard/import-key?{keyParams}">
-								Import Key
+								{$_('onboarding.privateKey.choice.import.button')}
 								<svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
 								</svg>
@@ -93,7 +94,7 @@
 				<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
 				</svg>
-				Back
+				{$_('common.back')}
 			</Button>
 		</div>
 	</div>

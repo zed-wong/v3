@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { _ } from 'svelte-i18n';
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
 	import { Card } from '$lib/components/ui/card';
@@ -12,12 +13,12 @@
 	let selectedBlockchains: string[] = [];
 	
 	const blockchains = [
-		{ id: 'ethereum', name: 'Ethereum', description: 'Ethereum mainnet' },
-		{ id: 'solana', name: 'Solana', description: 'Solana mainnet' },
-		{ id: 'bsc', name: 'Binance Smart Chain', description: 'BSC mainnet' },
-		{ id: 'polygon', name: 'Polygon', description: 'Polygon mainnet' },
-		{ id: 'arbitrum', name: 'Arbitrum', description: 'Arbitrum One' },
-		{ id: 'optimism', name: 'Optimism', description: 'Optimism mainnet' }
+		{ id: 'ethereum', name: $_('onboarding.blockchain.chains.ethereum.name'), description: $_('onboarding.blockchain.chains.ethereum.description') },
+		{ id: 'solana', name: $_('onboarding.blockchain.chains.solana.name'), description: $_('onboarding.blockchain.chains.solana.description') },
+		{ id: 'bsc', name: $_('onboarding.blockchain.chains.bsc.name'), description: $_('onboarding.blockchain.chains.bsc.description') },
+		{ id: 'polygon', name: $_('onboarding.blockchain.chains.polygon.name'), description: $_('onboarding.blockchain.chains.polygon.description') },
+		{ id: 'arbitrum', name: $_('onboarding.blockchain.chains.arbitrum.name'), description: $_('onboarding.blockchain.chains.arbitrum.description') },
+		{ id: 'optimism', name: $_('onboarding.blockchain.chains.optimism.name'), description: $_('onboarding.blockchain.chains.optimism.description') }
 	];
 	
 	function toggleBlockchain(blockchainId: string) {
@@ -49,8 +50,8 @@
 </script>
 
 <div class="container mx-auto max-w-2xl p-6">
-	<h1 class="text-3xl font-bold mb-2">Set up supported blockchains</h1>
-	<p class="text-muted-foreground mb-8">Select the blockchains you want to support</p>
+	<h1 class="text-3xl font-bold mb-2">{$_('onboarding.blockchain.title')}</h1>
+	<p class="text-muted-foreground mb-8">{$_('onboarding.blockchain.subtitle')}</p>
 
 	<Card class="p-6">
 		<div class="space-y-4">
@@ -70,17 +71,17 @@
 			
 			{#if selectedBlockchains.length === 0}
 				<div class="text-sm text-muted-foreground text-center py-4">
-					Please select at least one blockchain to continue
+					{$_('onboarding.blockchain.validation')}
 				</div>
 			{/if}
 		</div>
 
 		<div class="flex justify-between pt-6">
 			<Button variant="outline" onclick={handleBack}>
-				Back
+				{$_('common.back')}
 			</Button>
 			<Button onclick={handleNext} disabled={selectedBlockchains.length === 0}>
-				Continue
+				{$_('common.next')}
 			</Button>
 		</div>
 	</Card>

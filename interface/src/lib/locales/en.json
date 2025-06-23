@@ -2,10 +2,24 @@
   "common": {
     "next": "Next",
     "back": "Back",
+    "continue": "Continue",
     "finish": "Finish",
-    "skip": "Skip"
+    "skip": "Skip",
+    "copy": "Copy",
+    "copied": "Copied!",
+    "generate": "Generate",
+    "import": "Import",
+    "enable": "Enable",
+    "enabled": "Enabled",
+    "disabled": "Disabled",
+    "recommended": "Recommended"
   },
   "onboarding": {
+    "welcome": {
+      "title": "Welcome to Your Instance Setup",
+      "subtitle": "Let's configure your deployment in just a few steps",
+      "keyMethod": "Choose Your Key Method"
+    },
     "deployment": {
       "title": "Choose Your Deployment Method",
       "subtitle": "Select how you'd like to deploy your instance",
@@ -23,15 +37,31 @@
       }
     },
     "mixin": {
-      "title": "Mixin Integration",
-      "subtitle": "Would you like to enable Mixin for payments?",
       "enable": {
-        "title": "Enable Mixin",
-        "description": "Accept payments through Mixin Messenger. Requires Mixin account setup."
+        "title": "Enable Mixin Integration",
+        "description": "Unlock professional features with Mixin's secure infrastructure",
+        "note": "Requires $100 one-time Mixin bot creation fee"
       },
       "disable": {
-        "title": "Skip Mixin",
-        "description": "Continue without Mixin integration. You can enable it later."
+        "title": "Use Private Key",
+        "description": "Generate a new Ed25519 private key or import an existing one"
+      },
+      "setup": {
+        "title": "Mixin Bot Setup",
+        "subtitle": "Configure your Mixin bot credentials",
+        "botCredentials": "Bot Credentials",
+        "enterInfo": "Enter your Mixin bot information",
+        "botId": "Bot ID",
+        "botIdPlaceholder": "Enter your bot ID",
+        "sessionId": "Session ID",
+        "sessionIdPlaceholder": "Enter your session ID",
+        "spendKey": "Spend Key",
+        "spendKeyPlaceholder": "Enter your spend key",
+        "spendKeyHelp": "Your spend key will be used to derive addresses and will be encrypted",
+        "howToGet": "How to get these credentials",
+        "step1": "1. Visit developers.mixin.one",
+        "step2": "2. Create a new bot (costs $100 USD)",
+        "step3": "3. Copy your bot credentials from the dashboard"
       },
       "payment": {
         "title": "Complete Payment",
@@ -40,39 +70,112 @@
         "success": "Payment successful!"
       }
     },
-    "keys": {
-      "title": "Your Private Keys",
-      "subtitle": "Save these keys securely. You'll need them to access your instance.",
-      "warning": "Keep these keys safe! They cannot be recovered if lost.",
-      "copy": "Copy",
-      "copied": "Copied!"
+    "privateKey": {
+      "choice": {
+        "title": "Private Key Setup",
+        "subtitle": "Choose how you want to set up your private key",
+        "generate": {
+          "title": "Generate New Private Key",
+          "description": "Create a fresh Ed25519 private key. Recommended for new users.",
+          "button": "Generate Key"
+        },
+        "import": {
+          "title": "Import Existing Private Key",
+          "description": "Already have an Ed25519 private key? Import it securely.",
+          "button": "Import Key"
+        }
+      },
+      "generate": {
+        "title": "Generate Private Key",
+        "subtitle": "Generate a free Ed25519 private key for your instance",
+        "instructions": "Click the button below to generate a new private key",
+        "button": "Generate Private Key",
+        "label": "Your Ed25519 Private Key",
+        "helpText": "32 bytes (64 hex characters)",
+        "warningTitle": "⚠️ Important Security Notice",
+        "warningText": "Save this private key securely. It will be encrypted and stored in your local database. You will not be able to recover it if lost."
+      },
+      "import": {
+        "title": "Import Private Key",
+        "subtitle": "Use your existing Ed25519 private key",
+        "enterKey": "Enter Your Private Key",
+        "description": "Your key will be encrypted and stored securely",
+        "label": "Ed25519 Private Key",
+        "placeholder": "Enter your 64-character hex private key",
+        "invalidFormat": "Invalid key format. Must be 64 hex characters",
+        "validFormat": "✓ Valid Ed25519 key format",
+        "helpText": "32 bytes (64 hex characters)",
+        "confirmLabel": "Confirm Private Key",
+        "confirmPlaceholder": "Re-enter your private key",
+        "keysMismatch": "Keys do not match",
+        "keysMatch": "✓ Keys match",
+        "securityTitle": "Security Notice",
+        "securityBullet1": "• Never share your private key with anyone",
+        "securityBullet2": "• Make sure you have a backup before proceeding",
+        "securityBullet3": "• Your key will be encrypted before storage"
+      }
     },
     "addresses": {
       "title": "Derived Addresses",
-      "subtitle": "These addresses are derived from your private key"
+      "subtitlePrefix": "Addresses derived from your",
+      "mixinSpendKey": "Mixin spend key",
+      "importedPrivateKey": "imported private key",
+      "generatedPrivateKey": "generated private key",
+      "description": "These addresses will be used for your trading operations across different blockchains.",
+      "infoText": "💡 These addresses are deterministically derived and will always be the same for your private key."
     },
     "blockchain": {
-      "title": "Select Blockchains",
-      "subtitle": "Choose which blockchains you want to support"
+      "title": "Set up supported blockchains",
+      "subtitle": "Select the blockchains you want to support",
+      "validation": "Please select at least one blockchain to continue",
+      "chains": {
+        "ethereum": {
+          "name": "Ethereum",
+          "description": "Ethereum mainnet"
+        },
+        "solana": {
+          "name": "Solana",
+          "description": "Solana mainnet"
+        },
+        "bsc": {
+          "name": "Binance Smart Chain",
+          "description": "BSC mainnet"
+        },
+        "polygon": {
+          "name": "Polygon",
+          "description": "Polygon mainnet"
+        },
+        "arbitrum": {
+          "name": "Arbitrum",
+          "description": "Arbitrum One"
+        },
+        "optimism": {
+          "name": "Optimism",
+          "description": "Optimism mainnet"
+        }
+      }
     },
     "exchanges": {
-      "title": "Configure Exchanges",
-      "subtitle": "Add your exchange API credentials",
-      "add": "Add Exchange",
+      "title": "Set up exchanges and API Keys",
+      "subtitle": "Configure exchange API credentials for trading",
       "apiKey": "API Key",
+      "apiKeyPlaceholder": "Enter API key",
       "apiSecret": "API Secret",
-      "passphrase": "Passphrase (optional)"
+      "apiSecretPlaceholder": "Enter API secret",
+      "securityTitle": "⚠️ Security Notice",
+      "securityText": "API keys will be encrypted and stored in your local database. Never share these credentials.",
+      "validation": "Please configure at least one exchange to continue",
+      "completeSetup": "Complete Setup"
     },
     "complete": {
       "title": "Setup Complete!",
-      "subtitle": "Your instance is ready to deploy",
-      "details": "Instance Details",
-      "method": "Deployment Method",
-      "mixin": "Mixin Integration",
-      "blockchains": "Supported Blockchains",
-      "exchanges": "Configured Exchanges",
-      "enabled": "Enabled",
-      "disabled": "Disabled"
+      "description": "Your instance has been successfully configured. Data has been encrypted and stored in your local database.",
+      "nextSteps": "Next Steps",
+      "step1": "• Deploy your instance using the selected method",
+      "step2": "• Monitor your instance from the dashboard",
+      "step3": "• Configure additional strategies as needed",
+      "toDashboard": "Go to Dashboard",
+      "deployAnother": "Deploy Another Instance"
     }
   }
 }

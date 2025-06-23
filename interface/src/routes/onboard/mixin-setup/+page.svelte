@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { _ } from 'svelte-i18n';
 	import { page } from '$app/stores';
 	import { Card } from '$lib/components/ui/card';
 	import { Button } from '$lib/components/ui/button';
@@ -29,8 +30,8 @@
 	<div class="container mx-auto max-w-2xl px-4 py-16">
 		<!-- Header -->
 		<div class="text-center mb-12">
-			<h1 class="text-4xl font-bold mb-4">Mixin Bot Setup</h1>
-			<p class="text-xl text-muted-foreground font-light">Configure your Mixin bot credentials</p>
+			<h1 class="text-4xl font-bold mb-4">{$_('onboarding.mixin.setup.title')}</h1>
+			<p class="text-xl text-muted-foreground font-light">{$_('onboarding.mixin.setup.subtitle')}</p>
 		</div>
 
 		<!-- Progress Indicator -->
@@ -46,41 +47,41 @@
 		<Card class="p-8">
 			<div class="space-y-6">
 				<div>
-					<h2 class="text-2xl font-semibold mb-2">Bot Credentials</h2>
-					<p class="text-muted-foreground">Enter your Mixin bot information</p>
+					<h2 class="text-2xl font-semibold mb-2">{$_('onboarding.mixin.setup.botCredentials')}</h2>
+					<p class="text-muted-foreground">{$_('onboarding.mixin.setup.enterInfo')}</p>
 				</div>
 
 				<div class="space-y-4">
 					<div class="space-y-2">
-						<Label for="bot-id">Bot ID</Label>
+						<Label for="bot-id">{$_('onboarding.mixin.setup.botId')}</Label>
 						<Input 
 							id="bot-id"
 							type="text" 
-							placeholder="Enter your bot ID"
+							placeholder={$_('onboarding.mixin.setup.botIdPlaceholder')}
 							bind:value={botId}
 						/>
 					</div>
 
 					<div class="space-y-2">
-						<Label for="session-id">Session ID</Label>
+						<Label for="session-id">{$_('onboarding.mixin.setup.sessionId')}</Label>
 						<Input 
 							id="session-id"
 							type="text" 
-							placeholder="Enter your session ID"
+							placeholder={$_('onboarding.mixin.setup.sessionIdPlaceholder')}
 							bind:value={sessionId}
 						/>
 					</div>
 
 					<div class="space-y-2">
-						<Label for="spend-key">Spend Key</Label>
+						<Label for="spend-key">{$_('onboarding.mixin.setup.spendKey')}</Label>
 						<Input 
 							id="spend-key"
 							type="password" 
-							placeholder="Enter your spend key"
+							placeholder={$_('onboarding.mixin.setup.spendKeyPlaceholder')}
 							bind:value={spendKey}
 							class="font-mono"
 						/>
-						<p class="text-xs text-muted-foreground">Your spend key will be used to derive addresses and will be encrypted</p>
+						<p class="text-xs text-muted-foreground">{$_('onboarding.mixin.setup.spendKeyHelp')}</p>
 					</div>
 				</div>
 
@@ -90,11 +91,11 @@
 							<path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
 						</svg>
 						<div class="space-y-1">
-							<p class="text-sm font-medium text-blue-800 dark:text-blue-200">How to get these credentials</p>
+							<p class="text-sm font-medium text-blue-800 dark:text-blue-200">{$_('onboarding.mixin.setup.howToGet')}</p>
 							<ol class="text-sm text-blue-700 dark:text-blue-300 space-y-1">
-								<li>1. Visit <a href="https://developers.mixin.one" target="_blank" class="underline">developers.mixin.one</a></li>
-								<li>2. Create a new bot (costs $100 USD)</li>
-								<li>3. Copy your bot credentials from the dashboard</li>
+								<li>{$_('onboarding.mixin.setup.step1')}</li>
+								<li>{$_('onboarding.mixin.setup.step2')}</li>
+								<li>{$_('onboarding.mixin.setup.step3')}</li>
 							</ol>
 						</div>
 					</div>
@@ -107,14 +108,14 @@
 					<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
 					</svg>
-					Back
+					{$_('common.back')}
 				</Button>
 				<Button 
 					size="lg"
 					href={canContinue ? `/addresses?${nextParams}` : undefined}
 					disabled={!canContinue}
 				>
-					Continue
+					{$_('common.continue')}
 					<svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
 					</svg>
