@@ -60,7 +60,8 @@
 </div>
 
 <svelte:window onclick={(e) => {
-	if (showDropdown && !e.target?.closest('.relative')) {
+	const target = e.target as HTMLElement;
+	if (showDropdown && !target?.closest('.relative')) {
 		showDropdown = false;
 	}
 }} />

@@ -1,162 +1,139 @@
 <script lang="ts">
-	import { _ } from 'svelte-i18n';
-	import { page } from '$app/stores';
+	import { t } from 'svelte-i18n';
+	import { page } from '$app/state';
+	import { goto } from '$app/navigation';
 	import { Card } from '$lib/components/ui/card';
-	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
+	import { Info } from 'lucide-svelte';
+	import OnboardingLayout from '$lib/components/onboarding-layout.svelte';
 	
-	$: deploymentMethod = $page.url.searchParams.get('method');
+	let deploymentMethod = $derived(page.url.searchParams.get('method'));
 	
-	let botId = '';
-	let sessionId = '';
-	let spendKey = '';
-	let serverPublicKey = '';
-	let sessionPrivateKey = '';
-	let oauthSecret = '';
+	let botId = $state('');
+	let sessionId = $state('');
+	let spendKey = $state('');
+	let serverPublicKey = $state('');
+	let sessionPrivateKey = $state('');
+	let oauthSecret = $state('');
 	
-	$: nextParams = new URLSearchParams({
-		method: deploymentMethod || '',
-		keyMethod: 'mixin',
-		botId,
-		sessionId
-	});
+	let canContinue = $derived(botId && sessionId && spendKey && serverPublicKey && sessionPrivateKey && oauthSecret);
 	
-	$: backParams = new URLSearchParams({
-		method: deploymentMethod || ''
-	});
+	function handleNext() {
+		const params = new URLSearchParams({
+			method: deploymentMethod || '',
+			keyMethod: 'mixin',
+			botId,
+			sessionId
+		});
+		goto(`/addresses?${params}`);
+	}
 	
-	$: canContinue = botId && sessionId && spendKey && serverPublicKey && sessionPrivateKey && oauthSecret;
+	function handleBack() {
+		const params = new URLSearchParams({
+			method: deploymentMethod || ''
+		});
+		goto(`/onboard?${params}`);
+	}
 </script>
 
-<div class="min-h-screen bg-gradient-to-b from-background to-muted/20">
-	<div class="container mx-auto max-w-2xl px-4 py-16">
-		<!-- Header -->
-		<div class="text-center mb-12">
-			<h1 class="text-4xl font-bold mb-4">{$_('onboarding.mixin.setup.title')}</h1>
-			<p class="text-xl text-muted-foreground font-light">{$_('onboarding.mixin.setup.subtitle')}</p>
-		</div>
-
-		<!-- Progress Indicator -->
-		<div class="flex justify-center mb-12">
-			<div class="flex items-center space-x-2">
-				<div class="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold">2</div>
-				<div class="w-24 h-1 bg-primary"></div>
-				<div class="w-10 h-10 rounded-full bg-muted text-muted-foreground flex items-center justify-center font-semibold">3</div>
+<OnboardingLayout
+	title={$t('onboarding.mixin.setup.title')}
+	subtitle={$t('onboarding.mixin.setup.subtitle')}
+	currentStep={2}
+	totalSteps={3}
+	onNext={handleNext}
+	nextDisabled={!canContinue}
+	backUrl="/onboard?method={deploymentMethod || ''}"
+	nextLabel={$t('common.continue')}
+>
+	<Card class="max-w-3xl mx-auto p-8">
+		<div class="space-y-6">
+			<div>
+				<h2 class="text-2xl font-semibold mb-2">{$t('onboarding.mixin.setup.botCredentials')}</h2>
+				<p class="text-muted-foreground">{$t('onboarding.mixin.setup.enterInfo')}</p>
 			</div>
-		</div>
 
-		<!-- Main Content -->
-		<Card class="p-8">
-			<div class="space-y-6">
-				<div>
-					<h2 class="text-2xl font-semibold mb-2">{$_('onboarding.mixin.setup.botCredentials')}</h2>
-					<p class="text-muted-foreground">{$_('onboarding.mixin.setup.enterInfo')}</p>
+			<div class="space-y-4">
+				<div class="space-y-2">
+					<Label for="bot-id">{$t('onboarding.mixin.setup.botId')}</Label>
+					<Input 
+						id="bot-id"
+						type="text" 
+						placeholder={$t('onboarding.mixin.setup.botIdPlaceholder')}
+						bind:value={botId}
+					/>
 				</div>
 
-				<div class="space-y-4">
-					<div class="space-y-2">
-						<Label for="bot-id">{$_('onboarding.mixin.setup.botId')}</Label>
-						<Input 
-							id="bot-id"
-							type="text" 
-							placeholder={$_('onboarding.mixin.setup.botIdPlaceholder')}
-							bind:value={botId}
-						/>
-					</div>
-
-					<div class="space-y-2">
-						<Label for="session-id">{$_('onboarding.mixin.setup.sessionId')}</Label>
-						<Input 
-							id="session-id"
-							type="text" 
-							placeholder={$_('onboarding.mixin.setup.sessionIdPlaceholder')}
-							bind:value={sessionId}
-						/>
-					</div>
-
-					<div class="space-y-2">
-						<Label for="server-public-key">{$_('onboarding.mixin.setup.serverPublicKey')}</Label>
-						<Input 
-							id="server-public-key"
-							type="text" 
-							placeholder={$_('onboarding.mixin.setup.serverPublicKeyPlaceholder')}
-							bind:value={serverPublicKey}
-							class="font-mono"
-						/>
-					</div>
-
-					<div class="space-y-2">
-						<Label for="session-private-key">{$_('onboarding.mixin.setup.sessionPrivateKey')}</Label>
-						<Input 
-							id="session-private-key"
-							type="password" 
-							placeholder={$_('onboarding.mixin.setup.sessionPrivateKeyPlaceholder')}
-							bind:value={sessionPrivateKey}
-							class="font-mono"
-						/>
-					</div>
-
-					<div class="space-y-2">
-						<Label for="oauth-secret">{$_('onboarding.mixin.setup.oauthSecret')}</Label>
-						<Input 
-							id="oauth-secret"
-							type="password" 
-							placeholder={$_('onboarding.mixin.setup.oauthSecretPlaceholder')}
-							bind:value={oauthSecret}
-							class="font-mono"
-						/>
-					</div>
-
-					<div class="space-y-2">
-						<Label for="spend-key">{$_('onboarding.mixin.setup.spendKey')}</Label>
-						<Input 
-							id="spend-key"
-							type="password" 
-							placeholder={$_('onboarding.mixin.setup.spendKeyPlaceholder')}
-							bind:value={spendKey}
-							class="font-mono"
-						/>
-						<p class="text-xs text-muted-foreground">{$_('onboarding.mixin.setup.spendKeyHelp')}</p>
-					</div>
+				<div class="space-y-2">
+					<Label for="session-id">{$t('onboarding.mixin.setup.sessionId')}</Label>
+					<Input 
+						id="session-id"
+						type="text" 
+						placeholder={$t('onboarding.mixin.setup.sessionIdPlaceholder')}
+						bind:value={sessionId}
+					/>
 				</div>
 
-				<Card class="p-4 bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800">
-					<div class="flex items-start space-x-3">
-						<svg class="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-							<path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
-						</svg>
-						<div class="space-y-1">
-							<p class="text-sm font-medium text-blue-800 dark:text-blue-200">{$_('onboarding.mixin.setup.howToGet')}</p>
-							<ol class="text-sm text-blue-700 dark:text-blue-300 space-y-1">
-								<li>1. Visit <a href="https://developers.mixin.one/dashboard" target="_blank" rel="noopener noreferrer" class="underline hover:text-blue-800 dark:hover:text-blue-200">developers.mixin.one/dashboard</a></li>
-								<li>{$_('onboarding.mixin.setup.step2')}</li>
-								<li>{$_('onboarding.mixin.setup.step3')}</li>
-							</ol>
-						</div>
-					</div>
-				</Card>
+				<div class="space-y-2">
+					<Label for="server-public-key">{$t('onboarding.mixin.setup.serverPublicKey')}</Label>
+					<Input 
+						id="server-public-key"
+						type="text" 
+						placeholder={$t('onboarding.mixin.setup.serverPublicKeyPlaceholder')}
+						bind:value={serverPublicKey}
+						class="font-mono"
+					/>
+				</div>
+
+				<div class="space-y-2">
+					<Label for="session-private-key">{$t('onboarding.mixin.setup.sessionPrivateKey')}</Label>
+					<Input 
+						id="session-private-key"
+						type="password" 
+						placeholder={$t('onboarding.mixin.setup.sessionPrivateKeyPlaceholder')}
+						bind:value={sessionPrivateKey}
+						class="font-mono"
+					/>
+				</div>
+
+				<div class="space-y-2">
+					<Label for="oauth-secret">{$t('onboarding.mixin.setup.oauthSecret')}</Label>
+					<Input 
+						id="oauth-secret"
+						type="password" 
+						placeholder={$t('onboarding.mixin.setup.oauthSecretPlaceholder')}
+						bind:value={oauthSecret}
+						class="font-mono"
+					/>
+				</div>
+
+				<div class="space-y-2">
+					<Label for="spend-key">{$t('onboarding.mixin.setup.spendKey')}</Label>
+					<Input 
+						id="spend-key"
+						type="password" 
+						placeholder={$t('onboarding.mixin.setup.spendKeyPlaceholder')}
+						bind:value={spendKey}
+						class="font-mono"
+					/>
+					<p class="text-xs text-muted-foreground">{$t('onboarding.mixin.setup.spendKeyHelp')}</p>
+				</div>
 			</div>
 
-			<!-- Actions -->
-			<div class="flex justify-between pt-8">
-				<Button variant="outline" size="lg" href="/onboard?{backParams}">
-					<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-					</svg>
-					{$_('common.back')}
-				</Button>
-				<Button 
-					size="lg"
-					href={canContinue ? `/addresses?${nextParams}` : undefined}
-					disabled={!canContinue}
-				>
-					{$_('common.continue')}
-					<svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-					</svg>
-				</Button>
-			</div>
-		</Card>
-	</div>
-</div>
+			<Card class="p-4 bg-blue-50 dark:bg-blue-950/20 border-blue-200 dark:border-blue-800">
+				<div class="flex items-start space-x-3">
+					<Info class="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" />
+					<div class="space-y-1">
+						<p class="text-sm font-medium text-blue-800 dark:text-blue-200">{$t('onboarding.mixin.setup.howToGet')}</p>
+						<ol class="text-sm text-blue-700 dark:text-blue-300 space-y-1">
+							<li>1. Visit <a href="https://developers.mixin.one/dashboard" target="_blank" rel="noopener noreferrer" class="underline hover:text-blue-800 dark:hover:text-blue-200">developers.mixin.one/dashboard</a></li>
+							<li>{$t('onboarding.mixin.setup.step2')}</li>
+							<li>{$t('onboarding.mixin.setup.step3')}</li>
+						</ol>
+					</div>
+				</div>
+			</Card>
+		</div>
+	</Card>
+</OnboardingLayout>

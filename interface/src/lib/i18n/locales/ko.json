@@ -15,7 +15,8 @@
     "search": "검색",
     "filter": "필터",
     "sort": "정렬",
-    "refresh": "새로고침"
+    "refresh": "새로고침",
+    "step": "단계"
   },
   "leaderboard": {
     "title": "인스턴스 리더보드",

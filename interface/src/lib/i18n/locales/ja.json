@@ -15,7 +15,8 @@
     "search": "検索",
     "filter": "フィルター",
     "sort": "並び替え",
-    "refresh": "更新"
+    "refresh": "更新",
+    "step": "ステップ"
   },
   "leaderboard": {
     "title": "インスタンスリーダーボード",

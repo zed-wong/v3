@@ -1,148 +1,178 @@
 {
   "common": {
-    "language": "Language",
-    "loading": "Loading...",
-    "error": "Error",
-    "success": "Success",
-    "cancel": "Cancel",
-    "confirm": "Confirm",
-    "save": "Save",
-    "delete": "Delete",
-    "edit": "Edit",
-    "back": "Back",
     "next": "Next",
-    "previous": "Previous",
-    "search": "Search",
-    "filter": "Filter",
-    "sort": "Sort",
-    "refresh": "Refresh",
-    "recommended": "Recommended",
-    "continue": "Continue"
-  },
-  "leaderboard": {
-    "title": "Instance Leaderboard",
-    "description": "Browse and compare all running instances",
-    "columns": {
-      "rank": "Rank",
-      "instance": "Instance",
-      "rating": "Rating",
-      "volume": "Volume (24h)",
-      "uptime": "Uptime",
-      "strategies": "Strategies",
-      "performance": "Performance",
-      "fees": "Fees",
-      "status": "Status"
-    },
-    "status": {
-      "active": "Active",
-      "inactive": "Inactive",
-      "maintenance": "Maintenance"
-    },
-    "filters": {
-      "all": "All Instances",
-      "active": "Active Only",
-      "highVolume": "High Volume",
-      "topRated": "Top Rated"
-    },
-    "details": {
-      "viewDetails": "View Details",
-      "connect": "Connect",
-      "statistics": "Statistics",
-      "about": "About"
-    }
+    "back": "Back",
+    "continue": "Continue",
+    "finish": "Finish",
+    "skip": "Skip",
+    "copy": "Copy",
+    "copied": "Copied!",
+    "generate": "Generate",
+    "import": "Import",
+    "enable": "Enable",
+    "enabled": "Enabled",
+    "disabled": "Disabled",
+    "recommended": "Recommended"
   },
   "onboarding": {
     "welcome": {
-      "title": "Welcome to MrMarket V3",
-      "subtitle": "Let's set up your market making instance",
-      "start": "Get Started"
+      "title": "Welcome to Your Instance Setup",
+      "subtitle": "Let's configure your deployment in just a few steps",
+      "keyMethod": "Choose Your Key Method"
     },
     "deployment": {
       "title": "Choose Your Deployment Method",
-      "subtitle": "Select how you want to deploy your instance",
+      "subtitle": "Select how you'd like to deploy your instance",
       "serverless": {
         "title": "Serverless Deployment",
-        "description": "Deploy to cloud platforms like Vercel or Netlify"
+        "description": "Deploy using serverless functions like AWS Lambda or Vercel Functions. Best for low-maintenance and auto-scaling needs."
       },
       "docker": {
-        "title": "Docker Container",
-        "description": "Run in a containerized environment"
+        "title": "Docker Deployment",
+        "description": "Deploy using Docker containers. Ideal for self-hosted environments and maximum control."
       },
       "script": {
-        "title": "Install Script",
-        "description": "Quick setup with our installation script"
+        "title": "Script Deployment",
+        "description": "Deploy using custom scripts. Perfect for advanced users who need full customization."
       }
     },
     "mixin": {
-      "title": "Mixin Integration",
-      "subtitle": "Do you want to integrate with Mixin Network?",
-      "yes": "Yes, integrate Mixin",
-      "no": "No, continue without Mixin",
-      "fee": "Requires $100 one-time Mixin bot creation fee",
-      "benefits": {
-        "title": "Benefits of Mixin Integration",
-        "instant": "Instant settlements",
-        "low_fees": "Low transaction fees",
-        "multi_chain": "Multi-chain support"
+      "enable": {
+        "title": "Enable Mixin Integration",
+        "description": "Unlock professional features with Mixin's secure infrastructure",
+        "note": "Requires $100 one-time Mixin bot creation fee"
+      },
+      "disable": {
+        "title": "Use Private Key",
+        "description": "Generate a new Ed25519 private key or import an existing one"
       },
       "setup": {
         "title": "Mixin Bot Setup",
         "subtitle": "Configure your Mixin bot credentials",
         "botCredentials": "Bot Credentials",
-        "enterInfo": "Enter your Mixin bot information below",
+        "enterInfo": "Enter your Mixin bot information",
         "botId": "Bot ID",
-        "botIdPlaceholder": "Enter your Mixin bot ID",
+        "botIdPlaceholder": "Enter your bot ID",
         "sessionId": "Session ID",
         "sessionIdPlaceholder": "Enter your session ID",
         "spendKey": "Spend Key",
         "spendKeyPlaceholder": "Enter your spend key",
-        "spendKeyHelp": "Your spend key is required for transaction signing",
-        "howToGet": "How to get these credentials:",
-        "step1": "1. Visit developers.mixin.one/dashboard",
-        "step2": "2. Create a new bot or select existing one",
-        "step3": "3. Copy the Bot ID, Session ID, and Spend Key"
+        "spendKeyHelp": "Your spend key will be used to derive addresses and will be encrypted",
+        "serverPublicKey": "Server Public Key",
+        "serverPublicKeyPlaceholder": "Enter your server public key",
+        "sessionPrivateKey": "Session Private Key",
+        "sessionPrivateKeyPlaceholder": "Enter your session private key",
+        "oauthSecret": "OAuth Secret",
+        "oauthSecretPlaceholder": "Enter your OAuth secret",
+        "howToGet": "How to get these credentials",
+        "step1": "1. Visit developers.mixin.one",
+        "step2": "2. Create a new bot (costs $100 USD)",
+        "step3": "3. Copy your bot credentials from the dashboard"
+      },
+      "payment": {
+        "title": "Complete Payment",
+        "subtitle": "Scan the QR code with Mixin Messenger to complete payment",
+        "processing": "Processing payment...",
+        "success": "Payment successful!"
       }
     },
     "privateKey": {
-      "title": "Private Key Setup",
-      "subtitle": "Choose how to handle your private key",
-      "generate": "Generate New Key",
-      "import": "Import Existing Key",
-      "warning": "Keep your private key secure and never share it"
+      "choice": {
+        "title": "Private Key Setup",
+        "subtitle": "Choose how you want to set up your private key",
+        "generate": {
+          "title": "Generate New Private Key",
+          "description": "Create a fresh Ed25519 private key. Recommended for new users.",
+          "button": "Generate Key"
+        },
+        "import": {
+          "title": "Import Existing Private Key",
+          "description": "Already have an Ed25519 private key? Import it securely.",
+          "button": "Import Key"
+        }
+      },
+      "generate": {
+        "title": "Generate Private Key",
+        "subtitle": "Generate a free Ed25519 private key for your instance",
+        "instructions": "Click the button below to generate a new private key",
+        "button": "Generate Private Key",
+        "label": "Your Ed25519 Private Key",
+        "helpText": "32 bytes (64 hex characters)",
+        "warningTitle": "⚠️ Important Security Notice",
+        "warningText": "Save this private key securely. It will be encrypted and stored in your local database. You will not be able to recover it if lost."
+      },
+      "import": {
+        "title": "Import Private Key",
+        "subtitle": "Use your existing Ed25519 private key",
+        "enterKey": "Enter Your Private Key",
+        "description": "Your key will be encrypted and stored securely",
+        "label": "Ed25519 Private Key",
+        "placeholder": "Enter your 64-character hex private key",
+        "invalidFormat": "Invalid key format. Must be 64 hex characters",
+        "validFormat": "✓ Valid Ed25519 key format",
+        "helpText": "32 bytes (64 hex characters)",
+        "confirmLabel": "Confirm Private Key",
+        "confirmPlaceholder": "Re-enter your private key",
+        "keysMismatch": "Keys do not match",
+        "keysMatch": "✓ Keys match",
+        "securityTitle": "Security Notice",
+        "securityBullet1": "• Never share your private key with anyone",
+        "securityBullet2": "• Make sure you have a backup before proceeding",
+        "securityBullet3": "• Your key will be encrypted before storage"
+      }
     },
-    "blockchains": {
-      "title": "Select Blockchains",
-      "subtitle": "Choose which blockchains to support",
-      "selected": "{count} selected"
+    "blockchain": {
+      "title": "Set up supported blockchains",
+      "subtitle": "Select the blockchains you want to support",
+      "validation": "Please select at least one blockchain to continue",
+      "chains": {
+        "ethereum": {
+          "name": "Ethereum",
+          "description": "Ethereum mainnet"
+        },
+        "solana": {
+          "name": "Solana",
+          "description": "Solana mainnet"
+        },
+        "bsc": {
+          "name": "Binance Smart Chain",
+          "description": "BSC mainnet"
+        },
+        "polygon": {
+          "name": "Polygon",
+          "description": "Polygon mainnet"
+        },
+        "arbitrum": {
+          "name": "Arbitrum",
+          "description": "Arbitrum One"
+        },
+        "optimism": {
+          "name": "Optimism",
+          "description": "Optimism mainnet"
+        }
+      }
     },
     "exchanges": {
-      "title": "Configure Exchanges",
-      "subtitle": "Add your exchange API credentials",
-      "addExchange": "Add Exchange",
+      "title": "Set up exchanges and API Keys",
+      "subtitle": "Configure exchange API credentials for trading",
       "apiKey": "API Key",
+      "apiKeyPlaceholder": "Enter API key",
       "apiSecret": "API Secret",
-      "testConnection": "Test Connection"
+      "apiSecretPlaceholder": "Enter API secret",
+      "securityTitle": "⚠️ Security Notice",
+      "securityText": "API keys will be encrypted and stored in your local database. Never share these credentials.",
+      "validation": "Please configure at least one exchange to continue",
+      "completeSetup": "Complete Setup"
     },
     "complete": {
       "title": "Setup Complete!",
-      "subtitle": "Your instance is ready to deploy",
-      "summary": "Setup Summary",
-      "deploy": "Deploy Instance",
-      "configure": "Additional Configuration"
+      "description": "Your instance has been successfully configured. Data has been encrypted and stored in your local database.",
+      "nextSteps": "Next Steps",
+      "step1": "• Deploy your instance using the selected method",
+      "step2": "• Monitor your instance from the dashboard",
+      "step3": "• Configure additional strategies as needed",
+      "toDashboard": "Go to Dashboard",
+      "deployAnother": "Deploy Another Instance"
     }
-  },
-  "navigation": {
-    "home": "Home",
-    "leaderboard": "Leaderboard",
-    "instances": "My Instances",
-    "settings": "Settings",
-    "docs": "Documentation",
-    "support": "Support"
-  },
-  "footer": {
-    "copyright": "© 2024 MrMarket V3. All rights reserved.",
-    "privacy": "Privacy Policy",
-    "terms": "Terms of Service",
-    "github": "GitHub"
   }
 }

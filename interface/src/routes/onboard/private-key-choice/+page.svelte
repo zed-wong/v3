@@ -1,101 +1,89 @@
 <script lang="ts">
-	import { _ } from 'svelte-i18n';
-	import { page } from '$app/stores';
+	import { t } from 'svelte-i18n';
+	import { page } from '$app/state';
+	import { goto } from '$app/navigation';
 	import { Card } from '$lib/components/ui/card';
-	import { Button } from '$lib/components/ui/button';
+	import { RadioGroup, RadioGroupItem } from '$lib/components/ui/radio-group/index.js';
+	import { Key, Upload } from 'lucide-svelte';
+	import OnboardingLayout from '$lib/components/onboarding-layout.svelte';
+
+	let keyOption = $state('generate');
 	
-	$: deploymentMethod = $page.url.searchParams.get('method');
-	
-	$: backParams = new URLSearchParams({
-		method: deploymentMethod || ''
-	});
-	
-	$: keyParams = new URLSearchParams({
-		method: deploymentMethod || '',
-		keyMethod: 'privatekey'
-	});
+	let deploymentMethod = $derived(page.url.searchParams.get('method'));
+
+	function handleNext() {
+		const params = new URLSearchParams({
+			method: deploymentMethod || '',
+			keyMethod: 'privatekey'
+		});
+		
+		if (keyOption === 'generate') {
+			goto(`/onboard/private-key?${params}`);
+		} else {
+			goto(`/onboard/import-key?${params}`);
+		}
+	}
+
+	function handleBack() {
+		const params = new URLSearchParams({
+			method: deploymentMethod || ''
+		});
+		goto(`/onboard?${params}`);
+	}
 </script>
 
-<div class="min-h-screen bg-gradient-to-b from-background to-muted/20">
-	<div class="container mx-auto max-w-2xl px-4 py-16">
-		<!-- Header -->
-		<div class="text-center mb-12">
-			<h1 class="text-4xl font-bold mb-4">{$_('onboarding.privateKey.choice.title')}</h1>
-			<p class="text-xl text-muted-foreground font-light">{$_('onboarding.privateKey.choice.subtitle')}</p>
-		</div>
-
-		<!-- Progress Indicator -->
-		<div class="flex justify-center mb-12">
-			<div class="flex items-center space-x-2">
-				<div class="w-10 h-10 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-semibold">2</div>
-				<div class="w-24 h-1 bg-primary"></div>
-				<div class="w-10 h-10 rounded-full bg-muted text-muted-foreground flex items-center justify-center font-semibold">3</div>
-			</div>
-		</div>
-
-		<!-- Main Content -->
-		<div class="space-y-4">
-			<Card 
-				class="p-6 cursor-pointer transition-all hover:border-primary hover:shadow-md"
+<OnboardingLayout
+	title={$t('onboarding.privateKey.choice.title')}
+	subtitle={$t('onboarding.privateKey.choice.subtitle')}
+	currentStep={2}
+	totalSteps={3}
+	onNext={handleNext}
+	backUrl="/onboard?method={deploymentMethod || ''}"
+>
+	<Card class="max-w-3xl mx-auto p-8">
+		<RadioGroup bind:value={keyOption} class="space-y-4">
+			<label 
+				class="flex items-start space-x-4 p-4 rounded-lg border-2 transition-all cursor-pointer hover:border-primary/50 {keyOption === 'generate' ? 'border-primary bg-primary/5' : 'border-border'}"
+				for="r-generate"
 			>
-				<div class="flex items-start space-x-4">
-					<div class="w-12 h-12 rounded-lg bg-blue-100 dark:bg-blue-900/20 flex items-center justify-center flex-shrink-0">
-						<svg class="w-6 h-6 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
-						</svg>
+				<RadioGroupItem value="generate" id="r-generate" class="mt-1" />
+				<div class="flex-1">
+					<div class="flex items-center space-x-2">
+						<Key class="w-5 h-5 text-primary" />
+						<span class="font-semibold text-lg">{$t('onboarding.privateKey.choice.generate.title')}</span>
 					</div>
-					<div class="flex-1">
-						<h3 class="text-lg font-semibold mb-1">{$_('onboarding.privateKey.choice.generate.title')}</h3>
-						<p class="text-sm text-muted-foreground">
-							{$_('onboarding.privateKey.choice.generate.description')}
-						</p>
-						<div class="mt-3">
-							<Button variant="outline" size="sm" href="/onboard/private-key?{keyParams}">
-								{$_('onboarding.privateKey.choice.generate.button')}
-								<svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-								</svg>
-							</Button>
-						</div>
-					</div>
+					<p class="text-sm text-muted-foreground mt-1">
+						{$t('onboarding.privateKey.choice.generate.description')}
+					</p>
 				</div>
-			</Card>
+			</label>
 
-			<Card 
-				class="p-6 cursor-pointer transition-all hover:border-primary hover:shadow-md"
+			<label 
+				class="flex items-start space-x-4 p-4 rounded-lg border-2 transition-all cursor-pointer hover:border-primary/50 {keyOption === 'import' ? 'border-primary bg-primary/5' : 'border-border'}"
+				for="r-import"
 			>
-				<div class="flex items-start space-x-4">
-					<div class="w-12 h-12 rounded-lg bg-purple-100 dark:bg-purple-900/20 flex items-center justify-center flex-shrink-0">
-						<svg class="w-6 h-6 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
-						</svg>
+				<RadioGroupItem value="import" id="r-import" class="mt-1" />
+				<div class="flex-1">
+					<div class="flex items-center space-x-2">
+						<Upload class="w-5 h-5 text-primary" />
+						<span class="font-semibold text-lg">{$t('onboarding.privateKey.choice.import.title')}</span>
 					</div>
-					<div class="flex-1">
-						<h3 class="text-lg font-semibold mb-1">{$_('onboarding.privateKey.choice.import.title')}</h3>
-						<p class="text-sm text-muted-foreground">
-							{$_('onboarding.privateKey.choice.import.description')}
-						</p>
-						<div class="mt-3">
-							<Button variant="outline" size="sm" href="/onboard/import-key?{keyParams}">
-								{$_('onboarding.privateKey.choice.import.button')}
-								<svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-								</svg>
-							</Button>
-						</div>
-					</div>
+					<p class="text-sm text-muted-foreground mt-1">
+						{$t('onboarding.privateKey.choice.import.description')}
+					</p>
 				</div>
-			</Card>
-		</div>
+			</label>
+		</RadioGroup>
 
-		<!-- Actions -->
-		<div class="flex justify-start pt-8">
-			<Button variant="outline" size="lg" href="/onboard?{backParams}">
-				<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+		<Card class="mt-6 p-4 bg-amber-50 dark:bg-amber-950/20 border-amber-200 dark:border-amber-800">
+			<div class="flex items-start space-x-3">
+				<svg class="w-5 h-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+					<path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
 				</svg>
-				{$_('common.back')}
-			</Button>
-		</div>
-	</div>
-</div>
+				<p class="text-sm text-amber-800 dark:text-amber-200">
+					{$t('onboarding.privateKey.generate.warningTitle')}
+				</p>
+			</div>
+		</Card>
+	</Card>
+</OnboardingLayout>

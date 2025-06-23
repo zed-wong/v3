@@ -1,130 +1,179 @@
 {
   "common": {
-    "language": "语言",
-    "loading": "加载中...",
-    "error": "错误",
-    "success": "成功",
-    "cancel": "取消",
-    "confirm": "确认",
-    "save": "保存",
-    "delete": "删除",
-    "edit": "编辑",
-    "back": "返回",
     "next": "下一步",
-    "previous": "上一步",
-    "search": "搜索",
-    "filter": "筛选",
-    "sort": "排序",
-    "refresh": "刷新",
-    "recommended": "推荐"
-  },
-  "leaderboard": {
-    "title": "实例排行榜",
-    "description": "浏览并比较所有运行中的实例",
-    "columns": {
-      "rank": "排名",
-      "instance": "实例",
-      "rating": "评分",
-      "volume": "成交量 (24小时)",
-      "uptime": "运行时间",
-      "strategies": "策略",
-      "performance": "表现",
-      "fees": "费用",
-      "status": "状态"
-    },
-    "status": {
-      "active": "活跃",
-      "inactive": "非活跃",
-      "maintenance": "维护中"
-    },
-    "filters": {
-      "all": "所有实例",
-      "active": "仅活跃",
-      "highVolume": "高成交量",
-      "topRated": "高评分"
-    },
-    "details": {
-      "viewDetails": "查看详情",
-      "connect": "连接",
-      "statistics": "统计",
-      "about": "关于"
-    }
+    "back": "返回",
+    "continue": "继续",
+    "finish": "完成",
+    "skip": "跳过",
+    "copy": "复制",
+    "copied": "已复制！",
+    "generate": "生成",
+    "import": "导入",
+    "enable": "启用",
+    "enabled": "已启用",
+    "disabled": "已禁用",
+    "recommended": "推荐",
+    "step": "步骤"
   },
   "onboarding": {
     "welcome": {
-      "title": "欢迎使用 MrMarket V3",
-      "subtitle": "让我们设置您的做市实例",
-      "start": "开始设置"
+      "title": "欢迎设置您的实例",
+      "subtitle": "只需几步即可配置您的部署",
+      "keyMethod": "选择密钥方式"
     },
     "deployment": {
       "title": "选择部署方式",
       "subtitle": "选择您想要部署实例的方式",
       "serverless": {
         "title": "无服务器部署",
-        "description": "部署到 Vercel 或 Netlify 等云平台"
+        "description": "使用 AWS Lambda 或 Vercel Functions 等无服务器函数部署。适合低维护和自动扩展需求。"
       },
       "docker": {
-        "title": "Docker 容器",
-        "description": "在容器化环境中运行"
+        "title": "Docker 部署",
+        "description": "使用 Docker 容器部署。适合自托管环境和需要最大控制权的场景。"
       },
       "script": {
-        "title": "安装脚本",
-        "description": "使用我们的安装脚本快速设置"
+        "title": "脚本部署",
+        "description": "使用自定义脚本部署。适合需要完全自定义的高级用户。"
       }
     },
     "mixin": {
-      "title": "Mixin 集成",
-      "subtitle": "您想要集成 Mixin 网络吗？",
-      "yes": "是的，集成 Mixin",
-      "no": "不，继续不使用 Mixin",
-      "fee": "需要 $100 一次性 Mixin 机器人创建费用",
-      "benefits": {
-        "title": "Mixin 集成的优势",
-        "instant": "即时结算",
-        "low_fees": "低交易费用",
-        "multi_chain": "多链支持"
+      "enable": {
+        "title": "启用 Mixin 集成",
+        "description": "通过 Mixin 的安全基础设施解锁专业功能",
+        "note": "需要 $100 一次性 Mixin 机器人创建费用"
+      },
+      "disable": {
+        "title": "使用私钥",
+        "description": "生成新的 Ed25519 私钥或导入现有私钥"
+      },
+      "setup": {
+        "title": "Mixin 机器人设置",
+        "subtitle": "配置您的 Mixin 机器人凭证",
+        "botCredentials": "机器人凭证",
+        "enterInfo": "输入您的 Mixin 机器人信息",
+        "botId": "机器人 ID",
+        "botIdPlaceholder": "输入您的机器人 ID",
+        "sessionId": "会话 ID",
+        "sessionIdPlaceholder": "输入您的会话 ID",
+        "spendKey": "支付密钥",
+        "spendKeyPlaceholder": "输入您的支付密钥",
+        "spendKeyHelp": "您的支付密钥将用于派生地址并将被加密",
+        "serverPublicKey": "服务器公钥",
+        "serverPublicKeyPlaceholder": "输入您的服务器公钥",
+        "sessionPrivateKey": "会话私钥",
+        "sessionPrivateKeyPlaceholder": "输入您的会话私钥",
+        "oauthSecret": "OAuth 密钥",
+        "oauthSecretPlaceholder": "输入您的 OAuth 密钥",
+        "howToGet": "如何获取这些凭证",
+        "step1": "1. 访问 developers.mixin.one",
+        "step2": "2. 创建新机器人（需要 $100 美元）",
+        "step3": "3. 从控制台复制您的机器人凭证"
+      },
+      "payment": {
+        "title": "完成支付",
+        "subtitle": "使用 Mixin Messenger 扫描二维码完成支付",
+        "processing": "正在处理支付...",
+        "success": "支付成功！"
       }
     },
     "privateKey": {
-      "title": "私钥设置",
-      "subtitle": "选择如何处理您的私钥",
-      "generate": "生成新密钥",
-      "import": "导入现有密钥",
-      "warning": "请保管好您的私钥，切勿与他人分享"
+      "choice": {
+        "title": "私钥设置",
+        "subtitle": "选择如何设置您的私钥",
+        "generate": {
+          "title": "生成新私钥",
+          "description": "创建全新的 Ed25519 私钥。推荐新用户使用。",
+          "button": "生成密钥"
+        },
+        "import": {
+          "title": "导入现有私钥",
+          "description": "已有 Ed25519 私钥？安全导入。",
+          "button": "导入密钥"
+        }
+      },
+      "generate": {
+        "title": "生成私钥",
+        "subtitle": "为您的实例生成免费的 Ed25519 私钥",
+        "instructions": "点击下面的按钮生成新私钥",
+        "button": "生成私钥",
+        "label": "您的 Ed25519 私钥",
+        "helpText": "32 字节（64 个十六进制字符）",
+        "warningTitle": "⚠️ 重要安全提示",
+        "warningText": "请安全保存此私钥。它将被加密并存储在您的本地数据库中。如果丢失将无法恢复。"
+      },
+      "import": {
+        "title": "导入私钥",
+        "subtitle": "使用您现有的 Ed25519 私钥",
+        "enterKey": "输入您的私钥",
+        "description": "您的密钥将被加密并安全存储",
+        "label": "Ed25519 私钥",
+        "placeholder": "输入您的 64 字符十六进制私钥",
+        "invalidFormat": "密钥格式无效。必须是 64 个十六进制字符",
+        "validFormat": "✓ 有效的 Ed25519 密钥格式",
+        "helpText": "32 字节（64 个十六进制字符）",
+        "confirmLabel": "确认私钥",
+        "confirmPlaceholder": "重新输入您的私钥",
+        "keysMismatch": "密钥不匹配",
+        "keysMatch": "✓ 密钥匹配",
+        "securityTitle": "安全提示",
+        "securityBullet1": "• 切勿与任何人分享您的私钥",
+        "securityBullet2": "• 继续之前请确保您有备份",
+        "securityBullet3": "• 您的密钥将在存储前被加密"
+      }
     },
-    "blockchains": {
-      "title": "选择区块链",
-      "subtitle": "选择要支持的区块链",
-      "selected": "已选择 {count} 个"
+    "blockchain": {
+      "title": "设置支持的区块链",
+      "subtitle": "选择您要支持的区块链",
+      "validation": "请至少选择一个区块链以继续",
+      "chains": {
+        "ethereum": {
+          "name": "以太坊",
+          "description": "以太坊主网"
+        },
+        "solana": {
+          "name": "Solana",
+          "description": "Solana 主网"
+        },
+        "bsc": {
+          "name": "币安智能链",
+          "description": "BSC 主网"
+        },
+        "polygon": {
+          "name": "Polygon",
+          "description": "Polygon 主网"
+        },
+        "arbitrum": {
+          "name": "Arbitrum",
+          "description": "Arbitrum One"
+        },
+        "optimism": {
+          "name": "Optimism",
+          "description": "Optimism 主网"
+        }
+      }
     },
     "exchanges": {
-      "title": "配置交易所",
-      "subtitle": "添加您的交易所 API 凭证",
-      "addExchange": "添加交易所",
+      "title": "设置交易所和 API 密钥",
+      "subtitle": "配置交易所 API 凭证进行交易",
       "apiKey": "API 密钥",
-      "apiSecret": "API 密码",
-      "testConnection": "测试连接"
+      "apiKeyPlaceholder": "输入 API 密钥",
+      "apiSecret": "API 密钥",
+      "apiSecretPlaceholder": "输入 API 密钥",
+      "securityTitle": "⚠️ 安全提示",
+      "securityText": "API 密钥将被加密并存储在您的本地数据库中。切勿分享这些凭证。",
+      "validation": "请至少配置一个交易所以继续",
+      "completeSetup": "完成设置"
     },
     "complete": {
       "title": "设置完成！",
-      "subtitle": "您的实例已准备好部署",
-      "summary": "设置摘要",
-      "deploy": "部署实例",
-      "configure": "额外配置"
+      "description": "您的实例已成功配置。数据已加密并存储在您的本地数据库中。",
+      "nextSteps": "下一步",
+      "step1": "• 使用选定的方法部署您的实例",
+      "step2": "• 从仪表板监控您的实例",
+      "step3": "• 根据需要配置其他策略",
+      "toDashboard": "前往仪表板",
+      "deployAnother": "部署另一个实例"
     }
-  },
-  "navigation": {
-    "home": "首页",
-    "leaderboard": "排行榜",
-    "instances": "我的实例",
-    "settings": "设置",
-    "docs": "文档",
-    "support": "支持"
-  },
-  "footer": {
-    "copyright": "© 2024 MrMarket V3. 保留所有权利。",
-    "privacy": "隐私政策",
-    "terms": "服务条款",
-    "github": "GitHub"
   }
 }

@@ -1,99 +1,95 @@
 <script lang="ts">
-	import { _ } from 'svelte-i18n';
-	import { page } from '$app/stores';
+	import { t } from 'svelte-i18n';
+	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 	import { Card } from '$lib/components/ui/card';
-	import { Button } from '$lib/components/ui/button';
 	import { Checkbox } from '$lib/components/ui/checkbox';
 	import { Label } from '$lib/components/ui/label';
-	
-	$: deploymentMethod = $page.url.searchParams.get('method');
-	$: useMixin = $page.url.searchParams.get('mixin') === 'true';
-	$: keyMethod = $page.url.searchParams.get('keyMethod');
-	
-	let selectedBlockchains: string[] = [];
+	import OnboardingLayout from '$lib/components/onboarding-layout.svelte';
+
+	let deploymentMethod = $derived(page.url.searchParams.get('method'));
+	let keyMethod = $derived(page.url.searchParams.get('keyMethod'));
 	
 	const blockchains = [
-		{ id: 'ethereum', name: $_('onboarding.blockchain.chains.ethereum.name'), description: $_('onboarding.blockchain.chains.ethereum.description') },
-		{ id: 'solana', name: $_('onboarding.blockchain.chains.solana.name'), description: $_('onboarding.blockchain.chains.solana.description') },
-		{ id: 'bsc', name: $_('onboarding.blockchain.chains.bsc.name'), description: $_('onboarding.blockchain.chains.bsc.description') },
-		{ id: 'polygon', name: $_('onboarding.blockchain.chains.polygon.name'), description: $_('onboarding.blockchain.chains.polygon.description') },
-		{ id: 'arbitrum', name: $_('onboarding.blockchain.chains.arbitrum.name'), description: $_('onboarding.blockchain.chains.arbitrum.description') },
-		{ id: 'optimism', name: $_('onboarding.blockchain.chains.optimism.name'), description: $_('onboarding.blockchain.chains.optimism.description') }
+		{ id: 'ethereum', name: 'Ethereum', icon: '⟠' },
+		{ id: 'solana', name: 'Solana', icon: '◉' },
+		{ id: 'bsc', name: 'BNB Smart Chain', icon: '⬢' },
+		{ id: 'polygon', name: 'Polygon', icon: '⬡' },
+		{ id: 'arbitrum', name: 'Arbitrum', icon: '▲' },
+		{ id: 'optimism', name: 'Optimism', icon: '⬭' }
 	];
 	
-	function toggleBlockchain(blockchainId: string) {
-		if (selectedBlockchains.includes(blockchainId)) {
-			selectedBlockchains = selectedBlockchains.filter(id => id !== blockchainId);
+	let selectedChains = $state<Set<string>>(new Set(['ethereum', 'solana']));
+	
+	function toggleChain(chainId: string) {
+		const newSet = new Set(selectedChains);
+		if (newSet.has(chainId)) {
+			newSet.delete(chainId);
 		} else {
-			selectedBlockchains = [...selectedBlockchains, blockchainId];
+			newSet.add(chainId);
 		}
+		selectedChains = newSet;
 	}
-	
+
 	function handleNext() {
-		if (selectedBlockchains.length > 0) {
-			const params = new URLSearchParams({
-				method: deploymentMethod || '',
-				mixin: useMixin.toString(),
-				blockchains: selectedBlockchains.join(',')
-			});
-			goto(`/exchanges?${params}`);
-		}
+		const params = new URLSearchParams({
+			method: deploymentMethod || '',
+			keyMethod: keyMethod || '',
+			chains: Array.from(selectedChains).join(',')
+		});
+		goto(`/exchanges?${params}`);
 	}
-	
+
 	function handleBack() {
 		const params = new URLSearchParams({
 			method: deploymentMethod || '',
-			mixin: useMixin.toString()
+			keyMethod: keyMethod || ''
 		});
-		
-		// Navigate back based on the key method
-		if (keyMethod === 'generate') {
-			goto(`/onboard/private-key?${params}`);
-		} else if (keyMethod === 'existing') {
-			goto(`/onboard/import-key?${params}`);
-		} else if (useMixin) {
-			goto(`/onboard/mixin-setup?${params}`);
+		if (keyMethod === 'mixin') {
+			goto(`/addresses?${params}`);
 		} else {
-			goto(`/onboard?${params}`);
+			goto(`/onboard/private-key?${params}`);
 		}
 	}
 </script>
 
-<div class="container mx-auto max-w-2xl p-6">
-	<h1 class="text-3xl font-bold mb-2">{$_('onboarding.blockchain.title')}</h1>
-	<p class="text-muted-foreground mb-8">{$_('onboarding.blockchain.subtitle')}</p>
+<OnboardingLayout
+	title={$t('onboarding.blockchains.title')}
+	subtitle={$t('onboarding.blockchains.subtitle')}
+	currentStep={3}
+	totalSteps={3}
+	onNext={handleNext}
+	nextDisabled={selectedChains.size === 0}
+	backUrl={keyMethod === 'mixin' ? '/addresses' : '/onboard/private-key'}
+	nextLabel={$t('common.continue')}
+>
+	<Card class="max-w-3xl mx-auto p-8">
+		<div class="space-y-6">
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+				{#each blockchains as chain}
+					<label
+						class="flex items-start space-x-3 p-4 rounded-lg border-2 transition-all cursor-pointer hover:border-primary/50 {selectedChains.has(chain.id) ? 'border-primary bg-primary/5' : 'border-border'}"
+						for={chain.id}
+					>
+						<Checkbox
+							id={chain.id}
+							checked={selectedChains.has(chain.id)}
+							onCheckedChange={() => toggleChain(chain.id)}
+							class="mt-0.5"
+						/>
+						<div class="flex items-center space-x-3 flex-1">
+							<span class="text-2xl">{chain.icon}</span>
+							<Label for={chain.id} class="font-medium cursor-pointer">
+								{chain.name}
+							</Label>
+						</div>
+					</label>
+				{/each}
+			</div>
 
-	<Card class="p-6">
-		<div class="space-y-4">
-			{#each blockchains as blockchain}
-				<div class="flex items-start space-x-3 p-4 rounded-lg border hover:bg-muted/50 transition-colors">
-					<Checkbox 
-						checked={selectedBlockchains.includes(blockchain.id)}
-						onchange={() => toggleBlockchain(blockchain.id)}
-						id={blockchain.id}
-					/>
-					<Label for={blockchain.id} class="flex-1 cursor-pointer">
-						<div class="font-medium">{blockchain.name}</div>
-						<div class="text-sm text-muted-foreground">{blockchain.description}</div>
-					</Label>
-				</div>
-			{/each}
-			
-			{#if selectedBlockchains.length === 0}
-				<div class="text-sm text-muted-foreground text-center py-4">
-					{$_('onboarding.blockchain.validation')}
-				</div>
-			{/if}
-		</div>
-
-		<div class="flex justify-between pt-6">
-			<Button variant="outline" onclick={handleBack}>
-				{$_('common.back')}
-			</Button>
-			<Button onclick={handleNext} disabled={selectedBlockchains.length === 0}>
-				{$_('common.next')}
-			</Button>
+			<div class="text-center text-sm text-muted-foreground">
+				{$t('onboarding.blockchains.selected', { count: selectedChains.size })}
+			</div>
 		</div>
 	</Card>
-</div>
+</OnboardingLayout>
