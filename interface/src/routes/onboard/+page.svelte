@@ -8,7 +8,6 @@
 
 	let keyMethod = 'mixin'; // 'mixin' or 'privatekey'
 	
-
 	$: deploymentMethod = page.url.searchParams.get('method');
 
 	$: nextUrl = (() => {

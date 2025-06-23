@@ -39,7 +39,7 @@
 		});
 		
 		if (keyMethod === 'generate') {
-			goto(`/private-key?${params}`);
+			goto(`/onboard/private-key?${params}`);
 		} else {
 			goto(`/onboard?${params}`);
 		}

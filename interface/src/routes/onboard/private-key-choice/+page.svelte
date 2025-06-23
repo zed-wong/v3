@@ -50,7 +50,7 @@
 							{$_('onboarding.privateKey.choice.generate.description')}
 						</p>
 						<div class="mt-3">
-							<Button variant="outline" size="sm" href="/private-key?{keyParams}">
+							<Button variant="outline" size="sm" href="/onboard/private-key?{keyParams}">
 								{$_('onboarding.privateKey.choice.generate.button')}
 								<svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
