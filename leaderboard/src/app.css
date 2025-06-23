@@ -115,51 +115,7 @@
   * {
     @apply border-border outline-ring/50;
   }
-  html {
-    @apply antialiased;
-  }
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    font-feature-settings: 'rlig' 1, 'calt' 1;
-  }
-  
-  /* Better heading typography */
-  h1 {
-    @apply text-4xl font-bold tracking-tight;
-    letter-spacing: -0.02em;
-  }
-  h2 {
-    @apply text-3xl font-semibold tracking-tight;
-    letter-spacing: -0.01em;
-  }
-  h3 {
-    @apply text-2xl font-semibold;
-  }
-  h4 {
-    @apply text-xl font-semibold;
-  }
-  h5 {
-    @apply text-lg font-semibold;
-  }
-  h6 {
-    @apply text-base font-semibold;
-  }
-  
-  /* Better paragraph and text readability */
-  p {
-    @apply leading-relaxed;
-  }
-  
-  /* Improve button and interactive element appearance */
-  button, input, select, textarea {
-    font-family: inherit;
-  }
-  
-  /* Better code/mono typography */
-  code, .font-mono {
-    font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
-    font-size: 0.9em;
-    font-feature-settings: 'liga' 0;
   }
 }
