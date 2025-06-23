@@ -1,0 +1,78 @@
+{
+  "common": {
+    "next": "下一步",
+    "back": "返回",
+    "finish": "完成",
+    "skip": "跳过"
+  },
+  "onboarding": {
+    "deployment": {
+      "title": "选择部署方式",
+      "subtitle": "选择您想要部署实例的方式",
+      "serverless": {
+        "title": "无服务器部署",
+        "description": "使用 AWS Lambda 或 Vercel Functions 等无服务器函数部署。适合低维护和自动扩展需求。"
+      },
+      "docker": {
+        "title": "Docker 部署",
+        "description": "使用 Docker 容器部署。适合自托管环境和需要最大控制权的场景。"
+      },
+      "script": {
+        "title": "脚本部署",
+        "description": "使用自定义脚本部署。适合需要完全自定义的高级用户。"
+      }
+    },
+    "mixin": {
+      "title": "Mixin 集成",
+      "subtitle": "您是否要启用 Mixin 支付功能？",
+      "enable": {
+        "title": "启用 Mixin",
+        "description": "通过 Mixin Messenger 接受支付。需要设置 Mixin 账户。"
+      },
+      "disable": {
+        "title": "跳过 Mixin",
+        "description": "不使用 Mixin 集成继续。您可以稍后启用。"
+      },
+      "payment": {
+        "title": "完成支付",
+        "subtitle": "使用 Mixin Messenger 扫描二维码完成支付",
+        "processing": "正在处理支付...",
+        "success": "支付成功！"
+      }
+    },
+    "keys": {
+      "title": "您的私钥",
+      "subtitle": "请安全保存这些密钥。您需要它们来访问您的实例。",
+      "warning": "请妥善保管这些密钥！如果丢失将无法恢复。",
+      "copy": "复制",
+      "copied": "已复制！"
+    },
+    "addresses": {
+      "title": "派生地址",
+      "subtitle": "这些地址是从您的私钥派生的"
+    },
+    "blockchain": {
+      "title": "选择区块链",
+      "subtitle": "选择您要支持的区块链"
+    },
+    "exchanges": {
+      "title": "配置交易所",
+      "subtitle": "添加您的交易所 API 凭证",
+      "add": "添加交易所",
+      "apiKey": "API 密钥",
+      "apiSecret": "API 密钥",
+      "passphrase": "密码短语（可选）"
+    },
+    "complete": {
+      "title": "设置完成！",
+      "subtitle": "您的实例已准备好部署",
+      "details": "实例详情",
+      "method": "部署方式",
+      "mixin": "Mixin 集成",
+      "blockchains": "支持的区块链",
+      "exchanges": "已配置的交易所",
+      "enabled": "已启用",
+      "disabled": "已禁用"
+    }
+  }
+}

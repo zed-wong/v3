@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { page } from '$app/stores';
+    import { _ } from 'svelte-i18n';
+	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
 	import { Card } from '$lib/components/ui/card';
 	import { Button } from '$lib/components/ui/button';
@@ -7,7 +8,8 @@
 
 	let keyMethod = 'mixin'; // 'mixin' or 'privatekey'
 	
-	$: deploymentMethod = $page.url.searchParams.get('method');
+
+	$: deploymentMethod = page.url.searchParams.get('method');
 
 	$: nextUrl = (() => {
 		const params = new URLSearchParams({

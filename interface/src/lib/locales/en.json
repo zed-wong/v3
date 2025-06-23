@@ -1,0 +1,78 @@
+{
+  "common": {
+    "next": "Next",
+    "back": "Back",
+    "finish": "Finish",
+    "skip": "Skip"
+  },
+  "onboarding": {
+    "deployment": {
+      "title": "Choose Your Deployment Method",
+      "subtitle": "Select how you'd like to deploy your instance",
+      "serverless": {
+        "title": "Serverless Deployment",
+        "description": "Deploy using serverless functions like AWS Lambda or Vercel Functions. Best for low-maintenance and auto-scaling needs."
+      },
+      "docker": {
+        "title": "Docker Deployment",
+        "description": "Deploy using Docker containers. Ideal for self-hosted environments and maximum control."
+      },
+      "script": {
+        "title": "Script Deployment",
+        "description": "Deploy using custom scripts. Perfect for advanced users who need full customization."
+      }
+    },
+    "mixin": {
+      "title": "Mixin Integration",
+      "subtitle": "Would you like to enable Mixin for payments?",
+      "enable": {
+        "title": "Enable Mixin",
+        "description": "Accept payments through Mixin Messenger. Requires Mixin account setup."
+      },
+      "disable": {
+        "title": "Skip Mixin",
+        "description": "Continue without Mixin integration. You can enable it later."
+      },
+      "payment": {
+        "title": "Complete Payment",
+        "subtitle": "Scan the QR code with Mixin Messenger to complete payment",
+        "processing": "Processing payment...",
+        "success": "Payment successful!"
+      }
+    },
+    "keys": {
+      "title": "Your Private Keys",
+      "subtitle": "Save these keys securely. You'll need them to access your instance.",
+      "warning": "Keep these keys safe! They cannot be recovered if lost.",
+      "copy": "Copy",
+      "copied": "Copied!"
+    },
+    "addresses": {
+      "title": "Derived Addresses",
+      "subtitle": "These addresses are derived from your private key"
+    },
+    "blockchain": {
+      "title": "Select Blockchains",
+      "subtitle": "Choose which blockchains you want to support"
+    },
+    "exchanges": {
+      "title": "Configure Exchanges",
+      "subtitle": "Add your exchange API credentials",
+      "add": "Add Exchange",
+      "apiKey": "API Key",
+      "apiSecret": "API Secret",
+      "passphrase": "Passphrase (optional)"
+    },
+    "complete": {
+      "title": "Setup Complete!",
+      "subtitle": "Your instance is ready to deploy",
+      "details": "Instance Details",
+      "method": "Deployment Method",
+      "mixin": "Mixin Integration",
+      "blockchains": "Supported Blockchains",
+      "exchanges": "Configured Exchanges",
+      "enabled": "Enabled",
+      "disabled": "Disabled"
+    }
+  }
+}

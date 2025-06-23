@@ -27,10 +27,10 @@
 		</Card>
 		
 		<div class="flex gap-4 justify-center pt-4">
-			<Button variant="outline" on:click={() => goto('/')}>
+			<Button variant="outline" onclick={() => goto('/')}>
 				Go to Dashboard
 			</Button>
-			<Button on:click={() => goto('/')}>
+			<Button onclick={() => goto('/')}>
 				Deploy Another Instance
 			</Button>
 		</div>

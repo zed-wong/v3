@@ -47,7 +47,7 @@
 					<p class="text-muted-foreground mb-6">
 						Click the button below to generate a new private key
 					</p>
-					<Button on:click={generatePrivateKey} size="lg">
+					<Button onclick={generatePrivateKey} size="lg">
 						Generate Private Key
 					</Button>
 				</div>
@@ -75,10 +75,10 @@
 		</div>
 
 		<div class="flex justify-between pt-6">
-			<Button variant="outline" on:click={handleBack}>
+			<Button variant="outline" onclick={handleBack}>
 				Back
 			</Button>
-			<Button on:click={handleNext} disabled={!keyGenerated}>
+			<Button onclick={handleNext} disabled={!keyGenerated}>
 				Continue
 			</Button>
 		</div>

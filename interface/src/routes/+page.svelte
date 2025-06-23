@@ -65,7 +65,7 @@
 		</RadioGroup>
 
 		<div class="flex justify-end pt-6">
-			<Button on:click={handleNext} disabled={!deploymentMethod}>
+			<Button onclick={handleNext} disabled={!deploymentMethod}>
 				{$_('common.next')}
 			</Button>
 		</div>

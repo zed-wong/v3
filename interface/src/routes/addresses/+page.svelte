@@ -77,10 +77,10 @@
 		</div>
 
 		<div class="flex justify-between pt-6">
-			<Button variant="outline" on:click={handleBack}>
+			<Button variant="outline" onclick={handleBack}>
 				Back
 			</Button>
-			<Button on:click={handleNext}>
+			<Button onclick={handleNext}>
 				Continue
 			</Button>
 		</div>

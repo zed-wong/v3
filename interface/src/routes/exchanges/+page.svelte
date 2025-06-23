@@ -64,7 +64,7 @@
 						<Button 
 							variant={exchange.enabled ? "default" : "outline"}
 							size="sm"
-							on:click={() => toggleExchange(index)}
+							onclick={() => toggleExchange(index)}
 						>
 							{exchange.enabled ? 'Enabled' : 'Enable'}
 						</Button>
@@ -113,10 +113,10 @@
 		</div>
 
 		<div class="flex justify-between pt-6">
-			<Button variant="outline" on:click={handleBack}>
+			<Button variant="outline" onclick={handleBack}>
 				Back
 			</Button>
-			<Button on:click={handleNext} disabled={!hasConfiguredExchange}>
+			<Button onclick={handleNext} disabled={!hasConfiguredExchange}>
 				Complete Setup
 			</Button>
 		</div>

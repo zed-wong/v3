@@ -58,7 +58,7 @@
 				<div class="flex items-start space-x-3 p-4 rounded-lg border hover:bg-muted/50 transition-colors">
 					<Checkbox 
 						checked={selectedBlockchains.includes(blockchain.id)}
-						on:change={() => toggleBlockchain(blockchain.id)}
+						onchange={() => toggleBlockchain(blockchain.id)}
 						id={blockchain.id}
 					/>
 					<Label for={blockchain.id} class="flex-1 cursor-pointer">
@@ -76,10 +76,10 @@
 		</div>
 
 		<div class="flex justify-between pt-6">
-			<Button variant="outline" on:click={handleBack}>
+			<Button variant="outline" onclick={handleBack}>
 				Back
 			</Button>
-			<Button on:click={handleNext} disabled={selectedBlockchains.length === 0}>
+			<Button onclick={handleNext} disabled={selectedBlockchains.length === 0}>
 				Continue
 			</Button>
 		</div>

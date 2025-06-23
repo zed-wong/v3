@@ -1,33 +1,18 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { goto } from '$app/navigation';
 	import { Card } from '$lib/components/ui/card';
 	import { Button } from '$lib/components/ui/button';
 	
 	$: deploymentMethod = $page.url.searchParams.get('method');
 	
-	function handleGenerate() {
-		const params = new URLSearchParams({
-			method: deploymentMethod || '',
-			keyMethod: 'privatekey'
-		});
-		goto(`/private-key?${params}`);
-	}
+	$: backParams = new URLSearchParams({
+		method: deploymentMethod || ''
+	});
 	
-	function handleImport() {
-		const params = new URLSearchParams({
-			method: deploymentMethod || '',
-			keyMethod: 'privatekey'
-		});
-		goto(`/onboard/import-key?${params}`);
-	}
-	
-	function handleBack() {
-		const params = new URLSearchParams({
-			method: deploymentMethod || ''
-		});
-		goto(`/onboard?${params}`);
-	}
+	$: keyParams = new URLSearchParams({
+		method: deploymentMethod || '',
+		keyMethod: 'privatekey'
+	});
 </script>
 
 <div class="min-h-screen bg-gradient-to-b from-background to-muted/20">
@@ -51,7 +36,6 @@
 		<div class="space-y-4">
 			<Card 
 				class="p-6 cursor-pointer transition-all hover:border-primary hover:shadow-md"
-				on:click={handleGenerate}
 			>
 				<div class="flex items-start space-x-4">
 					<div class="w-12 h-12 rounded-lg bg-blue-100 dark:bg-blue-900/20 flex items-center justify-center flex-shrink-0">
@@ -65,7 +49,7 @@
 							Create a fresh Ed25519 private key. Recommended for new users.
 						</p>
 						<div class="mt-3">
-							<Button variant="outline" size="sm">
+							<Button variant="outline" size="sm" href="/private-key?{keyParams}">
 								Generate Key
 								<svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -78,7 +62,6 @@
 
 			<Card 
 				class="p-6 cursor-pointer transition-all hover:border-primary hover:shadow-md"
-				on:click={handleImport}
 			>
 				<div class="flex items-start space-x-4">
 					<div class="w-12 h-12 rounded-lg bg-purple-100 dark:bg-purple-900/20 flex items-center justify-center flex-shrink-0">
@@ -92,7 +75,7 @@
 							Already have an Ed25519 private key? Import it securely.
 						</p>
 						<div class="mt-3">
-							<Button variant="outline" size="sm">
+							<Button variant="outline" size="sm" href="/onboard/import-key?{keyParams}">
 								Import Key
 								<svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
@@ -106,7 +89,7 @@
 
 		<!-- Actions -->
 		<div class="flex justify-start pt-8">
-			<Button variant="outline" size="lg" on:click={handleBack}>
+			<Button variant="outline" size="lg" href="/onboard?{backParams}">
 				<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
 				</svg>

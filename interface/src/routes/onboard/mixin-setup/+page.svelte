@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { goto } from '$app/navigation';
 	import { Card } from '$lib/components/ui/card';
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
@@ -12,25 +11,16 @@
 	let sessionId = '';
 	let spendKey = '';
 	
-	function handleNext() {
-		if (botId && sessionId && spendKey) {
-			const params = new URLSearchParams({
-				method: deploymentMethod || '',
-				keyMethod: 'mixin',
-				botId,
-				sessionId
-			});
-			// In real implementation, spendKey would be used to derive addresses
-			goto(`/addresses?${params}`);
-		}
-	}
+	$: nextParams = new URLSearchParams({
+		method: deploymentMethod || '',
+		keyMethod: 'mixin',
+		botId,
+		sessionId
+	});
 	
-	function handleBack() {
-		const params = new URLSearchParams({
-			method: deploymentMethod || ''
-		});
-		goto(`/onboard?${params}`);
-	}
+	$: backParams = new URLSearchParams({
+		method: deploymentMethod || ''
+	});
 	
 	$: canContinue = botId && sessionId && spendKey;
 </script>
@@ -113,7 +103,7 @@
 
 			<!-- Actions -->
 			<div class="flex justify-between pt-8">
-				<Button variant="outline" size="lg" on:click={handleBack}>
+				<Button variant="outline" size="lg" href="/onboard?{backParams}">
 					<svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
 					</svg>
@@ -121,7 +111,7 @@
 				</Button>
 				<Button 
 					size="lg"
-					on:click={handleNext} 
+					href={canContinue ? `/addresses?${nextParams}` : undefined}
 					disabled={!canContinue}
 				>
 					Continue
