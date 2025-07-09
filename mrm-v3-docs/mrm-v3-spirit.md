@@ -21,5 +21,16 @@
   - 使用派生地址，让门槛为零
 
 
-实现路径：
-1. 去中心化做市，必须需要多个引擎，掌管多个层级的调度，比如做市引擎，掌管具体的做市行为。资金调度引擎，掌管资金的流动和调度。资金流入可以是多个来源，包括MVM的智能合约以及各种链上的转账。
+# Spirit
+
+## Freedom/Permissionless
+
+Anyone can market make, Anyone can be instance deployer, the market making is done by bots, the money is provided by anonymous entities, no authorities can say it's illegal.
+
+## Safe
+
+No instance deployer can rug user's fund, protected by smart contract and whitelist, no unauthorized action allowed. Also Reputation + taking system backs the trust.
+
+## Powerful
+
+Unlimited strategies, Unlimited trading pairs, endless possibilites.
