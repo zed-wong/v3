@@ -183,15 +183,35 @@ describe("Fund Manager", () => {
 
   describe("Fund Allocation", () => {
     let recipientAccount: PublicKey;
+    let recipient: Keypair;
+    let whitelistEntry: PublicKey;
 
     beforeEach(async () => {
-      const recipient = Keypair.generate();
+      recipient = Keypair.generate();
       recipientAccount = await createAssociatedTokenAccount(
         provider.connection,
         admin,
         mint,
         recipient.publicKey
       );
+      
+      // Find whitelist entry PDA
+      [whitelistEntry] = PublicKey.findProgramAddressSync(
+        [Buffer.from("whitelist"), recipient.publicKey.toBuffer()],
+        program.programId
+      );
+      
+      // Add recipient to whitelist
+      await program.methods
+        .addWhitelist(recipient.publicKey, "Test Recipient")
+        .accounts({
+          fundAccount,
+          whitelistEntry,
+          admin: admin.publicKey,
+          systemProgram: SystemProgram.programId,
+        })
+        .signers([admin])
+        .rpc();
     });
 
     it("should allow admin to allocate funds", async () => {
@@ -200,11 +220,12 @@ describe("Fund Manager", () => {
       const initialTotalFunds = (await program.account.fundAccount.fetch(fundAccount)).totalFunds.toNumber();
 
       await program.methods
-        .allocateFunds(new anchor.BN(ALLOCATION_AMOUNT), admin.publicKey)
+        .allocateFunds(new anchor.BN(ALLOCATION_AMOUNT))
         .accounts({
           fundAccount,
           fundTokenAccount,
           toTokenAccount: recipientAccount,
+          whitelistEntry,
           admin: admin.publicKey,
           tokenProgram: TOKEN_PROGRAM_ID,
         })
@@ -223,11 +244,12 @@ describe("Fund Manager", () => {
     it("should fail when non-admin tries to allocate funds", async () => {
       try {
         await program.methods
-          .allocateFunds(new anchor.BN(ALLOCATION_AMOUNT), user1.publicKey)
+          .allocateFunds(new anchor.BN(ALLOCATION_AMOUNT))
           .accounts({
             fundAccount,
             fundTokenAccount,
             toTokenAccount: recipientAccount,
+            whitelistEntry,
             admin: user1.publicKey,
             tokenProgram: TOKEN_PROGRAM_ID,
           })
@@ -245,11 +267,12 @@ describe("Fund Manager", () => {
 
       try {
         await program.methods
-          .allocateFunds(new anchor.BN(excessiveAmount), admin.publicKey)
+          .allocateFunds(new anchor.BN(excessiveAmount))
           .accounts({
             fundAccount,
             fundTokenAccount,
             toTokenAccount: recipientAccount,
+            whitelistEntry,
             admin: admin.publicKey,
             tokenProgram: TOKEN_PROGRAM_ID,
           })
@@ -285,17 +308,36 @@ describe("Fund Manager", () => {
         mint,
         recipient.publicKey
       );
+      
+      // Find whitelist entry PDA for new recipient
+      const [whitelistEntry] = PublicKey.findProgramAddressSync(
+        [Buffer.from("whitelist"), recipient.publicKey.toBuffer()],
+        program.programId
+      );
+      
+      // Add recipient to whitelist using new admin
+      await program.methods
+        .addWhitelist(recipient.publicKey, "New Admin Test Recipient")
+        .accounts({
+          fundAccount,
+          whitelistEntry,
+          admin: newAdmin.publicKey,
+          systemProgram: SystemProgram.programId,
+        })
+        .signers([newAdmin])
+        .rpc();
 
       const remainingFunds = (await program.account.fundAccount.fetch(fundAccount)).totalFunds.toNumber();
       const allocationAmount = Math.min(10_000_000, remainingFunds); // 10 tokens or remaining funds
 
       if (allocationAmount > 0) {
         await program.methods
-          .allocateFunds(new anchor.BN(allocationAmount), newAdmin.publicKey)
+          .allocateFunds(new anchor.BN(allocationAmount))
           .accounts({
             fundAccount,
             fundTokenAccount,
             toTokenAccount: recipientAccount,
+            whitelistEntry,
             admin: newAdmin.publicKey,
             tokenProgram: TOKEN_PROGRAM_ID,
           })
@@ -315,14 +357,33 @@ describe("Fund Manager", () => {
         mint,
         recipient.publicKey
       );
+      
+      // Find whitelist entry PDA
+      const [whitelistEntry] = PublicKey.findProgramAddressSync(
+        [Buffer.from("whitelist"), recipient.publicKey.toBuffer()],
+        program.programId
+      );
+      
+      // Add recipient to whitelist using current admin (newAdmin)
+      await program.methods
+        .addWhitelist(recipient.publicKey, "Old Admin Test Recipient")
+        .accounts({
+          fundAccount,
+          whitelistEntry,
+          admin: newAdmin.publicKey,
+          systemProgram: SystemProgram.programId,
+        })
+        .signers([newAdmin])
+        .rpc();
 
       try {
         await program.methods
-          .allocateFunds(new anchor.BN(1_000_000), admin.publicKey)
+          .allocateFunds(new anchor.BN(1_000_000))
           .accounts({
             fundAccount,
             fundTokenAccount,
             toTokenAccount: recipientAccount,
+            whitelistEntry,
             admin: admin.publicKey,
             tokenProgram: TOKEN_PROGRAM_ID,
           })
@@ -378,14 +439,33 @@ describe("Fund Manager", () => {
         mint,
         recipient.publicKey
       );
+      
+      // Find whitelist entry PDA
+      const [whitelistEntry] = PublicKey.findProgramAddressSync(
+        [Buffer.from("whitelist"), recipient.publicKey.toBuffer()],
+        program.programId
+      );
+      
+      // Add recipient to whitelist
+      await program.methods
+        .addWhitelist(recipient.publicKey, "Zero Amount Test Recipient")
+        .accounts({
+          fundAccount,
+          whitelistEntry,
+          admin: newAdmin.publicKey,
+          systemProgram: SystemProgram.programId,
+        })
+        .signers([newAdmin])
+        .rpc();
 
       try {
         await program.methods
-          .allocateFunds(new anchor.BN(0), newAdmin.publicKey)
+          .allocateFunds(new anchor.BN(0))
           .accounts({
             fundAccount,
             fundTokenAccount,
             toTokenAccount: recipientAccount,
+            whitelistEntry,
             admin: newAdmin.publicKey,
             tokenProgram: TOKEN_PROGRAM_ID,
           })
