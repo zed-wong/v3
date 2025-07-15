@@ -34,10 +34,15 @@ Tech stack:
 
 - Anchor
 
+Components:
+1. MVM Funds allocator
+2. Registry contract
+
 Usage:
 
 - Accept funds from Mixin users
 - Whitelist (Prevent rug pull)
+- Register all the instance on first boot, so leaderboard get to trace them
 
 Details:
 

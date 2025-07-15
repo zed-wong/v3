@@ -8,6 +8,7 @@ skip-lint = false
 
 [programs.localnet]
 fund_manager = "FundManager11111111111111111111111111111111"
+instance_registry = "DijcrEqNwGBDr1PfbxNDpwiRSc86RA339czMbqGtoUjY"
 
 [registry]
 url = "https://api.apr.dev"
