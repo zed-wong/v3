@@ -1,4 +1,4 @@
-import type { MRMLeaderboardEntry, MRMInstance, MRMMetrics } from '$lib/types/mrm-instance';
+import type { MRMLeaderboardEntry, MRMInstance, MRMMetrics, SecuritySpecs } from '$lib/types/mrm-instance';
 
 const instanceNames = [
   'Alpha Bot', 'Beta Trader', 'Gamma Engine', 'Delta MM', 'Epsilon Algo',
@@ -75,6 +75,54 @@ function generateMetrics(rank: number, instance: MRMInstance): MRMMetrics {
   };
 }
 
+function generateSecuritySpecs(rank: number): SecuritySpecs {
+  // Higher ranked instances tend to have better security
+  const securityFactor = 1 - (rank - 1) / 100;
+  const random = Math.random();
+  
+  // TEE more likely for top performers
+  const runInTEE = random < (0.3 + securityFactor * 0.5);
+  
+  // Attestation status
+  let attestationStatus: SecuritySpecs['attestationStatus'];
+  if (runInTEE) {
+    const attestRandom = Math.random();
+    if (attestRandom < 0.8) {
+      attestationStatus = 'success';
+    } else if (attestRandom < 0.9) {
+      attestationStatus = 'pending';
+    } else {
+      attestationStatus = 'failed';
+    }
+  } else {
+    attestationStatus = Math.random() < 0.3 ? 'not_available' : 'failed';
+  }
+  
+  // Security level based on TEE and attestation
+  let securityLevel: SecuritySpecs['securityLevel'];
+  if (runInTEE && attestationStatus === 'success') {
+    securityLevel = 'high';
+  } else if (runInTEE || attestationStatus === 'success') {
+    securityLevel = 'medium';
+  } else {
+    securityLevel = 'low';
+  }
+  
+  return {
+    runInTEE,
+    attestationStatus,
+    lastAttestationCheck: attestationStatus !== 'not_available' 
+      ? new Date(Date.now() - Math.random() * 24 * 60 * 60 * 1000)
+      : undefined,
+    attestationEndpoint: attestationStatus !== 'not_available'
+      ? `https://attestation.mrm-${rank}.example.com/verify`
+      : undefined,
+    securityLevel,
+    encryptedStorage: runInTEE || Math.random() < 0.4,
+    secureBootEnabled: runInTEE
+  };
+}
+
 export function generateMockMRMLeaderboard(count: number = 50): MRMLeaderboardEntry[] {
   const entries: MRMLeaderboardEntry[] = [];
   
@@ -93,7 +141,8 @@ export function generateMockMRMLeaderboard(count: number = 50): MRMLeaderboardEn
       rank: i + 1,
       previousRank,
       instance,
-      metrics
+      metrics,
+      security: generateSecuritySpecs(i + 1)
     });
   }
   
@@ -106,6 +155,8 @@ export function filterAndSortMRMEntries(
     search?: string;
     status?: string;
     minAPY?: number;
+    teeOnly?: boolean;
+    attestedOnly?: boolean;
   }
 ): MRMLeaderboardEntry[] {
   let filtered = [...entries];
@@ -126,6 +177,14 @@ export function filterAndSortMRMEntries(
   
   if (filters.minAPY !== undefined) {
     filtered = filtered.filter(entry => entry.metrics.apy >= filters.minAPY);
+  }
+  
+  if (filters.teeOnly) {
+    filtered = filtered.filter(entry => entry.security.runInTEE);
+  }
+  
+  if (filters.attestedOnly) {
+    filtered = filtered.filter(entry => entry.security.attestationStatus === 'success');
   }
   
   return filtered;

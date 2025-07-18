@@ -8,6 +8,16 @@ export interface MRMInstance {
   createdAt: Date;
 }
 
+export interface SecuritySpecs {
+  runInTEE: boolean;
+  attestationStatus: 'success' | 'failed' | 'pending' | 'not_available';
+  lastAttestationCheck?: Date;
+  attestationEndpoint?: string;
+  securityLevel: 'high' | 'medium' | 'low';
+  encryptedStorage: boolean;
+  secureBootEnabled: boolean;
+}
+
 export interface MRMMetrics {
   roi: number; // Return on Investment percentage
   apy: number; // Annual Percentage Yield
@@ -24,6 +34,7 @@ export interface MRMLeaderboardEntry {
   previousRank?: number;
   instance: MRMInstance;
   metrics: MRMMetrics;
+  security: SecuritySpecs;
 }
 
 export type TimePeriod = '24h' | '7d' | '30d' | 'all-time';
@@ -35,6 +46,8 @@ export interface MRMLeaderboardFilters {
   status: StatusFilter;
   search?: string;
   minAPY?: number;
+  teeOnly?: boolean;
+  attestedOnly?: boolean;
 }
 
 export type SortOrder = 'asc' | 'desc';

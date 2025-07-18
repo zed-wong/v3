@@ -12,7 +12,9 @@
   let filters: Filters = {
     timePeriod: 'all-time',
     status: 'all',
-    search: ''
+    search: '',
+    teeOnly: false,
+    attestedOnly: false
   };
   let sortConfig: SortConfig = {
     field: 'rank',

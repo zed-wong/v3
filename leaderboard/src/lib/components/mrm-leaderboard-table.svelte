@@ -1,7 +1,7 @@
 <script lang="ts">
   import * as Table from '$lib/components/ui/table';
   import { Badge } from '$lib/components/ui/badge';
-  import type { MRMLeaderboardEntry, SortConfig, SortField } from '$lib/types/mrm-instance';
+  import type { MRMLeaderboardEntry, SortConfig, SortField, SecuritySpecs } from '$lib/types/mrm-instance';
   
   export let entries: MRMLeaderboardEntry[] = [];
   export let sortConfig: SortConfig = { field: 'rank', order: 'asc' };
@@ -80,6 +80,29 @@
   function getSuccessRate(successful: number, total: number): number {
     return total > 0 ? (successful / total) * 100 : 0;
   }
+  
+  function getAttestationBadge(status: SecuritySpecs['attestationStatus']) {
+    switch (status) {
+      case 'success':
+        return { text: 'Attested', variant: 'default', emoji: '✓' };
+      case 'failed':
+        return { text: 'Failed', variant: 'destructive', emoji: '✗' };
+      case 'pending':
+        return { text: 'Pending', variant: 'secondary', emoji: '⏳' };
+      case 'not_available':
+        return { text: 'N/A', variant: 'outline', emoji: '—' };
+    }
+  }
+  
+  function getSecurityBadge(security: SecuritySpecs) {
+    if (security.runInTEE && security.attestationStatus === 'success') {
+      return { text: 'TEE + Attested', variant: 'default', class: 'bg-green-500 text-white' };
+    } else if (security.runInTEE) {
+      return { text: 'TEE', variant: 'secondary', class: '' };
+    } else {
+      return { text: 'Standard', variant: 'outline', class: '' };
+    }
+  }
 </script>
 
 <div class="w-full overflow-hidden rounded-lg border">
@@ -88,6 +111,7 @@
       <Table.Row>
         <Table.Head class="w-[80px] text-center">Rank</Table.Head>
         <Table.Head>Instance</Table.Head>
+        <Table.Head>Security</Table.Head>
         <Table.Head 
           class="text-right cursor-pointer hover:bg-muted/50"
           onclick={() => onSort('apy')}
@@ -178,6 +202,22 @@
               </div>
               <div class="text-xs text-muted-foreground font-mono">
                 {entry.instance.uuid || entry.instance.mixinId || entry.instance.id}
+              </div>
+            </div>
+          </Table.Cell>
+          <Table.Cell>
+            <div class="flex flex-col gap-1">
+              <div class="flex items-center gap-1">
+                {@const secBadge = getSecurityBadge(entry.security)}
+                <Badge variant={secBadge.variant} class={secBadge.class}>
+                  {secBadge.text}
+                </Badge>
+              </div>
+              <div class="flex items-center gap-1">
+                {@const attBadge = getAttestationBadge(entry.security.attestationStatus)}
+                <span class="text-xs text-muted-foreground">
+                  {attBadge.emoji} {attBadge.text}
+                </span>
               </div>
             </div>
           </Table.Cell>

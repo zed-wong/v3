@@ -92,6 +92,18 @@
   <div class="flex flex-wrap gap-2 text-sm">
     <span class="text-muted-foreground">Quick filters:</span>
     <button 
+      class="px-3 py-1 rounded-md border hover:bg-muted transition-colors {filters.teeOnly ? 'bg-muted' : ''}"
+      onclick={() => onFiltersChange({ ...filters, teeOnly: !filters.teeOnly })}
+    >
+      🔒 TEE Only
+    </button>
+    <button 
+      class="px-3 py-1 rounded-md border hover:bg-muted transition-colors {filters.attestedOnly ? 'bg-muted' : ''}"
+      onclick={() => onFiltersChange({ ...filters, attestedOnly: !filters.attestedOnly })}
+    >
+      ✓ Attested Only
+    </button>
+    <button 
       class="px-3 py-1 rounded-md border hover:bg-muted transition-colors"
       onclick={() => onFiltersChange({ ...filters, minAPY: 50 })}
     >
@@ -103,10 +115,10 @@
     >
       Active Only
     </button>
-    {#if filters.minAPY || filters.status !== 'all'}
+    {#if filters.minAPY || filters.status !== 'all' || filters.teeOnly || filters.attestedOnly}
       <button 
         class="px-3 py-1 rounded-md border hover:bg-muted transition-colors text-red-600"
-        onclick={() => onFiltersChange({ ...filters, minAPY: undefined, status: 'all' })}
+        onclick={() => onFiltersChange({ ...filters, minAPY: undefined, status: 'all', teeOnly: false, attestedOnly: false })}
       >
         Clear Filters
       </button>
