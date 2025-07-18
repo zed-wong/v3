@@ -134,12 +134,12 @@
     // TODO: Show instance detail modal or navigate to instance page
   }
   
-  // Calculate summary statistics (from all filtered entries, not just current page)
-  $: activeInstances = filteredEntries.filter(e => e.instance.status === 'active').length;
-  $: avgAPY = filteredEntries.length > 0 
-    ? filteredEntries.reduce((sum, e) => sum.plus(e.metrics.apy), new Big(0)).div(filteredEntries.length) 
+  // Calculate summary statistics (from all entries, not affected by filters)
+  $: activeInstances = allEntries.filter(e => e.instance.status === 'active').length;
+  $: avgAPY = allEntries.length > 0 
+    ? allEntries.reduce((sum, e) => sum.plus(e.metrics.apy), new Big(0)).div(allEntries.length) 
     : new Big(0);
-  $: totalVolume = filteredEntries.reduce((sum, e) => sum.plus(e.metrics.totalVolume), new Big(0));
+  $: totalVolume = allEntries.reduce((sum, e) => sum.plus(e.metrics.totalVolume), new Big(0));
 </script>
 
 <div class="min-h-screen relative overflow-hidden">
