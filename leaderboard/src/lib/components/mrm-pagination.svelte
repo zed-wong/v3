@@ -49,30 +49,33 @@
   }
 </script>
 
-<div class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-6">
-  <div class="text-sm text-muted-foreground">
-    Showing {startItem}-{endItem} of {totalItems} instances
+<div class="flex flex-col sm:flex-row items-center justify-between gap-4 backdrop-blur-xl bg-white/5 rounded-xl p-6 border border-white/10">
+  <div class="text-sm text-gray-400">
+    Showing <span class="text-white font-medium">{startItem}-{endItem}</span> of <span class="text-white font-medium">{totalItems}</span> instances
   </div>
   
   <div class="flex items-center gap-2">
     <Button
-      variant="outline"
+      variant="ghost"
       size="sm"
       onclick={() => goToPage(currentPage - 1)}
       disabled={currentPage === 1}
+      class="text-gray-300 hover:text-white hover:bg-white/10 disabled:opacity-50 disabled:hover:bg-transparent transition-all duration-200"
     >
-      Previous
+      ← Previous
     </Button>
     
     <div class="flex items-center gap-1">
       {#each getPageNumbers() as page}
         {#if page === '...'}
-          <span class="px-2 text-muted-foreground">...</span>
+          <span class="px-2 text-gray-500">...</span>
         {:else}
           <Button
-            variant={page === currentPage ? 'default' : 'outline'}
+            variant={page === currentPage ? 'default' : 'ghost'}
             size="sm"
-            class="w-10"
+            class="w-10 h-10 {page === currentPage 
+              ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white border-0 shadow-lg shadow-purple-500/25' 
+              : 'text-gray-300 hover:text-white hover:bg-white/10'} transition-all duration-200"
             onclick={() => goToPage(page)}
           >
             {page}
@@ -82,12 +85,13 @@
     </div>
     
     <Button
-      variant="outline"
+      variant="ghost"
       size="sm"
       onclick={() => goToPage(currentPage + 1)}
       disabled={currentPage === totalPages}
+      class="text-gray-300 hover:text-white hover:bg-white/10 disabled:opacity-50 disabled:hover:bg-transparent transition-all duration-200"
     >
-      Next
+      Next →
     </Button>
   </div>
 </div>
