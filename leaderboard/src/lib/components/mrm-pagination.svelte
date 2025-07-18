@@ -67,7 +67,7 @@
 </script>
 
 {#if totalItems > 0}
-  <div class="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white rounded-lg p-4 shadow-sm border border-gray-200">
+  <div class="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white/90 backdrop-blur-sm rounded-lg p-4 shadow-lg shadow-purple-100/50 border border-gray-200/50">
     <div class="flex items-center gap-4">
       <div class="text-sm text-gray-600">
         Showing <span class="font-medium text-gray-900">{startItem}-{endItem}</span> of <span class="font-medium text-gray-900">{totalItems}</span> instances

@@ -142,11 +142,23 @@
   $: totalVolume = filteredEntries.reduce((sum, e) => sum.plus(e.metrics.totalVolume), new Big(0));
 </script>
 
-<div class="min-h-screen bg-gray-50">
-  <div class="container mx-auto py-8 px-4 max-w-7xl">
+<div class="min-h-screen relative overflow-hidden">
+  <!-- Gradient background -->
+  <div class="absolute inset-0 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50"></div>
+  
+  <!-- Animated gradient overlay -->
+  <div class="absolute inset-0 bg-gradient-to-tr from-pink-50/30 via-transparent to-cyan-50/30 animate-pulse" style="animation-duration: 8s;"></div>
+  
+  <!-- Mesh pattern overlay -->
+  <div class="absolute inset-0 opacity-[0.03]" 
+       style="background-image: url('data:image/svg+xml,%3Csvg width="60" height="60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg%3E%3Cpolygon fill="%23000" points="0,30 30,0 60,30 30,60"/%3E%3C/g%3E%3C/svg%3E');
+              background-size: 60px 60px;"></div>
+  
+  <!-- Content container -->
+  <div class="relative z-10 container mx-auto py-8 px-4 max-w-7xl">
     <!-- Header Section -->
     <div class="mb-8">
-      <h1 class="text-3xl font-semibold text-gray-900 mb-2">
+      <h1 class="text-3xl font-semibold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
         MRM Instance Leaderboard
       </h1>
       <p class="text-gray-600">Monitor and analyze market making bot performance</p>
@@ -154,17 +166,17 @@
     
     <!-- Summary Stats -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-      <div class="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+      <div class="bg-white/90 backdrop-blur-sm rounded-lg p-6 shadow-lg shadow-purple-100/50 border border-gray-200/50 hover:shadow-xl hover:shadow-purple-100/70 transition-shadow duration-300">
         <p class="text-sm font-medium text-gray-600 mb-1">Active Instances</p>
         <p class="text-2xl font-semibold text-gray-900">{activeInstances}</p>
       </div>
       
-      <div class="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+      <div class="bg-white/90 backdrop-blur-sm rounded-lg p-6 shadow-lg shadow-purple-100/50 border border-gray-200/50 hover:shadow-xl hover:shadow-purple-100/70 transition-shadow duration-300">
         <p class="text-sm font-medium text-gray-600 mb-1">Average APY</p>
         <p class="text-2xl font-semibold text-gray-900">{avgAPY.toFixed(2)}%</p>
       </div>
       
-      <div class="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
+      <div class="bg-white/90 backdrop-blur-sm rounded-lg p-6 shadow-lg shadow-purple-100/50 border border-gray-200/50 hover:shadow-xl hover:shadow-purple-100/70 transition-shadow duration-300">
         <p class="text-sm font-medium text-gray-600 mb-1">Total Volume</p>
         <p class="text-2xl font-semibold text-gray-900">
           ${totalVolume.gte(1000000000) 
@@ -178,7 +190,7 @@
     </div>
     
     <!-- Filters -->
-    <div class="bg-white rounded-lg p-6 mb-6 shadow-sm border border-gray-200">
+    <div class="bg-white/90 backdrop-blur-sm rounded-lg p-6 mb-6 shadow-lg shadow-purple-100/50 border border-gray-200/50">
       <MRMLeaderboardFilters 
         {filters} 
         onFiltersChange={handleFiltersChange} 
@@ -186,7 +198,7 @@
     </div>
     
     <!-- Leaderboard Table -->
-    <div class="bg-white rounded-lg overflow-hidden shadow-sm border border-gray-200">
+    <div class="bg-white/95 backdrop-blur-sm rounded-lg overflow-hidden shadow-lg shadow-purple-100/50 border border-gray-200/50">
       <MRMLeaderboardTable 
         entries={paginatedEntries} 
         {sortConfig}
