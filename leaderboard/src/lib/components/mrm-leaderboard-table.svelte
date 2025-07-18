@@ -23,14 +23,9 @@
   
   function getRankChange(current: number, previous?: number) {
     if (!previous) return { symbol: null, class: '' };
-    if (current < previous) return { symbol: '↑', class: 'text-emerald-400' };
-    if (current > previous) return { symbol: '↓', class: 'text-rose-400' };
-    return { symbol: '−', class: 'text-gray-500' };
-  }
-  
-  function formatROI(roi: number): string {
-    const sign = roi >= 0 ? '+' : '';
-    return `${sign}${roi.toFixed(2)}%`;
+    if (current < previous) return { symbol: '↑', class: 'text-green-600' };
+    if (current > previous) return { symbol: '↓', class: 'text-red-600' };
+    return { symbol: '−', class: 'text-gray-400' };
   }
   
   function formatAPY(apy: number): string {
@@ -96,11 +91,11 @@
   
   function getSecurityBadge(security: SecuritySpecs) {
     if (security.runInTEE && security.attestationStatus === 'success') {
-      return { text: 'TEE + Verified', variant: 'default', class: 'bg-gradient-to-r from-emerald-500 to-green-600 text-white border-0' };
+      return { text: 'TEE + Verified', variant: 'default', class: 'bg-green-100 text-green-800 border-green-200' };
     } else if (security.runInTEE) {
-      return { text: 'TEE', variant: 'secondary', class: 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white border-0' };
+      return { text: 'TEE', variant: 'secondary', class: 'bg-blue-100 text-blue-800 border-blue-200' };
     } else {
-      return { text: 'Standard', variant: 'outline', class: 'border-gray-600 text-gray-400' };
+      return { text: 'Standard', variant: 'outline', class: '' };
     }
   }
 </script>
@@ -108,61 +103,61 @@
 <div class="w-full">
   <Table.Root>
     <Table.Header>
-      <Table.Row class="border-b border-white/10 hover:bg-transparent">
-        <Table.Head class="w-[100px] text-center text-gray-400 font-medium">Rank</Table.Head>
-        <Table.Head class="text-gray-400 font-medium">Instance</Table.Head>
-        <Table.Head class="text-gray-400 font-medium">Security</Table.Head>
+      <Table.Row class="border-b hover:bg-transparent">
+        <Table.Head class="w-[100px] text-center font-medium">Rank</Table.Head>
+        <Table.Head class="font-medium">Instance</Table.Head>
+        <Table.Head class="font-medium">Security</Table.Head>
         <Table.Head 
-          class="text-right cursor-pointer hover:text-white transition-colors text-gray-400 font-medium"
+          class="text-right cursor-pointer hover:bg-gray-50 font-medium"
           onclick={() => onSort('apy')}
         >
           APY
           {#if sortConfig.field === 'apy'}
-            <span class="ml-1 text-purple-400">
+            <span class="ml-1 text-blue-600">
               {sortConfig.order === 'asc' ? '↑' : '↓'}
             </span>
           {/if}
         </Table.Head>
         <Table.Head 
-          class="text-right cursor-pointer hover:text-white transition-colors text-gray-400 font-medium"
+          class="text-right cursor-pointer hover:bg-gray-50 font-medium"
           onclick={() => onSort('aliveTime')}
         >
           Uptime
           {#if sortConfig.field === 'aliveTime'}
-            <span class="ml-1 text-purple-400">
+            <span class="ml-1 text-blue-600">
               {sortConfig.order === 'asc' ? '↑' : '↓'}
             </span>
           {/if}
         </Table.Head>
         <Table.Head 
-          class="text-right cursor-pointer hover:text-white transition-colors text-gray-400 font-medium"
+          class="text-right cursor-pointer hover:bg-gray-50 font-medium"
           onclick={() => onSort('campaignsSuccessful')}
         >
           Campaigns
           {#if sortConfig.field === 'campaignsSuccessful'}
-            <span class="ml-1 text-purple-400">
+            <span class="ml-1 text-blue-600">
               {sortConfig.order === 'asc' ? '↑' : '↓'}
             </span>
           {/if}
         </Table.Head>
         <Table.Head 
-          class="text-right cursor-pointer hover:text-white transition-colors text-gray-400 font-medium"
+          class="text-right cursor-pointer hover:bg-gray-50 font-medium"
           onclick={() => onSort('totalVolume')}
         >
           Volume
           {#if sortConfig.field === 'totalVolume'}
-            <span class="ml-1 text-purple-400">
+            <span class="ml-1 text-blue-600">
               {sortConfig.order === 'asc' ? '↑' : '↓'}
             </span>
           {/if}
         </Table.Head>
         <Table.Head 
-          class="text-right cursor-pointer hover:text-white transition-colors text-gray-400 font-medium"
+          class="text-right cursor-pointer hover:bg-gray-50 font-medium"
           onclick={() => onSort('profitLoss')}
         >
           P&L
           {#if sortConfig.field === 'profitLoss'}
-            <span class="ml-1 text-purple-400">
+            <span class="ml-1 text-blue-600">
               {sortConfig.order === 'asc' ? '↑' : '↓'}
             </span>
           {/if}
@@ -172,21 +167,21 @@
     <Table.Body>
       {#each entries as entry, i (entry.instance.id)}
         <Table.Row 
-          class="border-b border-white/5 hover:bg-white/5 transition-all duration-200 cursor-pointer group"
+          class="border-b hover:bg-gray-50 cursor-pointer"
           onclick={() => onInstanceClick(entry)}
         >
-          <Table.Cell class="text-center font-bold">
+          <Table.Cell class="text-center font-medium">
             <div class="flex items-center justify-center gap-2">
               {#if entry.rank <= 3}
                 {#if getRankEmoji(entry.rank)}
-                  <span class="text-2xl animate-pulse">{getRankEmoji(entry.rank)}</span>
+                  <span class="text-xl">{getRankEmoji(entry.rank)}</span>
                 {/if}
               {/if}
-              <span class="{entry.rank <= 3 ? 'text-xl text-white' : 'text-gray-300'}">
+              <span class="{entry.rank <= 3 ? 'text-lg font-semibold' : ''}">
                 #{entry.rank}
               </span>
               {#if getRankChange(entry.rank, entry.previousRank).symbol}
-                <span class="{getRankChange(entry.rank, entry.previousRank).class} font-bold text-sm">
+                <span class="{getRankChange(entry.rank, entry.previousRank).class} text-sm">
                   {getRankChange(entry.rank, entry.previousRank).symbol}
                 </span>
               {/if}
@@ -195,16 +190,16 @@
           <Table.Cell>
             <div class="flex flex-col gap-1">
               <div class="flex items-center gap-2">
-                <span class="font-semibold text-white group-hover:text-purple-300 transition-colors">
+                <span class="font-medium text-gray-900">
                   {entry.instance.name}
                 </span>
                 <Badge 
                   variant={getStatusColor(entry.instance.status)}
                   class={entry.instance.status === 'active' 
-                    ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/50' 
+                    ? 'bg-green-100 text-green-800 border-green-200' 
                     : entry.instance.status === 'paused'
-                    ? 'bg-yellow-500/20 text-yellow-400 border-yellow-500/50'
-                    : 'bg-gray-500/20 text-gray-400 border-gray-500/50'}
+                    ? 'bg-yellow-100 text-yellow-800 border-yellow-200'
+                    : 'bg-gray-100 text-gray-800 border-gray-200'}
                 >
                   {entry.instance.status}
                 </Badge>
@@ -222,28 +217,28 @@
                 {secBadge.text}
               </Badge>
               <span class="text-xs text-gray-500 flex items-center gap-1">
-                <span class="{entry.security.attestationStatus === 'success' ? 'text-emerald-400' : ''}">{attBadge.emoji}</span>
+                <span class="{entry.security.attestationStatus === 'success' ? 'text-green-600' : ''}">{attBadge.emoji}</span>
                 {attBadge.text}
               </span>
             </div>
           </Table.Cell>
           <Table.Cell class="text-right">
-            <div class="font-semibold text-lg text-white">
+            <div class="font-medium text-gray-900">
               {formatAPY(entry.metrics.apy)}
             </div>
           </Table.Cell>
-          <Table.Cell class="text-right text-gray-300">
+          <Table.Cell class="text-right text-gray-600">
             {formatAliveTime(entry.metrics.aliveTime)}
           </Table.Cell>
           <Table.Cell class="text-right">
             <div class="flex flex-col items-end gap-0.5">
-              <span class="font-medium text-white">
+              <span class="font-medium text-gray-900">
                 {entry.metrics.campaignsSuccessful}/{entry.metrics.campaignsJoined}
               </span>
               <div class="flex items-center gap-1">
-                <div class="w-16 h-1.5 bg-gray-700 rounded-full overflow-hidden">
+                <div class="w-16 h-1.5 bg-gray-200 rounded-full overflow-hidden">
                   <div 
-                    class="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full transition-all duration-500"
+                    class="h-full bg-blue-600 rounded-full"
                     style="width: {getSuccessRate(entry.metrics.campaignsSuccessful, entry.metrics.campaignsJoined)}%"
                   ></div>
                 </div>
@@ -253,11 +248,11 @@
               </div>
             </div>
           </Table.Cell>
-          <Table.Cell class="text-right font-medium text-white">
+          <Table.Cell class="text-right font-medium text-gray-900">
             {formatVolume(entry.metrics.totalVolume)}
           </Table.Cell>
           <Table.Cell class="text-right">
-            <span class="font-semibold text-lg {entry.metrics.profitLoss >= 0 ? 'text-emerald-400' : 'text-rose-400'}">
+            <span class="font-medium {entry.metrics.profitLoss >= 0 ? 'text-green-600' : 'text-red-600'}">
               {formatPnL(entry.metrics.profitLoss)}
             </span>
           </Table.Cell>
@@ -266,18 +261,3 @@
     </Table.Body>
   </Table.Root>
 </div>
-
-<style>
-  :global(.animate-pulse) {
-    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-  }
-  
-  @keyframes pulse {
-    0%, 100% {
-      opacity: 1;
-    }
-    50% {
-      opacity: .5;
-    }
-  }
-</style>

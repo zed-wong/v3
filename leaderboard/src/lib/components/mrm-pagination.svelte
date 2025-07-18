@@ -49,18 +49,18 @@
   }
 </script>
 
-<div class="flex flex-col sm:flex-row items-center justify-between gap-4 backdrop-blur-xl bg-white/5 rounded-xl p-6 border border-white/10">
-  <div class="text-sm text-gray-400">
-    Showing <span class="text-white font-medium">{startItem}-{endItem}</span> of <span class="text-white font-medium">{totalItems}</span> instances
+<div class="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white rounded-lg p-4 shadow-sm border border-gray-200">
+  <div class="text-sm text-gray-600">
+    Showing <span class="font-medium text-gray-900">{startItem}-{endItem}</span> of <span class="font-medium text-gray-900">{totalItems}</span> instances
   </div>
   
   <div class="flex items-center gap-2">
     <Button
-      variant="ghost"
+      variant="outline"
       size="sm"
       onclick={() => goToPage(currentPage - 1)}
       disabled={currentPage === 1}
-      class="text-gray-300 hover:text-white hover:bg-white/10 disabled:opacity-50 disabled:hover:bg-transparent transition-all duration-200"
+      class="text-gray-600 hover:text-gray-900"
     >
       ← Previous
     </Button>
@@ -68,14 +68,14 @@
     <div class="flex items-center gap-1">
       {#each getPageNumbers() as page}
         {#if page === '...'}
-          <span class="px-2 text-gray-500">...</span>
+          <span class="px-2 text-gray-400">...</span>
         {:else}
           <Button
-            variant={page === currentPage ? 'default' : 'ghost'}
+            variant={page === currentPage ? 'default' : 'outline'}
             size="sm"
-            class="w-10 h-10 {page === currentPage 
-              ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white border-0 shadow-lg shadow-purple-500/25' 
-              : 'text-gray-300 hover:text-white hover:bg-white/10'} transition-all duration-200"
+            class="w-9 h-9 {page === currentPage 
+              ? 'bg-blue-600 text-white hover:bg-blue-700' 
+              : 'text-gray-600 hover:text-gray-900'}"
             onclick={() => goToPage(page)}
           >
             {page}
@@ -85,11 +85,11 @@
     </div>
     
     <Button
-      variant="ghost"
+      variant="outline"
       size="sm"
       onclick={() => goToPage(currentPage + 1)}
       disabled={currentPage === totalPages}
-      class="text-gray-300 hover:text-white hover:bg-white/10 disabled:opacity-50 disabled:hover:bg-transparent transition-all duration-200"
+      class="text-gray-600 hover:text-gray-900"
     >
       Next →
     </Button>
