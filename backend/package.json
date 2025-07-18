@@ -3,6 +3,9 @@
   "module": "index.ts",
   "type": "module",
   "private": true,
+  "scripts": {
+    "dev": "bun run index.ts"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
@@ -10,6 +13,7 @@
     "typescript": "^5"
   },
   "dependencies": {
+    "@mixin.dev/mixin-node-sdk": "^7.4.2",
     "emittery": "^1.2.0",
     "fastify": "^5.4.0"
   }
