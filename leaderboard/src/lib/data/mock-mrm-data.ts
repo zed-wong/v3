@@ -52,10 +52,11 @@ function generateMetrics(rank: number, instance: MRMInstance): MRMMetrics {
   // APY: Generally positive, correlated with ROI
   const apy = Math.max(0, roi * 3.5 + Math.random() * 50);
   
-  // Campaigns: More active time = more campaigns
-  const campaignsJoined = Math.floor(aliveHours / 24 * (0.5 + Math.random()));
-  const successRate = 0.4 + performanceFactor * 0.4 + Math.random() * 0.2;
-  const campaignsSuccessful = Math.floor(campaignsJoined * successRate);
+  // Campaigns: More active time = more campaigns, minimum 1 if active for more than 24h
+  const baseCampaigns = aliveHours / 24 * (0.5 + Math.random());
+  const campaignsJoined = aliveHours >= 24 ? Math.max(1, Math.floor(baseCampaigns)) : 0;
+  const successRate = Math.min(1, 0.4 + performanceFactor * 0.4 + Math.random() * 0.2);
+  const campaignsSuccessful = Math.min(campaignsJoined, Math.floor(campaignsJoined * successRate));
   
   // Volume: Higher rank = higher volume
   const totalVolume = (1000000 * performanceFactor + Math.random() * 500000) * (aliveHours / 168);
