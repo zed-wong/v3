@@ -27,6 +27,21 @@
   let itemsPerPage = 20;
   let totalPages = 1;
   
+  // Reactive calculation of total pages
+  $: totalPages = Math.ceil(filteredEntries.length / itemsPerPage);
+  
+  // Ensure current page is valid when total pages changes
+  $: if (currentPage > totalPages && totalPages > 0) {
+    currentPage = totalPages;
+  }
+  
+  // Reactively update paginated entries when dependencies change
+  $: {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    paginatedEntries = filteredEntries.slice(startIndex, endIndex);
+  }
+  
   onMount(() => {
     allEntries = generateMockMRMLeaderboard(250); // Generate more data to test pagination
     applyFiltersAndSort();
@@ -109,13 +124,6 @@
   }
   
   function updatePaginatedEntries() {
-    totalPages = Math.ceil(filteredEntries.length / itemsPerPage);
-    
-    // Ensure current page is valid
-    if (currentPage > totalPages && totalPages > 0) {
-      currentPage = totalPages;
-    }
-    
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     paginatedEntries = filteredEntries.slice(startIndex, endIndex);
