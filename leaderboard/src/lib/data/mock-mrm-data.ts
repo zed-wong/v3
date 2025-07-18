@@ -43,8 +43,8 @@ function generateMetrics(rank: number, instance: MRMInstance): MRMMetrics {
   const performanceFactor = 1 - (rank - 1) / 100;
   const randomFactor = 0.5 + Math.random() * 0.5;
   
-  // Calculate alive time based on created date
-  const aliveHours = (Date.now() - instance.createdAt.getTime()) / (1000 * 60 * 60);
+  // Calculate alive time based on created date, ensure it's positive
+  const aliveHours = Math.max(0, (Date.now() - instance.createdAt.getTime()) / (1000 * 60 * 60));
   
   // ROI: Top performers can have 50%+, lower ranks might be negative
   const roi = (performanceFactor * 60 - 10) * randomFactor + (Math.random() - 0.3) * 20;
@@ -58,8 +58,8 @@ function generateMetrics(rank: number, instance: MRMInstance): MRMMetrics {
   const successRate = Math.min(1, 0.4 + performanceFactor * 0.4 + Math.random() * 0.2);
   const campaignsSuccessful = Math.min(campaignsJoined, Math.floor(campaignsJoined * successRate));
   
-  // Volume: Higher rank = higher volume
-  const totalVolume = (1000000 * performanceFactor + Math.random() * 500000) * (aliveHours / 168);
+  // Volume: Higher rank = higher volume, ensure it's never negative
+  const totalVolume = Math.max(0, (1000000 * performanceFactor + Math.random() * 500000) * (aliveHours / 168));
   
   // P&L: Correlated with ROI and volume
   const profitLoss = totalVolume * (roi / 100) * 0.1;
