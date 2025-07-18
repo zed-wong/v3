@@ -7,9 +7,6 @@
     "dev": "bun --watch index.ts"
   },
   "private": true,
-  "scripts": {
-    "dev": "bun run index.ts"
-  },
   "devDependencies": {
     "@types/bun": "latest"
   },
