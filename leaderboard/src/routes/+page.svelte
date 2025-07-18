@@ -23,7 +23,7 @@
   
   // Pagination state
   let currentPage = 1;
-  let itemsPerPage = 50;
+  let itemsPerPage = 20;
   let totalPages = 1;
   
   onMount(() => {
@@ -205,6 +205,7 @@
           {itemsPerPage}
           totalItems={filteredEntries.length}
           onPageChange={handlePageChange}
+          onItemsPerPageChange={handleItemsPerPageChange}
         />
       </div>
     {/if}
