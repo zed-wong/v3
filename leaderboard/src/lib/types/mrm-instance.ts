@@ -1,3 +1,5 @@
+import type Big from 'big.js';
+
 export interface MRMInstance {
   id: string;
   name: string;
@@ -19,13 +21,13 @@ export interface SecuritySpecs {
 }
 
 export interface MRMMetrics {
-  roi: number; // Return on Investment percentage
-  apy: number; // Annual Percentage Yield
-  aliveTime: number; // Time in hours
+  roi: Big; // Return on Investment percentage
+  apy: Big; // Annual Percentage Yield
+  aliveTime: Big; // Time in hours
   campaignsJoined: number;
   campaignsSuccessful: number;
-  totalVolume: number; // Total trading volume in USD
-  profitLoss: number; // Total P&L in USD
+  totalVolume: Big; // Total trading volume in USD
+  profitLoss: Big; // Total P&L in USD
   lastUpdated: Date;
 }
 

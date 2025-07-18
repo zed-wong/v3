@@ -64,7 +64,7 @@
       />
     </div>
     
-    <Select.Root value={filters.timePeriod as any} onSelectedChange={handleTimePeriodChange}>
+    <Select.Root type="single" value={filters.timePeriod} onValueChange={(value: string | undefined) => value && handleTimePeriodChange(value)}>
       <Select.Trigger class="w-full sm:w-[180px]">
         <span data-slot="select-value">{getTimePeriodLabel(filters.timePeriod)}</span>
       </Select.Trigger>
@@ -76,7 +76,7 @@
       </Select.Content>
     </Select.Root>
     
-    <Select.Root value={filters.status as any} onSelectedChange={handleStatusChange}>
+    <Select.Root type="single" value={filters.status} onValueChange={(value: string | undefined) => value && handleStatusChange(value)}>
       <Select.Trigger class="w-full sm:w-[180px]">
         <span data-slot="select-value">{getStatusLabel(filters.status)}</span>
       </Select.Trigger>

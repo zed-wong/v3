@@ -1,3 +1,4 @@
+import Big from 'big.js';
 import type { MRMLeaderboardEntry, MRMInstance, MRMMetrics, SecuritySpecs } from '$lib/types/mrm-instance';
 
 const instanceNames = [
@@ -44,25 +45,29 @@ function generateMetrics(rank: number, instance: MRMInstance): MRMMetrics {
   const randomFactor = 0.5 + Math.random() * 0.5;
   
   // Calculate alive time based on created date, ensure it's positive
-  const aliveHours = Math.max(0, (Date.now() - instance.createdAt.getTime()) / (1000 * 60 * 60));
+  const aliveHoursNum = Math.max(0, (Date.now() - instance.createdAt.getTime()) / (1000 * 60 * 60));
+  const aliveHours = new Big(aliveHoursNum);
   
   // ROI: Top performers can have 50%+, lower ranks might be negative
-  const roi = (performanceFactor * 60 - 10) * randomFactor + (Math.random() - 0.3) * 20;
+  const roiNum = (performanceFactor * 60 - 10) * randomFactor + (Math.random() - 0.3) * 20;
+  const roi = new Big(roiNum);
   
   // APY: Generally positive, correlated with ROI
-  const apy = Math.max(0, roi * 3.5 + Math.random() * 50);
+  const apyNum = Math.max(0, roiNum * 3.5 + Math.random() * 50);
+  const apy = new Big(apyNum);
   
   // Campaigns: More active time = more campaigns, minimum 1 if active for more than 24h
-  const baseCampaigns = aliveHours / 24 * (0.5 + Math.random());
-  const campaignsJoined = aliveHours >= 24 ? Math.max(1, Math.floor(baseCampaigns)) : 0;
+  const baseCampaigns = aliveHoursNum / 24 * (0.5 + Math.random());
+  const campaignsJoined = aliveHoursNum >= 24 ? Math.max(1, Math.floor(baseCampaigns)) : 0;
   const successRate = Math.min(1, 0.4 + performanceFactor * 0.4 + Math.random() * 0.2);
   const campaignsSuccessful = Math.min(campaignsJoined, Math.floor(campaignsJoined * successRate));
   
   // Volume: Higher rank = higher volume, ensure it's never negative
-  const totalVolume = Math.max(0, (1000000 * performanceFactor + Math.random() * 500000) * (aliveHours / 168));
+  const volumeNum = Math.max(0, (1000000 * performanceFactor + Math.random() * 500000) * (aliveHoursNum / 168));
+  const totalVolume = new Big(volumeNum);
   
   // P&L: Correlated with ROI and volume
-  const profitLoss = totalVolume * (roi / 100) * 0.1;
+  const profitLoss = totalVolume.times(roi.div(100)).times(0.1);
   
   return {
     roi,
@@ -124,7 +129,7 @@ function generateSecuritySpecs(rank: number): SecuritySpecs {
   };
 }
 
-export function generateMockMRMLeaderboard(count: number = 50): MRMLeaderboardEntry[] {
+export function generateMockMRMLeaderboard(count: number = 100): MRMLeaderboardEntry[] {
   const entries: MRMLeaderboardEntry[] = [];
   
   for (let i = 0; i < count; i++) {
@@ -177,7 +182,8 @@ export function filterAndSortMRMEntries(
   }
   
   if (filters.minAPY !== undefined) {
-    filtered = filtered.filter(entry => entry.metrics.apy >= filters.minAPY);
+    const minAPY = new Big(filters.minAPY);
+    filtered = filtered.filter(entry => entry.metrics.apy.gte(minAPY));
   }
   
   if (filters.teeOnly) {

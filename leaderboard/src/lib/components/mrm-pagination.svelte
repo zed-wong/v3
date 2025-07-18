@@ -75,7 +75,7 @@
       
       <div class="flex items-center gap-2 text-sm">
         <span class="text-gray-600">Show:</span>
-        <Select.Root value={itemsPerPage.toString()} onSelectedChange={handleItemsPerPageChange}>
+        <Select.Root type="single" value={itemsPerPage.toString()} onValueChange={(value: string | undefined) => value && handleItemsPerPageChange(value)}>
           <Select.Trigger class="w-[70px] h-8">
             <span data-slot="select-value">{itemsPerPage}</span>
           </Select.Trigger>
@@ -121,7 +121,7 @@
                 class="w-9 h-9 {page === currentPage 
                   ? 'bg-blue-600 text-white hover:bg-blue-700' 
                   : 'text-gray-600 hover:text-gray-900'}"
-                onclick={() => goToPage(page)}
+                onclick={() => goToPage(typeof page === 'number' ? page : currentPage)}
               >
                 {page}
               </Button>

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Big from 'big.js';
   import * as Table from '$lib/components/ui/table';
   import { Badge } from '$lib/components/ui/badge';
   import type { MRMLeaderboardEntry, SortConfig, SortField, SecuritySpecs } from '$lib/types/mrm-instance';
@@ -28,30 +29,34 @@
     return { symbol: '−', class: 'text-gray-400' };
   }
   
-  function formatAPY(apy: number): string {
+  function formatAPY(apy: Big): string {
     return `${apy.toFixed(2)}%`;
   }
   
-  function formatVolume(volume: number): string {
-    if (volume >= 1000000) {
-      return `$${(volume / 1000000).toFixed(2)}M`;
+  function formatVolume(volume: Big): string {
+    const million = new Big(1000000);
+    const thousand = new Big(1000);
+    
+    if (volume.gte(million)) {
+      return `$${volume.div(million).toFixed(2)}M`;
     }
-    if (volume >= 1000) {
-      return `$${(volume / 1000).toFixed(2)}K`;
+    if (volume.gte(thousand)) {
+      return `$${volume.div(thousand).toFixed(2)}K`;
     }
     return `$${volume.toFixed(2)}`;
   }
   
-  function formatPnL(pnl: number): string {
-    const sign = pnl >= 0 ? '+' : '';
-    return `${sign}${formatVolume(Math.abs(pnl))}`;
+  function formatPnL(pnl: Big): string {
+    const sign = pnl.gte(0) ? '+' : '';
+    return `${sign}${formatVolume(pnl.abs())}`;
   }
   
-  function formatAliveTime(hours: number): string {
-    if (hours < 24) {
-      return `${Math.floor(hours)}h`;
+  function formatAliveTime(hours: Big): string {
+    const hoursNum = Number(hours.toFixed(0));
+    if (hoursNum < 24) {
+      return `${hoursNum}h`;
     }
-    const days = Math.floor(hours / 24);
+    const days = Math.floor(hoursNum / 24);
     if (days < 30) {
       return `${days}d`;
     }
@@ -89,7 +94,7 @@
     }
   }
   
-  function getSecurityBadge(security: SecuritySpecs) {
+  function getSecurityBadge(security: SecuritySpecs): { text: string; variant: 'default' | 'secondary' | 'outline'; class: string } {
     if (security.runInTEE && security.attestationStatus === 'success') {
       return { text: 'TEE + Verified', variant: 'default', class: 'bg-green-100 text-green-800 border-green-200' };
     } else if (security.runInTEE) {
@@ -252,7 +257,7 @@
             {formatVolume(entry.metrics.totalVolume)}
           </Table.Cell>
           <Table.Cell class="text-right">
-            <span class="font-medium {entry.metrics.profitLoss >= 0 ? 'text-green-600' : 'text-red-600'}">
+            <span class="font-medium {entry.metrics.profitLoss.gte(0) ? 'text-green-600' : 'text-red-600'}">
               {formatPnL(entry.metrics.profitLoss)}
             </span>
           </Table.Cell>

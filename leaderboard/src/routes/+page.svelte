@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Big from 'big.js';
   import { onMount } from 'svelte';
   import MRMLeaderboardTable from '$lib/components/mrm-leaderboard-table.svelte';
   import MRMLeaderboardFilters from '$lib/components/mrm-leaderboard-filters.svelte';
@@ -64,43 +65,36 @@
     
     // Apply sorting
     result.sort((a, b) => {
-      let aVal: any, bVal: any;
+      let compareResult = 0;
       
       switch (sortConfig.field) {
         case 'rank':
-          aVal = a.rank;
-          bVal = b.rank;
+          compareResult = a.rank - b.rank;
           break;
         case 'apy':
-          aVal = a.metrics.apy;
-          bVal = b.metrics.apy;
+          compareResult = a.metrics.apy.cmp(b.metrics.apy);
           break;
         case 'aliveTime':
-          aVal = a.metrics.aliveTime;
-          bVal = b.metrics.aliveTime;
+          compareResult = a.metrics.aliveTime.cmp(b.metrics.aliveTime);
           break;
         case 'campaignsJoined':
-          aVal = a.metrics.campaignsJoined;
-          bVal = b.metrics.campaignsJoined;
+          compareResult = a.metrics.campaignsJoined - b.metrics.campaignsJoined;
           break;
         case 'campaignsSuccessful':
-          aVal = a.metrics.campaignsSuccessful;
-          bVal = b.metrics.campaignsSuccessful;
+          compareResult = a.metrics.campaignsSuccessful - b.metrics.campaignsSuccessful;
           break;
         case 'totalVolume':
-          aVal = a.metrics.totalVolume;
-          bVal = b.metrics.totalVolume;
+          compareResult = a.metrics.totalVolume.cmp(b.metrics.totalVolume);
           break;
         case 'profitLoss':
-          aVal = a.metrics.profitLoss;
-          bVal = b.metrics.profitLoss;
+          compareResult = a.metrics.profitLoss.cmp(b.metrics.profitLoss);
           break;
       }
       
       if (sortConfig.order === 'asc') {
-        return aVal > bVal ? 1 : -1;
+        return compareResult;
       } else {
-        return aVal < bVal ? 1 : -1;
+        return -compareResult;
       }
     });
     
@@ -135,9 +129,9 @@
   // Calculate summary statistics (from all filtered entries, not just current page)
   $: activeInstances = filteredEntries.filter(e => e.instance.status === 'active').length;
   $: avgAPY = filteredEntries.length > 0 
-    ? filteredEntries.reduce((sum, e) => sum + e.metrics.apy, 0) / filteredEntries.length 
-    : 0;
-  $: totalVolume = filteredEntries.reduce((sum, e) => sum + e.metrics.totalVolume, 0);
+    ? filteredEntries.reduce((sum, e) => sum.plus(e.metrics.apy), new Big(0)).div(filteredEntries.length) 
+    : new Big(0);
+  $: totalVolume = filteredEntries.reduce((sum, e) => sum.plus(e.metrics.totalVolume), new Big(0));
 </script>
 
 <div class="min-h-screen bg-gray-50">
@@ -165,11 +159,11 @@
       <div class="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
         <p class="text-sm font-medium text-gray-600 mb-1">Total Volume</p>
         <p class="text-2xl font-semibold text-gray-900">
-          ${totalVolume >= 1000000000 
-            ? (totalVolume / 1000000000).toFixed(2) + 'B'
-            : totalVolume >= 1000000 
-            ? (totalVolume / 1000000).toFixed(2) + 'M'
-            : (totalVolume / 1000).toFixed(2) + 'K'
+          ${totalVolume.gte(1000000000) 
+            ? totalVolume.div(1000000000).toFixed(2) + 'B'
+            : totalVolume.gte(1000000) 
+            ? totalVolume.div(1000000).toFixed(2) + 'M'
+            : totalVolume.div(1000).toFixed(2) + 'K'
           }
         </p>
       </div>

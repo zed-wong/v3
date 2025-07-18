@@ -45,7 +45,7 @@
     />
   </div>
   
-  <Select.Root value={filters.timePeriod as any} onSelectedChange={handleTimePeriodChange}>
+  <Select.Root type="single" value={filters.timePeriod} onValueChange={(value: string | undefined) => value && handleTimePeriodChange(value)}>
     <Select.Trigger class="w-full sm:w-[180px]">
       <span data-slot="select-value">{filters.timePeriod === 'all-time' ? 'All Time' : filters.timePeriod === 'daily' ? 'Daily' : filters.timePeriod === 'weekly' ? 'Weekly' : 'Monthly'}</span>
     </Select.Trigger>
@@ -57,7 +57,7 @@
     </Select.Content>
   </Select.Root>
   
-  <Select.Root value={filters.gameMode as any} onSelectedChange={handleGameModeChange}>
+  <Select.Root type="single" value={filters.gameMode} onValueChange={(value: string | undefined) => value && handleGameModeChange(value)}>
     <Select.Trigger class="w-full sm:w-[180px]">
       <span data-slot="select-value">{filters.gameMode === 'all' ? 'All Modes' : filters.gameMode === 'solo' ? 'Solo' : filters.gameMode === 'team' ? 'Team' : 'Tournament'}</span>
     </Select.Trigger>
