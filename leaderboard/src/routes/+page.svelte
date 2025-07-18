@@ -151,7 +151,7 @@
   
   <!-- Mesh pattern overlay -->
   <div class="absolute inset-0 opacity-[0.03]" 
-       style="background-image: url('data:image/svg+xml,%3Csvg width="60" height="60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg%3E%3Cpolygon fill="%23000" points="0,30 30,0 60,30 30,60"/%3E%3C/g%3E%3C/svg%3E');
+       style="background-image: url('data:image/svg+xml,%3Csvg width=%2260%22 height=%2260%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cg%3E%3Cpolygon fill=%22%23000%22 points=%220,30 30,0 60,30 30,60%22/%3E%3C/g%3E%3C/svg%3E');
               background-size: 60px 60px;"></div>
   
   <!-- Content container -->
