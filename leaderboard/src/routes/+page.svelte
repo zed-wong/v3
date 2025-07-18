@@ -142,12 +142,20 @@
   $: totalVolume = allEntries.reduce((sum, e) => sum.plus(e.metrics.totalVolume), new Big(0));
 </script>
 
-<div class="min-h-screen bg-white">
-  <!-- Subtle gradient accent at top -->
-  <div class="absolute top-0 left-0 right-0 h-96 bg-gradient-to-b from-purple-50/50 to-transparent pointer-events-none"></div>
+<div class="min-h-screen relative">
+  <!-- Subtle gradient background -->
+  <div class="fixed inset-0 bg-gradient-to-br from-slate-50 via-white to-violet-50"></div>
+  
+  <!-- Soft gradient orbs for subtle color -->
+  <div class="fixed top-0 right-0 w-[40rem] h-[40rem] -translate-y-1/2 translate-x-1/2">
+    <div class="absolute inset-0 bg-gradient-to-br from-violet-200/30 via-blue-200/20 to-transparent rounded-full blur-3xl"></div>
+  </div>
+  <div class="fixed bottom-0 left-0 w-[35rem] h-[35rem] translate-y-1/2 -translate-x-1/2">
+    <div class="absolute inset-0 bg-gradient-to-tr from-blue-200/30 via-purple-200/20 to-transparent rounded-full blur-3xl"></div>
+  </div>
   
   <!-- Content container -->
-  <div class="relative container mx-auto py-8 px-4 max-w-7xl">
+  <div class="relative z-10 container mx-auto py-8 px-4 max-w-7xl">
     <!-- Header Section -->
     <div class="mb-8">
       <h1 class="text-3xl font-semibold text-gray-900 mb-2">
@@ -158,17 +166,17 @@
     
     <!-- Summary Stats -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-      <div class="bg-white rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-100">
+      <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300 border border-white/50">
         <p class="text-sm font-medium text-gray-600 mb-1">Active Instances</p>
         <p class="text-2xl font-semibold text-gray-900">{activeInstances}</p>
       </div>
       
-      <div class="bg-white rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-100">
+      <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300 border border-white/50">
         <p class="text-sm font-medium text-gray-600 mb-1">Average APY</p>
         <p class="text-2xl font-semibold text-gray-900">{avgAPY.toFixed(2)}%</p>
       </div>
       
-      <div class="bg-white rounded-lg p-6 shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-100">
+      <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-sm hover:shadow-md transition-all duration-300 border border-white/50">
         <p class="text-sm font-medium text-gray-600 mb-1">Total Volume</p>
         <p class="text-2xl font-semibold text-gray-900">
           ${totalVolume.gte(1000000000) 
@@ -182,7 +190,7 @@
     </div>
     
     <!-- Filters -->
-    <div class="bg-white rounded-lg p-6 mb-6 shadow-md border border-gray-100">
+    <div class="bg-white/80 backdrop-blur-sm rounded-xl p-6 mb-6 shadow-sm border border-white/50">
       <MRMLeaderboardFilters 
         {filters} 
         onFiltersChange={handleFiltersChange} 
@@ -190,7 +198,7 @@
     </div>
     
     <!-- Leaderboard Table -->
-    <div class="bg-white rounded-lg overflow-hidden shadow-md border border-gray-100">
+    <div class="bg-white/90 backdrop-blur-sm rounded-xl overflow-hidden shadow-sm border border-white/50">
       <MRMLeaderboardTable 
         entries={paginatedEntries} 
         {sortConfig}
