@@ -7,7 +7,7 @@
 Tech stack:
 
 - Fastify (Simple, Lean, Can be deployed anywhere: serverless/docker/server)
-- Sqlite (File based, No server needed)
+- Prisma ORM & Sqlite (File based, No server needed)
 
 Usage: 
 

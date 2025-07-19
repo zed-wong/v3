@@ -1,3 +1,20 @@
+
+---
+## Backend API
+Backend API response format:
+```
+{
+  data: {},
+}
+```
+or
+```
+{
+  message: "Error xxx",
+  code: 400,
+}
+```
+
 ---
 
 Default to using Bun instead of Node.js.

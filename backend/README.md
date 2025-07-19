@@ -9,7 +9,28 @@ bun install
 To run:
 
 ```bash
-bun run index.ts
+bun run dev
 ```
 
-This project was created using `bun init` in bun v1.2.18. [Bun](https://bun.sh) is a fast all-in-one JavaScript runtime.
+## Project structure
+
+```
+backend/
+├── index.ts                    # Main server entry point
+├── package.json               # Dependencies
+├── tsconfig.json             # TypeScript config
+├── bun.lock                  # Bun lock file
+├── CLAUDE.md                 # Claude instructions
+├── README.md                 # Project documentation
+├── TODO.md                   # Task list
+└── src/
+    ├── routes/               # API endpoints
+    ├── services/            # Business logic
+    │   ├── common/          # Shared services
+    │   ├── mixin/           # Service mixins
+    │   ├── strategy/        # Trading strategies
+    │   └── tee/             # TEE
+    ├── types/               # TypeScript types
+    ├── utils/               # Utility functions
+    └── tests/               # Test files
+```
