@@ -23,7 +23,7 @@ Details:
 - [ ] Funds: Access control, whitelist
 - [ ] Address management: SDK, private key management
 - [ ] TEE attesation: Endpoints, Attestation report
-- [ ] Network detection: Register or send ping to central server/dashboard
+- [ ] Network detection: Register to registry
 - [ ] Lending: Lend to exchanges
 
 ---
