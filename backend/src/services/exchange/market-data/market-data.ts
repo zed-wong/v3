@@ -1,7 +1,7 @@
 import type { Exchange, Ticker, OHLCV, OrderBook } from 'ccxt'
 import type { TickerCommand, OHLCVCommand, OrderBookCommand, TickerData, OHLCVData, OrderBookData, MarketDataType } from '../../../types/exchange'
 import { ExchangeError } from '../../../types/exchange'
-import { withExchangeErrorHandler, exchangeHas, loadMarkets } from '../exchange-base'
+import { withExchangeErrorHandler, exchangeHas, loadMarkets } from '../base'
 import { cache } from '../cache'
 
 // Re-export types for convenience

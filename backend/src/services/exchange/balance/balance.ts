@@ -2,7 +2,7 @@ import type { Exchange, Balances as CCXTBalances, Balance as CCXTBalance } from 
 import { Decimal } from 'decimal.js'
 import type { BalanceCommand, BalanceResult, TransactionData } from '../../../types/exchange'
 import { ExchangeError, TransactionStatus, TransactionType } from '../../../types/exchange'
-import { withExchangeErrorHandler } from '../exchange-base'
+import { withExchangeErrorHandler } from '../base'
 import { cache, cacheKeys } from '../cache'
 
 // Re-export types for convenience

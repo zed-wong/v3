@@ -2,7 +2,7 @@ import type { Exchange, Order as CCXTOrder } from 'ccxt'
 import { Decimal } from 'decimal.js'
 import type { CreateOrderCommand, CancelOrderCommand, OrderResult } from '../../../types/exchange'
 import { ExchangeError, InvalidOrderError, InsufficientBalanceError, OrderType, OrderSide, OrderStatus } from '../../../types/exchange'
-import { withExchangeErrorHandler, exchangeHas, formatOrderValues } from '../exchange-base'
+import { withExchangeErrorHandler, exchangeHas, formatOrderValues } from '../base'
 import { validateSufficientBalance } from '../balance/balance'
 import { cache } from '../cache'
 

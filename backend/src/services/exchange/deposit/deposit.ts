@@ -2,7 +2,7 @@ import type { Exchange } from 'ccxt'
 import { Decimal } from 'decimal.js'
 import type { DepositCommand, DepositAddress, DepositTransaction } from '../../../types/exchange'
 import { ExchangeError, TransactionStatus, TransactionType } from '../../../types/exchange'
-import { withExchangeErrorHandler, exchangeHas } from '../exchange-base'
+import { withExchangeErrorHandler, exchangeHas } from '../base'
 import { cache } from '../cache'
 
 // Re-export types for convenience

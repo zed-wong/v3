@@ -2,7 +2,7 @@ import type { Exchange } from 'ccxt'
 import { Decimal } from 'decimal.js'
 import type { WithdrawalCommand, WithdrawalResult, WithdrawalTransaction } from '../../../types/exchange'
 import { ExchangeError, TransactionStatus, TransactionType, InsufficientBalanceError } from '../../../types/exchange'
-import { withExchangeErrorHandler, exchangeHas } from '../exchange-base'
+import { withExchangeErrorHandler, exchangeHas } from '../base'
 import { validateSufficientBalance } from '../balance/balance'
 import { cache } from '../cache'
 

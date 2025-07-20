@@ -1,6 +1,6 @@
 // Exchange base functionality
 export * from '../../types/exchange'
-export * from './exchange-base'
+export * from './base'
 export * from './exchange-manager'
 export * from './cache'
 export * from './events'

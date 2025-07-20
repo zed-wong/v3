@@ -1,7 +1,7 @@
 import type { Exchange } from 'ccxt'
 import type { ExchangeConfig, ExchangeInstance, ExchangeRegistry, ExchangeSelectionStrategy } from '../../types/exchange'
 import { ExchangeError, ExchangeNotFoundError } from '../../types/exchange'
-import { createExchange, loadMarkets } from './exchange-base'
+import { createExchange, loadMarkets } from './base'
 import { cache } from './cache'
 
 // Re-export types for convenience
@@ -131,6 +131,10 @@ export const updateExchange = async (
   
   // Update registry
   const registry = userRegistries[registryIndex]
+  if (!registry) {
+    throw new ExchangeNotFoundError(exchangeId)
+  }
+  
   registry.config = {
     ...registry.config,
     ...config,
@@ -210,28 +214,28 @@ const clearExchangeCaches = (exchangeId: string, userId?: string): void => {
 export const selectBestBuyExchange: ExchangeSelectionStrategy = (exchanges) => {
   // Implementation would compare ask prices across exchanges
   // For now, return first available
-  return exchanges.length > 0 ? exchanges[0] : null
+  return exchanges.length > 0 ? exchanges[0]! : null
 }
 
 // Select exchange with best price for selling
 export const selectBestSellExchange: ExchangeSelectionStrategy = (exchanges) => {
   // Implementation would compare bid prices across exchanges
   // For now, return first available
-  return exchanges.length > 0 ? exchanges[0] : null
+  return exchanges.length > 0 ? exchanges[0]! : null
 }
 
 // Select exchange with highest liquidity
 export const selectHighestLiquidityExchange: ExchangeSelectionStrategy = (exchanges) => {
   // Implementation would compare order book depth
   // For now, return first available
-  return exchanges.length > 0 ? exchanges[0] : null
+  return exchanges.length > 0 ? exchanges[0]! : null
 }
 
 // Select exchange randomly (for load balancing)
 export const selectRandomExchange: ExchangeSelectionStrategy = (exchanges) => {
   if (exchanges.length === 0) return null
   const index = Math.floor(Math.random() * exchanges.length)
-  return exchanges[index]
+  return exchanges[index]!
 }
 
 // Helper functions
@@ -240,7 +244,7 @@ const maskApiKey = (apiKey: string): string => {
   return apiKey.substring(0, 4) + '...' + apiKey.substring(apiKey.length - 4)
 }
 
-const maskSecret = (secret: string): string => {
+const maskSecret = (_secret: string): string => {
   return '***'
 }
 
