@@ -1,0 +1,178 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// User model
+model User {
+  id               String              @id @default(cuid())
+  clientId         String              @unique
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
+  
+  // Relations
+  exchangeApiKeys  ExchangeApiKey[]
+  tradeOrders      TradeOrder[]
+  deposits         ExchangeDeposit[]
+  withdrawals      ExchangeWithdrawal[]
+  
+  @@index([clientId])
+}
+
+// Exchange API Key management
+model ExchangeApiKey {
+  id               String              @id @default(cuid())
+  userId           String
+  exchangeName     String
+  label            String?
+  apiKey           String              // Should be encrypted
+  secret           String              // Should be encrypted
+  password         String?             // Should be encrypted
+  uid              String?
+  privateKey       String?             // Should be encrypted
+  walletAddress    String?
+  options          Json?
+  isActive         Boolean             @default(true)
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
+  
+  // Relations
+  user             User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, exchangeName, label])
+  @@index([userId, exchangeName])
+}
+
+// Exchange deposits
+model ExchangeDeposit {
+  id               String              @id @default(cuid())
+  userId           String
+  exchangeName     String
+  txId             String
+  txTimestamp      DateTime
+  symbol           String
+  network          String?
+  amount           Float
+  address          String
+  tag              String?
+  status           TransactionStatus   @default(PENDING)
+  fee              Float?
+  feeCurrency      String?
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
+  
+  // Relations
+  user             User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@unique([exchangeName, txId])
+  @@index([userId, exchangeName, symbol])
+  @@index([txTimestamp])
+}
+
+// Exchange withdrawals
+model ExchangeWithdrawal {
+  id               String              @id @default(cuid())
+  userId           String
+  exchangeName     String
+  txId             String?
+  txTimestamp      DateTime
+  symbol           String
+  network          String?
+  amount           Float
+  address          String
+  tag              String?
+  status           TransactionStatus   @default(PENDING)
+  fee              Float?
+  feeCurrency      String?
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
+  
+  // Relations
+  user             User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@unique([exchangeName, txId])
+  @@index([userId, exchangeName, symbol])
+  @@index([txTimestamp])
+}
+
+// Trade orders
+model TradeOrder {
+  id               String              @id @default(cuid())
+  userId           String
+  clientId         String
+  exchangeName     String
+  orderExtId       String?             // External order ID from exchange
+  symbol           String
+  side             OrderSide
+  type             OrderType
+  amount           Float
+  price            Float?
+  status           OrderStatus         @default(PENDING)
+  filled           Float               @default(0)
+  remaining        Float               @default(0)
+  fee              Float?
+  feeCurrency      String?
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
+  
+  // Relations
+  user             User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  operations       TradeOperation[]
+  
+  @@unique([exchangeName, orderExtId])
+  @@index([userId, exchangeName, symbol])
+  @@index([clientId])
+  @@index([status])
+}
+
+// Trade operations (order execution history)
+model TradeOperation {
+  id               String              @id @default(cuid())
+  orderId          String
+  type             String
+  status           String
+  details          Json?
+  executedAt       DateTime            @default(now())
+  
+  // Relations
+  order            TradeOrder          @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  
+  @@index([orderId])
+}
+
+// Enums
+enum TransactionStatus {
+  PENDING
+  OK
+  FAILED
+  CANCELED
+}
+
+enum OrderSide {
+  BUY
+  SELL
+}
+
+enum OrderType {
+  LIMIT
+  MARKET
+}
+
+enum OrderStatus {
+  PENDING
+  OPEN
+  CLOSED
+  CANCELED
+  EXPIRED
+  REJECTED
+  FILLED
+  PARTIALLY_FILLED
+}

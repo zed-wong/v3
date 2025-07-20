@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "start": "bun run index.ts start",
-    "dev": "bun run index.ts dev --watch"
+    "dev": "bun --watch index.ts dev",
+    "cli": "bun run index.ts",
+    "help": "bun run index.ts --help"
   },
   "private": true,
   "devDependencies": {
@@ -20,7 +22,9 @@
   "dependencies": {
     "@mixin.dev/mixin-node-sdk": "^7.4.2",
     "@prisma/client": "^6.12.0",
+    "@types/decimal.js": "^7.4.3",
     "ccxt": "^4.4.95",
+    "decimal.js": "^10.6.0",
     "emittery": "^1.2.0",
     "fastify": "^5.4.0",
     "yargs": "^18.0.0"
