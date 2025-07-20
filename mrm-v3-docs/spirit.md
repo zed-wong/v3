@@ -6,7 +6,7 @@ Anyone can market make, Anyone can be instance deployer, the market making is do
 
 ## Safe
 
-No instance deployer can rug user's fund, protected by smart contract and whitelist, no unauthorized action allowed. Also Reputation + taking system backs the trust.
+No instance deployer can rug user's fund, protected by smart contract and whitelist, no unauthorized action allowed. Also Reputation + staking system backs the trust.
 
 ## Powerful
 
