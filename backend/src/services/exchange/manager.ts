@@ -288,3 +288,9 @@ export const validateExchangeCredentials = async (
     return false
   }
 }
+
+// Test utility: Clear all manager state
+export const clearManagerState = (): void => {
+  exchangeInstances.clear()
+  exchangeRegistries.clear()
+}

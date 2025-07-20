@@ -1,8 +1,9 @@
 import type { Exchange, Ticker, OHLCV, OrderBook } from 'ccxt'
-import type { TickerCommand, OHLCVCommand, OrderBookCommand, TickerData, OHLCVData, OrderBookData, MarketDataType } from '../../../types/exchange'
-import { ExchangeError } from '../../../types/exchange'
+import type { TickerCommand, OHLCVCommand, OrderBookCommand, TickerData, OHLCVData, OrderBookData } from '../../../types/exchange'
+import { ExchangeError, MarketDataType } from '../../../types/exchange'
 import { withExchangeErrorHandler, exchangeHas, loadMarkets } from '../base'
 import { cache } from '../cache'
+import Decimal from 'decimal.js'
 
 // Re-export types for convenience
 export type { TickerCommand, OHLCVCommand, OrderBookCommand, TickerData, OHLCVData, OrderBookData } from '../../../types/exchange'
@@ -212,23 +213,34 @@ export const calculatePriceChange = (
   previousPrice: number
 ): number => {
   if (previousPrice === 0) return 0
-  return ((currentPrice - previousPrice) / previousPrice) * 100
+  
+  const current = new Decimal(currentPrice)
+  const previous = new Decimal(previousPrice)
+  
+  return current.minus(previous).dividedBy(previous).times(100).toNumber()
 }
 
 // Calculate VWAP (Volume Weighted Average Price)
 export const calculateVWAP = (ohlcv: OHLCVData[]): number => {
   if (ohlcv.length === 0) return 0
   
-  let totalVolume = 0
-  let totalValue = 0
+  let totalVolume = new Decimal(0)
+  let totalValue = new Decimal(0)
   
   for (const candle of ohlcv) {
-    const typicalPrice = (candle.high + candle.low + candle.close) / 3
-    totalValue += typicalPrice * candle.volume
-    totalVolume += candle.volume
+    const high = new Decimal(candle.high)
+    const low = new Decimal(candle.low)
+    const close = new Decimal(candle.close)
+    const volume = new Decimal(candle.volume)
+    
+    // Calculate typical price: (High + Low + Close) / 3
+    const typicalPrice = high.plus(low).plus(close).dividedBy(3)
+    
+    totalValue = totalValue.plus(typicalPrice.times(volume))
+    totalVolume = totalVolume.plus(volume)
   }
   
-  return totalVolume > 0 ? totalValue / totalVolume : 0
+  return totalVolume.greaterThan(0) ? totalValue.dividedBy(totalVolume).toNumber() : 0
 }
 
 // Helper: Map CCXT ticker to our TickerData type
@@ -292,8 +304,8 @@ export const aggregateMarketData = async (
   // Find best bid and ask
   let bestBid = { price: 0, exchange: '' }
   let bestAsk = { price: Number.MAX_SAFE_INTEGER, exchange: '' }
-  let totalPrice = 0
-  let totalVolume = 0
+  let totalPrice = new Decimal(0)
+  let totalVolume = new Decimal(0)
   
   for (const { exchange, ticker } of validTickers) {
     if (ticker.bid > bestBid.price) {
@@ -302,14 +314,14 @@ export const aggregateMarketData = async (
     if (ticker.ask < bestAsk.price && ticker.ask > 0) {
       bestAsk = { price: ticker.ask, exchange }
     }
-    totalPrice += ticker.last
-    totalVolume += ticker.volume || 0
+    totalPrice = totalPrice.plus(ticker.last)
+    totalVolume = totalVolume.plus(ticker.volume || 0)
   }
   
   return {
     bestBid,
     bestAsk,
-    averagePrice: totalPrice / validTickers.length,
-    totalVolume
+    averagePrice: totalPrice.dividedBy(validTickers.length).toNumber(),
+    totalVolume: totalVolume.toNumber()
   }
 }
