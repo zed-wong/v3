@@ -1,5 +1,5 @@
 import type { Exchange, Order as CCXTOrder } from 'ccxt'
-import { Decimal } from 'decimal.js'
+import { Big } from 'big.js'
 import type { CreateOrderCommand, CancelOrderCommand, OrderResult } from '../../../types/exchange'
 import { ExchangeError, InvalidOrderError, InsufficientBalanceError, OrderType, OrderSide, OrderStatus } from '../../../types/exchange'
 import { withExchangeErrorHandler, exchangeHas, formatOrderValues } from '../base'
@@ -86,7 +86,7 @@ export const createOrder = async (
     
     if (quoteBalance && quoteCurrency) {
       const requiredAmount = command.type === OrderType.LIMIT && command.price
-        ? new Decimal(command.amount).times(command.price).toNumber()
+        ? new Big(command.amount).times(command.price).toNumber()
         : command.amount // For market orders, this is approximate
       
       try {

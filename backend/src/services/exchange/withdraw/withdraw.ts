@@ -1,5 +1,5 @@
 import type { Exchange } from 'ccxt'
-import { Decimal } from 'decimal.js'
+import { Big } from 'big.js'
 import type { WithdrawalCommand, WithdrawalResult, WithdrawalTransaction } from '../../../types/exchange'
 import { ExchangeError, TransactionStatus, TransactionType, InsufficientBalanceError } from '../../../types/exchange'
 import { withExchangeErrorHandler, exchangeHas } from '../base'
@@ -174,7 +174,7 @@ export const calculateTotalWithdrawn = (
   withdrawals: WithdrawalTransaction[],
   currency?: string
 ): Record<string, string> => {
-  const totals: Record<string, Decimal> = {}
+  const totals: Record<string, Big> = {}
   
   for (const withdrawal of withdrawals) {
     // Only include successful withdrawals
@@ -187,8 +187,8 @@ export const calculateTotalWithdrawn = (
       continue
     }
     
-    const amount = new Decimal(withdrawal.amount)
-    const feeCost = withdrawal.fee?.cost ? new Decimal(withdrawal.fee.cost) : new Decimal(0)
+    const amount = new Big(withdrawal.amount)
+    const feeCost = withdrawal.fee?.cost ? new Big(withdrawal.fee.cost) : new Big(0)
     
     // If fee is in same currency, add it to the total withdrawn
     const totalAmount = withdrawal.fee?.currency === withdrawal.currency
@@ -197,7 +197,7 @@ export const calculateTotalWithdrawn = (
     
     const curr = withdrawal.currency
     if (!totals[curr]) {
-      totals[curr] = new Decimal(0)
+      totals[curr] = new Big(0)
     }
     
     totals[curr] = totals[curr].plus(totalAmount)
@@ -276,7 +276,7 @@ export const calculateNetWithdrawalAmount = (
   feeCurrency: string,
   withdrawalCurrency: string
 ): number => {
-  const withdrawalAmount = new Decimal(amount)
+  const withdrawalAmount = new Big(amount)
   
   // If fee is in same currency, subtract from amount
   if (feeCurrency === withdrawalCurrency) {

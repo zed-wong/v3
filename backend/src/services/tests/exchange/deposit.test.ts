@@ -323,7 +323,7 @@ describe('Deposit Service', () => {
       expect(totals).toEqual({})
     })
 
-    test('should use Decimal for precise calculations', () => {
+    test('should use Big for precise calculations', () => {
       const precisionDeposits: DepositTransaction[] = [
         {
           id: '1',

@@ -1,5 +1,5 @@
 import { cache } from '../cache'
-import Decimal from 'decimal.js'
+import { Big } from 'big.js'
 import type { Exchange, Ticker, OHLCV, OrderBook } from 'ccxt'
 import type { TickerData, OHLCVData, OrderBookData } from '../../../types/exchange'
 import { ExchangeError, MarketDataType } from '../../../types/exchange'
@@ -214,33 +214,33 @@ export const calculatePriceChange = (
 ): number => {
   if (previousPrice === 0) return 0
   
-  const current = new Decimal(currentPrice)
-  const previous = new Decimal(previousPrice)
+  const current = new Big(currentPrice)
+  const previous = new Big(previousPrice)
   
-  return current.minus(previous).dividedBy(previous).times(100).toNumber()
+  return current.minus(previous).div(previous).times(100).toNumber()
 }
 
 // Calculate VWAP (Volume Weighted Average Price)
 export const calculateVWAP = (ohlcv: OHLCVData[]): number => {
   if (ohlcv.length === 0) return 0
   
-  let totalVolume = new Decimal(0)
-  let totalValue = new Decimal(0)
+  let totalVolume = new Big(0)
+  let totalValue = new Big(0)
   
   for (const candle of ohlcv) {
-    const high = new Decimal(candle.high)
-    const low = new Decimal(candle.low)
-    const close = new Decimal(candle.close)
-    const volume = new Decimal(candle.volume)
+    const high = new Big(candle.high)
+    const low = new Big(candle.low)
+    const close = new Big(candle.close)
+    const volume = new Big(candle.volume)
     
     // Calculate typical price: (High + Low + Close) / 3
-    const typicalPrice = high.plus(low).plus(close).dividedBy(3)
+    const typicalPrice = high.plus(low).plus(close).div(3)
     
     totalValue = totalValue.plus(typicalPrice.times(volume))
     totalVolume = totalVolume.plus(volume)
   }
   
-  return totalVolume.greaterThan(0) ? totalValue.dividedBy(totalVolume).toNumber() : 0
+  return totalVolume.gt(0) ? totalValue.div(totalVolume).toNumber() : 0
 }
 
 // Helper: Map CCXT ticker to our TickerData type
@@ -304,8 +304,8 @@ export const aggregateMarketData = async (
   // Find best bid and ask
   let bestBid = { price: 0, exchange: '' }
   let bestAsk = { price: Number.MAX_SAFE_INTEGER, exchange: '' }
-  let totalPrice = new Decimal(0)
-  let totalVolume = new Decimal(0)
+  let totalPrice = new Big(0)
+  let totalVolume = new Big(0)
   
   for (const { exchange, ticker } of validTickers) {
     if (ticker.bid > bestBid.price) {
@@ -321,7 +321,7 @@ export const aggregateMarketData = async (
   return {
     bestBid,
     bestAsk,
-    averagePrice: totalPrice.dividedBy(validTickers.length).toNumber(),
+    averagePrice: totalPrice.div(validTickers.length).toNumber(),
     totalVolume: totalVolume.toNumber()
   }
 }

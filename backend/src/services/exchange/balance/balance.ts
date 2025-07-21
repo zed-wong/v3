@@ -1,5 +1,5 @@
 import type { Exchange, Balances as CCXTBalances, Balance as CCXTBalance } from 'ccxt'
-import { Decimal } from 'decimal.js'
+import { Big } from 'big.js'
 import type { BalanceCommand, BalanceResult, TransactionData } from '../../../types/exchange'
 import { ExchangeError, TransactionStatus, TransactionType } from '../../../types/exchange'
 import { withExchangeErrorHandler } from '../base'
@@ -56,7 +56,7 @@ export const getExchangeBalance = async (
 export const calculateBalanceFromTransactions = (
   transactions: TransactionData[]
 ): BalanceResult => {
-  const balances: Record<string, { deposit: Decimal; withdrawal: Decimal }> = {}
+  const balances: Record<string, { deposit: Big; withdrawal: Big }> = {}
   
   for (const tx of transactions) {
     // Only include successful transactions
@@ -67,12 +67,12 @@ export const calculateBalanceFromTransactions = (
     const symbol = tx.symbol
     if (!balances[symbol]) {
       balances[symbol] = {
-        deposit: new Decimal(0),
-        withdrawal: new Decimal(0)
+        deposit: new Big(0),
+        withdrawal: new Big(0)
       }
     }
     
-    const amount = new Decimal(tx.amount)
+    const amount = new Big(tx.amount)
     
     if (tx.type === TransactionType.DEPOSIT) {
       balances[symbol].deposit = balances[symbol].deposit.plus(amount)

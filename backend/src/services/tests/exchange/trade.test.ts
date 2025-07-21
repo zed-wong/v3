@@ -1,5 +1,5 @@
 import { describe, test, expect, beforeEach, mock } from 'bun:test'
-import { Decimal } from 'decimal.js'
+import { Big } from 'big.js'
 import {
   createMarketOrder,
   createLimitOrder,

@@ -1,5 +1,5 @@
 import type { Exchange } from 'ccxt'
-import { Decimal } from 'decimal.js'
+import { Big } from 'big.js'
 import type { DepositCommand, DepositAddress, DepositTransaction } from '../../../types/exchange'
 import { ExchangeError, TransactionStatus, TransactionType } from '../../../types/exchange'
 import { withExchangeErrorHandler, exchangeHas } from '../base'
@@ -162,7 +162,7 @@ export const calculateTotalDeposited = (
   deposits: DepositTransaction[],
   currency?: string
 ): Record<string, string> => {
-  const totals: Record<string, Decimal> = {}
+  const totals: Record<string, Big> = {}
   
   for (const deposit of deposits) {
     // Only include successful deposits
@@ -175,10 +175,10 @@ export const calculateTotalDeposited = (
       continue
     }
     
-    const amount = new Decimal(deposit.amount)
+    const amount = new Big(deposit.amount)
     
     if (!totals[deposit.currency]) {
-      totals[deposit.currency] = new Decimal(0)
+      totals[deposit.currency] = new Big(0)
     }
     
     const curr = deposit.currency

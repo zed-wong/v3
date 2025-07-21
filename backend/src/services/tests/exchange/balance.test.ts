@@ -1,5 +1,5 @@
 import { describe, test, expect, beforeEach, mock } from 'bun:test'
-import { Decimal } from 'decimal.js'
+import { Big } from 'big.js'
 import {
   fetchExchangeBalance,
   getExchangeBalance,
@@ -170,7 +170,7 @@ describe('Balance Service', () => {
       expect(result).toEqual({})
     })
 
-    test('should use Decimal for precise calculations', () => {
+    test('should use Big for precise calculations', () => {
       const transactions: TransactionData[] = [
         {
           id: '1',

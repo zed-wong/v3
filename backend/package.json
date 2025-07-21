@@ -15,6 +15,7 @@
   },
   "private": true,
   "devDependencies": {
+    "@types/big.js": "^6.2.2",
     "@types/bun": "latest",
     "@types/node": "^18.19.120",
     "@types/yargs": "^17.0.33",
@@ -26,9 +27,8 @@
   "dependencies": {
     "@mixin.dev/mixin-node-sdk": "^7.4.2",
     "@prisma/client": "^6.12.0",
-    "@types/decimal.js": "^7.4.3",
+    "big.js": "^7.0.1",
     "ccxt": "^4.4.95",
-    "decimal.js": "^10.6.0",
     "emittery": "^1.2.0",
     "fastify": "^5.4.0",
     "yargs": "^18.0.0"
