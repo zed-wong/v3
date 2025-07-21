@@ -16,7 +16,9 @@
     "filter": "フィルター",
     "sort": "並び替え",
     "refresh": "更新",
-    "step": "ステップ"
+    "step": "ステップ",
+    "appName": "Mr.Market V3",
+    "comingSoon": "ユーザーインターフェースは近日公開予定..."
   },
   "leaderboard": {
     "title": "インスタンスリーダーボード",

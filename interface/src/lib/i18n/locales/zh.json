@@ -13,7 +13,9 @@
     "enabled": "已启用",
     "disabled": "已禁用",
     "recommended": "推荐",
-    "step": "步骤"
+    "step": "步骤",
+    "appName": "Mr.Market V3",
+    "comingSoon": "用户界面即将推出..."
   },
   "onboarding": {
     "welcome": {
@@ -99,7 +101,7 @@
         "button": "生成私钥",
         "label": "您的 Ed25519 私钥",
         "helpText": "32 字节（64 个十六进制字符）",
-        "warningTitle": "⚠️ 重要安全提示",
+        "warningTitle": "重要安全提示",
         "warningText": "请安全保存此私钥。它将被加密并存储在您的本地数据库中。如果丢失将无法恢复。"
       },
       "import": {

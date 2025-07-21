@@ -16,7 +16,9 @@
     "filter": "필터",
     "sort": "정렬",
     "refresh": "새로고침",
-    "step": "단계"
+    "step": "단계",
+    "appName": "Mr.Market V3",
+    "comingSoon": "사용자 인터페이스가 곧 출시됩니다..."
   },
   "leaderboard": {
     "title": "인스턴스 리더보드",

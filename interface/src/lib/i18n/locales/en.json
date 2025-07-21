@@ -12,7 +12,9 @@
     "enable": "Enable",
     "enabled": "Enabled",
     "disabled": "Disabled",
-    "recommended": "Recommended"
+    "recommended": "Recommended",
+    "appName": "Mr.Market V3",
+    "comingSoon": "User interface coming soon..."
   },
   "onboarding": {
     "welcome": {
@@ -98,7 +100,7 @@
         "button": "Generate Private Key",
         "label": "Your Ed25519 Private Key",
         "helpText": "32 bytes (64 hex characters)",
-        "warningTitle": "⚠️ Important Security Notice",
+        "warningTitle": "Important Security Notice",
         "warningText": "Save this private key securely. It will be encrypted and stored in your local database. You will not be able to recover it if lost."
       },
       "import": {
