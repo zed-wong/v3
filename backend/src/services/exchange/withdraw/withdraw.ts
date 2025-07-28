@@ -155,16 +155,16 @@ export const getUserWithdrawals = async (
   const cacheKey = `withdrawals-${exchange.id}-${userId}-${currency || 'all'}-${since || 'all'}`
   
   // Try cache first (short TTL for withdrawals)
-  const cached = cache.get<WithdrawalTransaction[]>(cacheKey)
+  const cached = await cache.get(cacheKey)
   if (cached) {
-    return cached
+    return JSON.parse(cached)
   }
   
   // Fetch from exchange
   const withdrawals = await fetchWithdrawals(exchange, currency, since)
   
   // Cache for 60 seconds
-  cache.set(cacheKey, withdrawals, 60)
+  await cache.set(cacheKey, JSON.stringify(withdrawals), "EX", 60)
   
   return withdrawals
 }

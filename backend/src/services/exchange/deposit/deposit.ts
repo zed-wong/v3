@@ -58,16 +58,16 @@ export const getCachedDepositAddress = async (
   const cacheKey = `deposit-address-${exchange.id}-${command.userId}-${command.currency}-${command.network || 'default'}`
   
   // Try cache first
-  const cached = cache.get<DepositAddress>(cacheKey)
+  const cached = await cache.get(cacheKey)
   if (cached) {
-    return cached
+    return JSON.parse(cached)
   }
   
   // Fetch from exchange
   const address = await getDepositAddress(exchange, command.currency, command.network)
   
   // Cache the result
-  cache.set(cacheKey, address, cacheTtl)
+  await cache.set(cacheKey, JSON.stringify(address), "EX", cacheTtl)
   
   return address
 }
@@ -143,16 +143,16 @@ export const getUserDeposits = async (
   const cacheKey = `deposits-${exchange.id}-${userId}-${currency || 'all'}-${since || 'all'}`
   
   // Try cache first (short TTL for deposits)
-  const cached = cache.get<DepositTransaction[]>(cacheKey)
+  const cached = await cache.get(cacheKey)
   if (cached) {
-    return cached
+    return JSON.parse(cached)
   }
   
   // Fetch from exchange
   const deposits = await fetchDeposits(exchange, currency, since)
   
   // Cache for 60 seconds
-  cache.set(cacheKey, deposits, 60)
+  await cache.set(cacheKey, JSON.stringify(deposits), "EX", 60)
   
   return deposits
 }

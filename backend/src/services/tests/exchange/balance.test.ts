@@ -1,4 +1,9 @@
 import { describe, test, expect, beforeEach, mock } from 'bun:test'
+import { mockCacheModule } from '../mocks/cache.mock'
+
+// Mock the cache before importing modules that use it
+const mockCache = mockCacheModule()
+
 import { Big } from 'big.js'
 import {
   fetchExchangeBalance,
@@ -11,9 +16,8 @@ import {
   formatBalances,
   validateSufficientBalance
 } from '../../exchange/balance/balance'
-import { cache } from '../../exchange/cache'
 import { ExchangeError, TransactionType, TransactionStatus } from '../../../types/exchange'
-import type { TransactionData } from '../../../types/exchange'
+import type { BalanceCommand, TransactionData } from '../../../types/exchange'
 
 describe('Balance Service', () => {
   const mockExchange = {
@@ -26,7 +30,7 @@ describe('Balance Service', () => {
   } as any
 
   beforeEach(() => {
-    cache.clear()
+    mockCache.clear()
     mockExchange.fetchBalance.mockClear()
   })
 
@@ -79,7 +83,8 @@ describe('Balance Service', () => {
       await getExchangeBalance(mockExchange, command, 60)
       
       const cacheKey = `balance-binance-user123`
-      expect(cache.get(cacheKey)).toBeTruthy()
+      const cached = await mockCache.get(cacheKey)
+      expect(cached).toBeTruthy()
     })
   })
 

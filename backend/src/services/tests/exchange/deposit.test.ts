@@ -1,4 +1,9 @@
 import { describe, test, expect, beforeEach, mock } from 'bun:test'
+import { mockCacheModule } from '../mocks/cache.mock'
+
+// Mock the cache before importing modules that use it
+const mockCache = mockCacheModule()
+
 import {
   getDepositAddress,
   getCachedDepositAddress,
@@ -8,7 +13,6 @@ import {
   getLatestDepositTimestamp,
   validateDepositAddress
 } from '../../exchange/deposit/deposit'
-import { cache } from '../../exchange/cache'
 import { ExchangeError, TransactionStatus } from '../../../types/exchange'
 import type { DepositTransaction, DepositCommand } from '../../../types/exchange'
 
@@ -63,7 +67,7 @@ describe('Deposit Service', () => {
   } as any
 
   beforeEach(() => {
-    cache.clear()
+    mockCache.clear()
     mockExchange.fetchDepositAddress.mockClear()
     mockExchange.createDepositAddress.mockClear()
     mockExchange.fetchDeposits.mockClear()
@@ -146,7 +150,8 @@ describe('Deposit Service', () => {
       await getCachedDepositAddress(mockExchange, command, 3600)
       
       const cacheKey = 'deposit-address-binance-user123-BTC-bitcoin'
-      expect(cache.get(cacheKey)).toBeTruthy()
+      const cached = await mockCache.get(cacheKey)
+      expect(cached).toBeTruthy()
     })
 
     test('should handle network-less deposits', async () => {
@@ -154,7 +159,8 @@ describe('Deposit Service', () => {
       await getCachedDepositAddress(mockExchange, commandNoNetwork, 3600)
       
       const cacheKey = 'deposit-address-binance-user123-BTC-default'
-      expect(cache.get(cacheKey)).toBeTruthy()
+      const cached = await mockCache.get(cacheKey)
+      expect(cached).toBeTruthy()
     })
   })
 
@@ -226,14 +232,16 @@ describe('Deposit Service', () => {
       await getUserDeposits(mockExchange, 'user123', 'BTC', 1000000)
       
       const cacheKey = 'deposits-binance-user123-BTC-1000000'
-      expect(cache.get(cacheKey)).toBeTruthy()
+      const cached = await mockCache.get(cacheKey)
+      expect(cached).toBeTruthy()
     })
 
     test('should handle all currencies', async () => {
       await getUserDeposits(mockExchange, 'user123')
       
       const cacheKey = 'deposits-binance-user123-all-all'
-      expect(cache.get(cacheKey)).toBeTruthy()
+      const cached = await mockCache.get(cacheKey)
+      expect(cached).toBeTruthy()
     })
   })
 

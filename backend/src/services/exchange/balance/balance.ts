@@ -38,16 +38,16 @@ export const getExchangeBalance = async (
   const cacheKey = cacheKeys.balance(exchange.id, command.userId)
   
   // Try cache first
-  const cached = cache.get<CCXTBalances>(cacheKey)
+  const cached = await cache.get(cacheKey)
   if (cached) {
-    return cached
+    return JSON.parse(cached)
   }
   
   // Fetch from exchange
   const balance = await fetchExchangeBalance(exchange, command.currencies)
   
   // Cache the result
-  cache.set(cacheKey, balance, cacheTtl)
+  await cache.set(cacheKey, JSON.stringify(balance), "EX", cacheTtl)
   
   return balance
 }

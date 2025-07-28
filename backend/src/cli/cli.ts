@@ -1,6 +1,7 @@
 import yargs from 'yargs';
 import { startServer } from './server';
 import { hideBin } from 'yargs/helpers';
+import { startDB } from './db';
 
 export function runCLI(argv: string[]) {
   const args = hideBin(argv);
@@ -44,6 +45,11 @@ export function runCLI(argv: string[]) {
         port: argv.port,
         host: argv.host
       });
+    })
+    .command('test-db', 'Test database connection', () => {}, async function () {
+      console.log('Testing database connection...');
+      await startDB();
+      console.log('Database connection successful');
     })
     .help()
   

@@ -131,7 +131,7 @@ export const cancelOrder = withExchangeErrorHandler(
     
     // Clear cached orders
     const cacheKey = `orders-${exchange.id}-${symbol}-open`
-    cache.delete(cacheKey)
+    await cache.del(cacheKey)
     
     return true
   }
@@ -205,16 +205,16 @@ export const getOpenOrders = async (
   const cacheKey = `orders-${exchange.id}-${symbol || 'all'}-open`
   
   // Try cache first
-  const cached = cache.get<OrderResult[]>(cacheKey)
+  const cached = await cache.get(cacheKey)
   if (cached) {
-    return cached
+    return JSON.parse(cached)
   }
   
   // Fetch from exchange
   const orders = await fetchOpenOrders(exchange, symbol)
   
   // Cache the result
-  cache.set(cacheKey, orders, cacheTtl)
+  await cache.set(cacheKey, JSON.stringify(orders), "EX", cacheTtl)
   
   return orders
 }

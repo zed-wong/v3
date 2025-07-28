@@ -6,11 +6,9 @@
   "scripts": {
     "start": "bun run index.ts start",
     "dev": "bun --watch index.ts dev",
-    "cli": "bun run index.ts",
+    "mrm": "bun run index.ts",
     "help": "bun run index.ts --help",
     "test": "bun test",
-    "test:exchange": "bun test src/services/tests/exchange",
-    "test:exchange:watch": "bun test --watch src/services/tests/exchange",
     "test:coverage": "bun test --coverage"
   },
   "private": true,

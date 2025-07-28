@@ -1,4 +1,9 @@
 import { describe, test, expect, beforeEach, mock } from 'bun:test'
+import { mockCacheModule } from '../mocks/cache.mock'
+
+// Mock the cache before importing modules that use it
+const mockCache = mockCacheModule()
+
 import { Big } from 'big.js'
 import {
   createMarketOrder,
@@ -12,7 +17,6 @@ import {
   cancelAllOrders,
   cancelOldUnfilledOrders
 } from '../../exchange/trade/trade'
-import { cache } from '../../exchange/cache'
 import { 
   ExchangeError, 
   InvalidOrderError, 
@@ -130,7 +134,7 @@ describe('Trade Service', () => {
   } as any
   
   beforeEach(() => {
-    cache.clear()
+    mockCache.clear()
     mockExchange.fetchTicker.mockClear()
     mockExchange.fetchBalance.mockClear()
     mockExchange.createMarketOrder.mockClear()
@@ -348,7 +352,8 @@ describe('Trade Service', () => {
       await getOpenOrders(mockExchange, undefined, 5)
       
       const cacheKey = 'orders-binance-all-open'
-      expect(cache.get(cacheKey)).toBeTruthy()
+      const cached = await mockCache.get(cacheKey)
+      expect(cached).toBeTruthy()
     })
   })
 

@@ -96,16 +96,16 @@ export const getTicker = async (
   const cacheKey = `ticker-${exchange.id}-${symbol}`
   
   // Try cache first
-  const cached = cache.get<TickerData>(cacheKey)
+  const cached = await cache.get(cacheKey)
   if (cached) {
-    return cached
+    return JSON.parse(cached)
   }
   
   // Fetch from exchange
   const ticker = await fetchTicker(exchange, symbol)
   
   // Cache the result
-  cache.set(cacheKey, ticker, cacheTtl)
+  await cache.set(cacheKey, JSON.stringify(ticker), "EX", cacheTtl)
   
   return ticker
 }
@@ -119,16 +119,16 @@ export const getTickers = async (
   const cacheKey = `tickers-${exchange.id}-${symbols?.join(',') || 'all'}`
   
   // Try cache first
-  const cached = cache.get<Record<string, TickerData>>(cacheKey)
+  const cached = await cache.get(cacheKey)
   if (cached) {
-    return cached
+    return JSON.parse(cached)
   }
   
   // Fetch from exchange
   const tickers = await fetchTickers(exchange, symbols)
   
   // Cache the result
-  cache.set(cacheKey, tickers, cacheTtl)
+  await cache.set(cacheKey, JSON.stringify(tickers), "EX", cacheTtl)
   
   return tickers
 }
@@ -145,16 +145,16 @@ export const getOHLCV = async (
   const cacheKey = `ohlcv-${exchange.id}-${symbol}-${timeframe}-${since || 'latest'}-${limit || 'default'}`
   
   // Try cache first
-  const cached = cache.get<OHLCVData[]>(cacheKey)
+  const cached = await cache.get(cacheKey)
   if (cached) {
-    return cached
+    return JSON.parse(cached)
   }
   
   // Fetch from exchange
   const ohlcv = await fetchOHLCV(exchange, symbol, timeframe, since, limit)
   
   // Cache the result
-  cache.set(cacheKey, ohlcv, cacheTtl)
+  await cache.set(cacheKey, JSON.stringify(ohlcv), "EX", cacheTtl)
   
   return ohlcv
 }
@@ -169,16 +169,16 @@ export const getOrderBook = async (
   const cacheKey = `orderbook-${exchange.id}-${symbol}-${limit || 'default'}`
   
   // Try cache first
-  const cached = cache.get<OrderBookData>(cacheKey)
+  const cached = await cache.get(cacheKey)
   if (cached) {
-    return cached
+    return JSON.parse(cached)
   }
   
   // Fetch from exchange
   const orderBook = await fetchOrderBook(exchange, symbol, limit)
   
   // Cache the result
-  cache.set(cacheKey, orderBook, cacheTtl)
+  await cache.set(cacheKey, JSON.stringify(orderBook), "EX", cacheTtl)
   
   return orderBook
 }
